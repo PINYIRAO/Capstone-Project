@@ -7,10 +7,10 @@ const swaggerOptions: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Employee and Branch Management API Documentation",
+      title: "Course Scheduling Assistant API Documentation",
       version: "1.0.0",
       description:
-        "This is the API documentation for Employee and Branch Management application.",
+        "This is the API documentation for Course Scheduling Assistant Application.",
     },
     servers: [
       {
