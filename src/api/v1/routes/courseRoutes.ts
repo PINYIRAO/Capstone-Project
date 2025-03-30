@@ -1,6 +1,5 @@
 import { Router } from "express";
 import * as courseController from "../controllers/courseController";
-import { Request, Response, NextFunction } from "express";
 
 // define a router for deal with
 const router: Router = Router();
