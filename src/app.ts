@@ -14,6 +14,8 @@ import setupSwagger from "../config/swagger";
 import errorHandler from "./api/v1/middleware/errorHandler";
 // import routes
 import healthRoutes from "./api/v1/routes/healthRoutes";
+import courseRoutes from "./api/v1/routes/courseRoutes";
+
 import helmet from "helmet";
 import cors from "cors";
 
@@ -47,7 +49,7 @@ app.use(
         callback(
           new ServiceError(
             "Origin source is not allowed to access the API application",
-            "NOT ALLOWED BY CORS CONFIG",
+            "NOT ALLOWED BY CROSS-SITE ACCESS POLICY",
             HTTP_STATUS.BAD_REQUEST // bad request
           ),
           false
@@ -68,6 +70,7 @@ app.use(express.json());
 // Use morgan for HTTP request logging
 app.use(accessLogger);
 
+app.use("/api/v1/courses", courseRoutes);
 app.use("/health", healthRoutes);
 
 // apply error handling middleware
