@@ -1,5 +1,7 @@
 import { Router } from "express";
 import * as courseController from "../controllers/courseController";
+import * as uploadController from "../controllers/uploadController";
+import uploadMidFunc from "../middleware/upload";
 
 // define a router for deal with
 const router: Router = Router();
@@ -158,5 +160,7 @@ router.put("/:id", courseController.updateCourse);
  *         description: Server error
  */
 router.delete("/:id", courseController.deleteCourse);
+
+router.post("/upload", uploadMidFunc, uploadController.uploadCourses);
 
 export default router;
