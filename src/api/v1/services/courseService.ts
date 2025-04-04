@@ -25,8 +25,6 @@ export const getAllCourses = async (
 
     if (courseCode) {
       resultCourses = resultCourses.filter((course) => {
-        console.log(course.courseCode);
-        console.log(courseCode);
         return course.courseCode
           .toUpperCase()
           .includes(courseCode.toUpperCase());

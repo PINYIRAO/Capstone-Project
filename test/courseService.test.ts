@@ -13,14 +13,13 @@ import {
   deleteDocument,
 } from "../src/api/v1/repositories/firestoreRepository";
 import { Course } from "../src/api/v1/models/courseModel";
-import courseSample, { courseObj } from "./data/courseSample";
+import { courseObj } from "./data/courseSample";
 import {
   QuerySnapshot,
   QueryDocumentSnapshot,
   DocumentData,
 } from "firebase-admin/firestore";
 import { ServiceError, RepositoryError } from "../src/api/v1/errors/errors";
-import { error } from "console";
 
 jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
   getDocuments: jest.fn(),
@@ -271,19 +270,6 @@ describe("deleteCourse", () => {
   });
 
   it("should return the course with updated information", async () => {
-    // Mock data
-    const mockDate: Date = new Date();
-    const mockDoc: FirebaseFirestore.DocumentSnapshot = {
-      id: "1234",
-      exists: true,
-      data: () =>
-        ({
-          ...courseObj,
-          createdAt: mockDate,
-          updatedAt: mockDate,
-        } as DocumentData),
-    } as FirebaseFirestore.DocumentSnapshot;
-
     await deleteCourse("1234");
 
     // Assertions
