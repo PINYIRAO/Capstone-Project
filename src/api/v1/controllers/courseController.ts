@@ -34,7 +34,9 @@ export const getAllCourses = async (
       courseName !== undefined ? courseName : undefined
     );
 
-    res.status(HTTP_STATUS.OK).json(successResponse(courses));
+    res
+      .status(HTTP_STATUS.OK)
+      .json(successResponse(courses, "Course Retrieved"));
   } catch (error) {
     next(error);
   }
@@ -120,7 +122,7 @@ export const deleteCourse = async (
   try {
     await courseService.deleteCourse(req.params.id);
 
-    res.status(HTTP_STATUS.OK).json(successResponse("Course Deleted"));
+    res.status(HTTP_STATUS.OK).json(successResponse(null, "Course Deleted"));
   } catch (error) {
     next(error);
   }

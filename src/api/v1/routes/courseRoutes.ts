@@ -16,7 +16,7 @@ const router: Router = Router();
  *     tags: [Course]
  *     responses:
  *         200:
- *           description: All employess  matching the criteria
+ *           description: All courses  matching the criteria
  *           content:
  *             application/json:
  *               schema:
