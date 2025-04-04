@@ -14,6 +14,21 @@ const router: Router = Router();
  *   get:
  *     summary: Get all courses
  *     tags: [Course]
+ *     parameters:
+ *       - in: query
+ *         name: courseCode
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filter courses by course code
+ *         example: "COMP-3018"
+ *       - in: query
+ *         name: courseName
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filter courses by course name
+ *         example: "Back-End Development"
  *     responses:
  *         200:
  *           description: All courses  matching the criteria
@@ -42,7 +57,7 @@ router.get("/", courseController.getAllCourses);
  *       - in: path
  *         name: id
  *         schema:
- *           type: number
+ *           type: string
  *         required: true
  *         description: ID of the course to be found
  *     responses:
