@@ -69,8 +69,8 @@ describe("Error Handler Middleware", () => {
     expect(mockRes.status).toHaveBeenCalledWith(500);
     expect(mockRes.json).toHaveBeenCalledWith(
       errorResponse(
-        "An unexpected error occurred that is not categorized by the application",
-        "UNKNOWN_ERROR"
+        "An unexpected error occurred that is not categorized by the application: Basic error",
+        "UNKNOWN_ERROR: UNKNOWN_ERROR"
       )
     );
   });
