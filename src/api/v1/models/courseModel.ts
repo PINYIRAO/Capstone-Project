@@ -1,6 +1,6 @@
 import { Section } from "./courseSectionModel";
 
-type CourseType = "Required" | "Elective";
+export type CourseType = "Required" | "Elective";
 
 /**
  * @openapi
