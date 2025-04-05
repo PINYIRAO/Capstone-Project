@@ -80,6 +80,7 @@ export const uploadCourses = async (
             };
             if (courses.length == 0) {
               courses.push(newCourseInfo);
+              continue;
             }
             let courseExistFlag: number = 0;
             for (const c of courses) {
@@ -282,8 +283,12 @@ function extractClassData(classInfo: string | null): Class[] | null {
     const timeMatch: string[] | null = classInfo.match(timeRegex);
     const startTimeStr: string = timeMatch ? timeMatch[1] : "";
     const endTimeStr: string = timeMatch ? timeMatch[3] : "";
-    const startTime: number = convertTo24Hour(startTimeStr);
-    const endTime: number = convertTo24Hour(endTimeStr);
+    const startTime: number = convertTo24Hour(startTimeStr)
+      ? 0
+      : convertTo24Hour(startTimeStr);
+    const endTime: number = convertTo24Hour(endTimeStr)
+      ? 0
+      : convertTo24Hour(endTimeStr);
     // extract the start date and end date
     const dateRegex: RegExp = /(\d{4}-\d{2}-\d{2}) - (\d{4}-\d{2}-\d{2})/;
     const dateMatch: string[] | null = classInfo.match(dateRegex);
@@ -321,7 +326,8 @@ function extractClassData(classInfo: string | null): Class[] | null {
     // create the class info
     days.forEach((day) => {
       classesInfo.push({
-        day: dayMapping[day],
+        // if the day couldn't get right, then set the default for 99
+        day: day in dayMapping ? dayMapping[day] : 99,
         lectureType,
         startTime,
         endTime,
@@ -343,6 +349,12 @@ const convertTo24Hour = (time: string): number => {
   }
   if (period === "AM" && hour === 12) {
     newHour = 0;
+  }
+
+  // sometimes OCR can't get the corret time, just is a empty string
+  // to aviod the consequence error, return 0 here
+  if (isNaN(newHour * 100 + minute)) {
+    return 0;
   }
 
   return newHour * 100 + minute; // convert 3:00 PM into 1500 format
