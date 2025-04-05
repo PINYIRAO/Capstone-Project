@@ -11,7 +11,7 @@
  *         - Mixed
  *       example: "Lecture"
  */
-type DeliveryType = "Lecture" | "Online" | "Mixed";
+export type DeliveryType = "Lecture" | "Online" | "Mixed";
 
 /**
  * @openapi
@@ -45,7 +45,7 @@ type DeliveryType = "Lecture" | "Online" | "Mixed";
  *           description: Location of the class
  *           example: "Room 204, Science Building"
  */
-type Class = {
+export type Class = {
   day: number;
   lectureType: DeliveryType;
   startTime: number;

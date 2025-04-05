@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { errorLogger } from "./logger";
 import { ExtendedError } from "../errors/errors";
 import { errorResponse } from "../models/responseModel";
-import { getErrorCode } from "../utils/errorUtils";
+import { getErrorCode, getErrorMessage } from "../utils/errorUtils";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 /**
@@ -60,8 +60,10 @@ const errorHandler = (
       .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
       .json(
         errorResponse(
-          "An unexpected error occurred that is not categorized by the application",
-          "UNKNOWN_ERROR"
+          `An unexpected error occurred that is not categorized by the application: ${getErrorMessage(
+            err
+          )}`,
+          `UNKNOWN_ERROR: ${getErrorCode(err)}`
         )
       );
   }
