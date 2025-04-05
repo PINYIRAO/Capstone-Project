@@ -88,7 +88,7 @@ function extractSectionData(inputText: string | null): Partial<Course> | null {
 
       // split the section into two parts
       const sectionDeli01: RegExp =
-        /\\nSeats @\) Times Locations Instructors\\n/g;
+        /\\nSeats.*?Times Locations Instructors\\n/g;
       // example data
       // [
       //   'COMP-3018-FTE01 Add Section to Schedule\\nBack-End Development\\nRuns from 2025-01-06 - 2025-04-25',
@@ -120,7 +120,7 @@ function extractSectionData(inputText: string | null): Partial<Course> | null {
       // parse the second part
       // 1. parse the instructor
       const regexDeli0201: RegExp =
-        /([A-Za-z]+,\s*[A-Za-z])\s*\((Lecture|Online|Lecture,\s*Online)\)/;
+        /([A-Za-z]+,\s*[A-Za-z])\s*\((Lecture|Online|Lecture,\s*Online)?/;
       const sectionPart0201: string[] | null =
         sectionPart01[1].match(regexDeli0201);
       if (sectionPart0201) {
@@ -132,13 +132,13 @@ function extractSectionData(inputText: string | null): Partial<Course> | null {
         // 4/35/0 T12:00 PM - 3:00 PM Roblin Centre (Prev. PSC), \nPrincess Building PSCP312\n2025-01-06 - 2025-04-25\nLecture\nW 1:00 PM - 4:00 PM Roblin Centre (Prev. PSC)\n2025-01-06 - 2025-04-25 Online\n
         sectionPart0202 = sectionPart01[1]
           .replace(
-            /([A-Za-z]+,\s*[A-Za-z])\s*\((Lecture|Online|Lecture,\s*Online)\)/g,
+            /([A-Za-z]+,\s*[A-Za-z])\s*\((Lecture|Online|Lecture,\s*Online)?/g,
             ""
           )
           .trim();
       } else {
         // just for in case there is no instructor
-        sectionPart0202 = sectionPart0201;
+        sectionPart0202 = sectionPart01[1];
       }
       console.log(courseInstructor, sectionPart0202);
       // parse the seat data
@@ -189,7 +189,9 @@ function extractClassData(classInfo: string | null): Class[] | null {
   const classesInfo: Class[] = [];
   if (classInfo !== null) {
     // extract the day
-    const daysRegex: RegExp = /^(\\n)?([A-Za-z/]+)/;
+    // const daysRegex: RegExp = /^(\\n)?([A-Za-z/]+)/;
+    const daysRegex: RegExp =
+      /^.*?(\\n)?([A-Za-z/]+)\s+\d{1,2}:\d{2}\s*[AP]M\s*-\s*\d{1,2}:\d{2}\s*[AP]M/;
     const daysMatch: string[] | null = classInfo.match(daysRegex);
     const days: string[] = daysMatch ? daysMatch[2].split("/") : [];
 
