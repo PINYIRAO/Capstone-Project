@@ -3,6 +3,7 @@ import type { DeliveryType } from "../models/courseSectionModel";
 
 export function extractClassData(classInfo: string | null): Class[] | null {
   const classesInfo: Class[] = [];
+  // console.log(classInfo);
   if (classInfo !== null) {
     // extract the day
     const daysRegex: RegExp = /^(\\n)?([A-Za-z/]+)/;

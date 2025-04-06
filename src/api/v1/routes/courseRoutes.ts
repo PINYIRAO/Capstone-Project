@@ -161,6 +161,37 @@ router.put("/:id", courseController.updateCourse);
  */
 router.delete("/:id", courseController.deleteCourse);
 
+/**
+ * @openapi
+ * /courses/upload:
+ *   post:
+ *     summary: Upload course information via images
+ *     tags: [Course]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               courseScreenshots:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: |
+ *                   1. Up to 5 course screenshot images
+ *                   2. max size for each file is 1MB
+ *             required:
+ *               - courseScreenshots
+ *     responses:
+ *       200:
+ *         description: Upload successful
+ *       400:
+ *         description: no course information found
+ *       500:
+ *         description: Server error/file counts or size exceed the limits
+ */
 router.post("/upload", uploadMidFunc, uploadController.uploadCourses);
 
 export default router;

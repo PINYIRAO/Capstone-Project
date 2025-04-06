@@ -16,6 +16,7 @@ export function extractSectionData(inputText: string | null): Section[] | null {
     // [
     //   'COMP-3018-FTE02 Add Section to Schedule\\nBack-End Development\\nRuns from 2025-01-06 - 2025-04-25\\nSeats ® Times Locations Instructors\\n0/35/0 Roblin Centre (Prev. PSC), Bialowas, M (Lecture,\\nM 8:00 AM -11:00 AM Innovation Centre INNE239 Online)\\n2025-01-06 - 2025-04-25\\nLecture\\nTh 2:00 PM - 5:00 PM Roblin Centre (Prev. PSC)\\n2025-01-06 - 2025-04-25 Online\\n'
     // ]
+    // console.log(inputText);
     const sectionDeli: RegExp = /(?=COMP-\d+-\w+\d+ Add Section to Schedule)/g;
     const sections: string[] = inputText.split(sectionDeli).filter(Boolean);
     // console.log(sections);
@@ -25,7 +26,7 @@ export function extractSectionData(inputText: string | null): Section[] | null {
       let sectionPart0202: string | null;
       let sectionPart0203: string = "";
       let match: string[] | null;
-      let sectionSeats: number = 999;
+      let sectionSeats: number = -1;
       let sectionInstructor: string = "";
       // set a default value, it should be determined by the classes type
       const sectionLectureType: DeliveryType = "Mixed";
@@ -75,7 +76,7 @@ export function extractSectionData(inputText: string | null): Section[] | null {
       if (sectionPart0201) {
         // get the courseInstructor
         // example data: Shabaga, D
-        sectionInstructor = sectionPart0201?.[1] || "";
+        sectionInstructor = sectionPart0201[1];
         // the left are the second part remove the instructor info
         // example data:
         // 4/35/0 T12:00 PM - 3:00 PM Roblin Centre (Prev. PSC), \nPrincess Building PSCP312\n2025-01-06 - 2025-04-25\nLecture\nW 1:00 PM - 4:00 PM Roblin Centre (Prev. PSC)\n2025-01-06 - 2025-04-25 Online\n
@@ -93,7 +94,7 @@ export function extractSectionData(inputText: string | null): Section[] | null {
         match = sectionPart0202.match(seatsRegex);
         if (match) {
           // example data: 35
-          sectionSeats = match ? parseInt(match[2], 10) : 0;
+          sectionSeats = parseInt(match[2], 10);
           // example data:
           // T12:00 PM - 3:00 PM Roblin Centre (Prev. PSC), \nPrincess Building PSCP312\n2025-01-06 - 2025-04-25\nLecture\nW 1:00 PM - 4:00 PM Roblin Centre (Prev. PSC)\n2025-01-06 - 2025-04-25 Online\n
           sectionPart0203 = sectionPart0202.replace(seatsRegex, "").trim();
@@ -141,6 +142,4 @@ export function extractSectionData(inputText: string | null): Section[] | null {
     // console.log(JSON.stringify(sectionsObj, null, 2));
     return sectionsObj;
   }
-
-  return null;
 }

@@ -30,7 +30,7 @@ export const uploadCourses = async (
   next: NextFunction
 ): Promise<void> => {
   // make sure the user attached the files
-  if (!req.files || req.files.length == 0) {
+  if (!req.files || Object.keys(req.files).length == 0) {
     res
       .status(HTTP_STATUS.BAD_REQUEST)
       .json(errorResponse("This is no course files attached"));
