@@ -1,4 +1,4 @@
-jest.mock("../src/api/v1/controllers/extractclass", () => ({
+jest.mock("../src/api/v1/controllers/extractClass", () => ({
   extractClassData: jest.fn(),
 }));
 import type { Section } from "../src/api/v1/models/courseSectionModel";
