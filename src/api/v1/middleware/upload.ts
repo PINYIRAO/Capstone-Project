@@ -1,28 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import * as multer from "multer";
+import storageOption from "../../../../config/multerConfig";
 
 // internal module imports
 import { MiddlewareFunction } from "../types/expressTypes";
 
-const storageOption: multer.DiskStorageOptions = {
-  destination: function (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
-  ) {
-    cb(null, "uploads/");
-  },
-  // set the filename saved in the server
-  filename: function (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
-  ) {
-    const uniqueSuffix: string =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
-  },
-};
 const storage: multer.StorageEngine = multer.diskStorage(storageOption);
 
 const upload: MiddlewareFunction = (

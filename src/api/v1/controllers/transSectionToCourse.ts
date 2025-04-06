@@ -10,6 +10,7 @@ const courseType: CourseType = "Required";
 export function transSectionToCourse(
   sectionsObj: Section[]
 ): Partial<Course>[] {
+  // console.log(JSON.stringify(sectionsObj, null, 2));
   const courses: Partial<Course>[] = [];
   for (const section of sectionsObj) {
     const regex: RegExp = /^([A-Za-z]+-\d+)/;
@@ -37,9 +38,12 @@ export function transSectionToCourse(
           // append to the curren course
           if (c.courseSections) {
             c.courseSections.push(section);
-          } else {
-            c.courseSections = [section];
           }
+          // if (c.courseSections) {
+          //   c.courseSections.push(section);
+          // } else {
+          //   c.courseSections = [section];
+          // }
           courseExistFlag = 1;
         }
       }

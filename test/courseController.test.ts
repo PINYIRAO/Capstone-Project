@@ -47,6 +47,30 @@ describe("course Controller", () => {
         status: "success",
       });
     });
+    it("should return the all courses whilt not giving the query paras", async () => {
+      mockReq.query = {
+        courseCode: undefined,
+        courseName: undefined,
+      };
+      (courseService.getAllCourses as jest.Mock).mockResolvedValue(mockCourses);
+      await courseController.getAllCourses(
+        mockReq as Request,
+        mockRes as Response,
+        mockNext
+      );
+
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(courseService.getAllCourses).toHaveBeenCalledWith(
+        undefined,
+        undefined
+      );
+      expect(mockRes.json).toHaveBeenCalledWith({
+        message: "Course Retrieved",
+        data: mockCourses,
+        status: "success",
+      });
+    });
+
     it("should call the next funtion for handle error when error occurs while get all courses", async () => {
       (courseService.getAllCourses as jest.Mock).mockRejectedValue("failed");
 
