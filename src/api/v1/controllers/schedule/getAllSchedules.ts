@@ -9,19 +9,19 @@
  *
  */
 
-import * as courseService from "../../services/courseService";
 import type { Course } from "../../models/courseModel";
-import type { SchedulePreferenceQuery } from "../../models/coursePreferenceModel";
 import { Section } from "../../models/courseSectionModel";
 
 /**
  * @description Get all available schedules.
  */
 
-export const getAllSchedules = (courses: Course[]): Course[] => {
+export const getAllSchedules = (
+  courses: Course[]
+): { schedules: Course[][]; message: string } => {
   const courseCount: number = courses.length;
-  const availableSchedules: Course[][] = [];
-  let initSchedulesFlag = false;
+  let availableSchedules: Course[][] = [];
+  let initSchedulesFlag: boolean = false;
   if (!courses.length) {
     throw new Error("This is no courses meeting conditions for scheduling");
   }
@@ -30,19 +30,38 @@ export const getAllSchedules = (courses: Course[]): Course[] => {
     // at the begin the schedule is empty, so for the first course,insert all sections into the schedult
     if (!initSchedulesFlag) {
       for (const section of course.courseSections) {
-        availableSchedules.push({ ...course, courseSections: [section] });
+        availableSchedules.push([{ ...course, courseSections: [section] }]);
       }
+      initSchedulesFlag = true;
+      continue;
     }
 
+    // for the other course to check the time conflict with the schedult
     for (const section of course.courseSections) {
       // if the vailable schedules has the course, then ignore
       // if the vailable  schedules doesn't have the course and there is no conflict, then push the course
-
-      if (!calcTimeConflictFlag(availableSchedules, section)) {
-        availableSchedules.push(course);
+      for (const availableSchedule of availableSchedules.slice()) {
+        if (!calcTimeConflictFlag(availableSchedule, section)) {
+          availableSchedule.push({ ...course, courseSections: [section] });
+          availableSchedules.push(availableSchedule);
+        }
       }
     }
   }
+
+  // select the schedules have all courses should be scheduled
+  availableSchedules = availableSchedules.filter(
+    (availableSchedule) => availableSchedule.length === courseCount
+  );
+
+  // return the schedule
+  if (availableSchedules.length === 0) {
+    return { schedules: [], message: "There is no available schedule" };
+  }
+  return {
+    schedules: availableSchedules,
+    message: "get the schedule successfully",
+  };
 };
 
 // calc the if there is confict when select new section

@@ -22,7 +22,7 @@ import { Section } from "../../models/courseSectionModel";
 export const getAllCoursesForSchedule = async (
   userId: string,
   schedulePreferenceQuery: SchedulePreferenceQuery
-): Promise<Course[]> => {
+): Promise<{ courses: Course[]; message: string }> => {
   // get the user's courses
   const courses: Course[] = await courseService.getAllCourses(
     undefined,
@@ -32,9 +32,11 @@ export const getAllCoursesForSchedule = async (
     (course) => course.userId == userId
   );
   if (coursesResult == undefined || coursesResult.length == 0) {
-    throw new Error(
-      "There is no course in the application, please upload the course information first."
-    );
+    return {
+      courses: [],
+      message:
+        "There is no course in the application, please upload the course information first",
+    };
   }
 
   // use the preference query to filter the courses
@@ -65,9 +67,11 @@ export const getAllCoursesForSchedule = async (
   // count the course counts
   const courseCount: number = coursesResult ? coursesResult.length : 0;
   if (!courseCount) {
-    throw new Error(
-      "There is no course for shcedule regarding the elective course choice"
-    );
+    return {
+      courses: [],
+      message:
+        "There is no course for shcedule regarding the elective course choice",
+    };
   }
 
   // match the timeslot
@@ -237,12 +241,16 @@ export const getAllCoursesForSchedule = async (
   });
 
   if (hasNoSectionCourses.length > 0) {
-    throw new Error(
-      `These courses have no choice regarding the preference ${hasNoSectionCourses.join(
+    return {
+      courses: [],
+      message: `These courses have no choice regarding the preference ${hasNoSectionCourses.join(
         "\n"
-      )}`
-    );
+      )}`,
+    };
   }
 
-  return coursesResult;
+  return {
+    courses: coursesResult,
+    message: "get the courses for schedule seccessfully",
+  };
 };
