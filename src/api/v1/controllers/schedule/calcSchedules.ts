@@ -43,7 +43,9 @@ export const calcSchedules = (
       for (const availableSchedule of JSON.parse(
         JSON.stringify(availableSchedules)
       )) {
-        if (!calcTimeConflictFlag(availableSchedule, section)) {
+        if (
+          !calcTimeConflictFlag(availableSchedule, section, course.courseCode)
+        ) {
           availableSchedule.push({ ...course, courseSections: [section] });
           availableSchedules.push(availableSchedule);
         }
@@ -68,10 +70,19 @@ export const calcSchedules = (
 };
 
 // calc the if there is confict when select new section
-function calcTimeConflictFlag(courses: Course[], section: Section): boolean {
+function calcTimeConflictFlag(
+  courses: Course[],
+  section: Section,
+  courseCode: string
+): boolean {
   for (const classObj of section.sectionSchedules) {
     for (const course of courses) {
       for (const selectedSection of course.courseSections) {
+        // if the schedule already has the course, then there is a confilict
+        if (courseCode === course.courseCode) {
+          return true;
+        }
+        // if there is no same course conflict, check the time conflict
         for (const selectedClassObj of selectedSection.sectionSchedules) {
           if (
             !(
