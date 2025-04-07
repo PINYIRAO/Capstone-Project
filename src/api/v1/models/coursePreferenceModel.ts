@@ -18,8 +18,8 @@ type PreferenceForSection = {
 type ElectiveSelection = string[]; // select which elective courses, including course codes
 
 // sort the schedule
-type SortOption = "dayGoToCampus" | "dayAttendMorningClass";
-type SortOptions = [] | [SortOption] | [SortOption, SortOption]; // sort will consider the sort field order, the front one has a higher priority
+type SortOption = "daysGoToCampus" | "daysAttendMorningClass";
+export type SortOptions = [] | [SortOption] | [SortOption, SortOption]; // sort will consider the sort field order, the front one has a higher priority
 
 export type SchedulePreferenceQuery = {
   notAvailableTimeSpots?: NotAvailableTimeSpots;

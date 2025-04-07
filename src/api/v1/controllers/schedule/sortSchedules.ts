@@ -6,22 +6,30 @@
 
 import type { Course } from "../../models/courseModel";
 import { SchedulePreferenceQuery } from "../../models/coursePreferenceModel";
+import { SortOptions } from "../../models/coursePreferenceModel";
 /**
  * @description Get all available schedules.
  */
 
+type SortedSchedule = {
+  baseInfo: {
+    count: number;
+    sortOptions?: SortOptions;
+    daysGoToCampus?: number;
+    daysAttendMorningClass?: number;
+  };
+  schedule: Course[];
+};
+type SortedSchedules = SortedSchedule[];
 export const sortSchedules = (
   schedules: Course[][],
   schedulePreferenceQuery: SchedulePreferenceQuery
-): { schedules: Course[][]; message: string } => {
+): { schedules: SortedSchedules; message: string } => {
   const { sortOptions } = schedulePreferenceQuery;
   const statistics: [number, number, number][] = [];
 
-  // if there is no option then return the original schedules
-  if (!sortOptions || sortOptions.length === 0) {
-    return { schedules: schedules, message: "with no sort condition" };
-  }
-  // calc the daygotocampus and day attend the class in the morning
+  let withBaseInfoSchedules: SortedSchedules = [];
+  // calc the daysGoToCampus and day attend the class in the morning
   for (const [index, schedule] of schedules.entries()) {
     type Statistic = {
       goToCampus: Set<number>;
@@ -48,20 +56,41 @@ export const sortSchedules = (
       statistic.goToCampus.size,
       statistic.attendMorningClass.size,
     ]);
+    withBaseInfoSchedules.push({
+      baseInfo: {
+        count: schedules.length,
+        sortOptions,
+        daysGoToCampus: statistic.goToCampus.size,
+        daysAttendMorningClass: statistic.attendMorningClass.size,
+      },
+      schedule: schedule,
+    });
   }
+
+  // if there is no option then return the original schedules
+  if (!sortOptions || sortOptions.length === 0) {
+    return {
+      schedules: withBaseInfoSchedules,
+      message: "with no sort condition",
+    };
+  }
+
   // sort
   for (const sortOption of [...sortOptions].reverse()) {
-    if (sortOption === "dayGoToCampus") {
+    if (sortOption === "daysGoToCampus") {
       statistics.sort((a, b) => a[1] - b[1]);
-    } else if (sortOption === "dayAttendMorningClass") {
+    } else if (sortOption === "daysAttendMorningClass") {
       statistics.sort((a, b) => a[2] - b[2]);
     }
   }
   // get the new schedules
-  const newSchedules: Course[][] = [];
+  const sortedWithBaseInfoSchedules: Course[][] = [];
   for (const scheduleIndex of statistics) {
-    newSchedules.push(schedules[scheduleIndex[0]]);
+    sortedSchedules.push(schedules[scheduleIndex[0]]);
   }
 
-  return { schedules: newSchedules, message: "Sort schedules successfully" };
+  return {
+    schedules: sortedSchedules,
+    message: "Get sorted schedules successfully",
+  };
 };

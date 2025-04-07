@@ -97,9 +97,9 @@ const router: Router = Router();
  *                 type: array
  *                 items:
  *                   type: string
- *                   enum: [dayGoToCampus, dayAttendMorningClass]
+ *                   enum: [daysGoToCampus, daysAttendMorningClass]
  *                 description: A list of sorting options to control the ordering of the returned schedules. The order of the fields determines priority.
- *                 example: ["dayGoToCampus", "dayAttendMorningClass"]
+ *                 example: ["daysGoToCampus", "daysAttendMorningClass"]
  *     responses:
  *       '200':
  *         description: Successfully retrieved course schedules based on the provided preferences and availability

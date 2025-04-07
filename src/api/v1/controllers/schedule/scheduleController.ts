@@ -43,20 +43,18 @@ export const getAllSchedules = async (
     // sort the schedulle
     const { schedules: sortedSchedules, message: sortMsg } = sortSchedules(
       schedules,
-      req.query
+      req.body
     );
 
     // add the restrict temporarily
-    let newSortedSchedules: Course[][];
-    if (sortedSchedules.length > 50) {
-      newSortedSchedules = sortedSchedules.slice(0, 50);
-    } else {
-      newSortedSchedules = sortedSchedules;
-    }
+    // let newSortedSchedules: Course[][];
+    // if (sortedSchedules.length > 50) {
+    //   newSortedSchedules = sortedSchedules.slice(0, 50);
+    // } else {
+    //   newSortedSchedules = sortedSchedules;
+    // }
 
-    res
-      .status(HTTP_STATUS.OK)
-      .json(successResponse(newSortedSchedules, sortMsg));
+    res.status(HTTP_STATUS.OK).json(successResponse(sortedSchedules, sortMsg));
     return;
   } catch (error) {
     next(error);
