@@ -15,25 +15,54 @@ import type { SchedulePreferenceQuery } from "../../models/coursePreferenceModel
 import { Section } from "../../models/courseSectionModel";
 
 /**
- * @description Get all courses.
- * @route GET /
+ * @description Get all available schedules.
  */
 
-export const getAllCoursesForSchedule = async (
-  userId: string,
-  schedulePreferenceQuery: SchedulePreferenceQuery
-): Promise<Course[]> => {
-  // get the user's courses
-  const courses: Course[] = await courseService.getAllCourses(
-    undefined,
-    undefined
-  );
-  let coursesResult: Course[] = courses.filter(
-    (course) => course.userId == userId
-  );
-  if (coursesResult == undefined || coursesResult.length == 0) {
-    throw new Error(
-      "There is no course in the application, please upload the course information first."
-    );
+export const getAllSchedules = (courses: Course[]): Course[] => {
+  const courseCount: number = courses.length;
+  const availableSchedules: Course[][] = [];
+  let initSchedulesFlag = false;
+  if (!courses.length) {
+    throw new Error("This is no courses meeting conditions for scheduling");
+  }
+
+  for (const course of courses) {
+    // at the begin the schedule is empty, so for the first course,insert all sections into the schedult
+    if (!initSchedulesFlag) {
+      for (const section of course.courseSections) {
+        availableSchedules.push({ ...course, courseSections: [section] });
+      }
+    }
+
+    for (const section of course.courseSections) {
+      // if the vailable schedules has the course, then ignore
+      // if the vailable  schedules doesn't have the course and there is no conflict, then push the course
+
+      if (!calcTimeConflictFlag(availableSchedules, section)) {
+        availableSchedules.push(course);
+      }
+    }
   }
 };
+
+// calc the if there is confict when select new section
+function calcTimeConflictFlag(courses: Course[], section: Section): boolean {
+  for (const classObj of section.sectionSchedules) {
+    for (const course of courses) {
+      for (const selectedSection of course.courseSections) {
+        for (const selectedClassObj of selectedSection.sectionSchedules) {
+          if (
+            !(
+              classObj.day !== selectedClassObj.day ||
+              classObj.startTime >= selectedClassObj.endTime ||
+              classObj.endTime <= selectedClassObj.startTime
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
