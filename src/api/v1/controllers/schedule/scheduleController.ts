@@ -11,6 +11,7 @@ import { HTTP_STATUS } from "../../../../constants/httpConstants";
 import { getCoursesForSchedule } from "./getCoursesForSchedule";
 import { calcSchedules } from "./calcSchedules";
 import { sortSchedules } from "./sortSchedules";
+import { Course } from "../../models/courseModel";
 
 const userId: string = "admin";
 
@@ -45,7 +46,17 @@ export const getAllSchedules = async (
       req.query
     );
 
-    res.status(HTTP_STATUS.OK).json(successResponse(sortedSchedules, sortMsg));
+    // add the restrict temporarily
+    let newSortedSchedules: Course[][];
+    if (sortedSchedules.length > 50) {
+      newSortedSchedules = sortedSchedules.slice(0, 50);
+    } else {
+      newSortedSchedules = sortedSchedules;
+    }
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(successResponse(newSortedSchedules, sortMsg));
     return;
   } catch (error) {
     next(error);
