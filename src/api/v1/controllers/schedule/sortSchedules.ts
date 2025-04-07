@@ -5,78 +5,63 @@
  */
 
 import type { Course } from "../../models/courseModel";
-import { Section } from "../../models/courseSectionModel";
-
+import { SchedulePreferenceQuery } from "../../models/coursePreferenceModel";
 /**
  * @description Get all available schedules.
  */
 
-export const calcSchedules = (
-  courses: Course[]
+export const sortSchedules = (
+  schedules: Course[][],
+  schedulePreferenceQuery: SchedulePreferenceQuery
 ): { schedules: Course[][]; message: string } => {
-  const courseCount: number = courses.length;
-  let availableSchedules: Course[][] = [];
-  let initSchedulesFlag: boolean = false;
-  if (!courses.length) {
-    throw new Error("This is no courses meeting conditions for scheduling");
-  }
+  const { sortOptions } = schedulePreferenceQuery;
+  const statistics: [number, number, number][] = [];
 
-  for (const course of courses) {
-    // at the begin the schedule is empty, so for the first course,insert all sections into the schedult
-    if (!initSchedulesFlag) {
+  // if there is no option then return the original schedules
+  if (!sortOptions || sortOptions.length === 0) {
+    return { schedules: schedules, message: "with no sort condition" };
+  }
+  // calc the daygotocampus and day attend the class in the morning
+  for (const [index, schedule] of schedules.entries()) {
+    type Statistic = {
+      goToCampus: Set<number>;
+      attendMorningClass: Set<number>;
+    };
+    const statistic: Statistic = {
+      goToCampus: new Set<number>(),
+      attendMorningClass: new Set<number>(),
+    };
+    for (const course of schedule) {
       for (const section of course.courseSections) {
-        availableSchedules.push([{ ...course, courseSections: [section] }]);
-      }
-      initSchedulesFlag = true;
-      continue;
-    }
-
-    // for the other course to check the time conflict with the schedult
-    for (const section of course.courseSections) {
-      // if the vailable schedules has the course, then ignore
-      // if the vailable  schedules doesn't have the course and there is no conflict, then push the course
-      for (const availableSchedule of availableSchedules.slice()) {
-        if (!calcTimeConflictFlag(availableSchedule, section)) {
-          availableSchedule.push({ ...course, courseSections: [section] });
-          availableSchedules.push(availableSchedule);
-        }
-      }
-    }
-  }
-
-  // select the schedules have all courses should be scheduled
-  availableSchedules = availableSchedules.filter(
-    (availableSchedule) => availableSchedule.length === courseCount
-  );
-
-  // return the schedule
-  if (availableSchedules.length === 0) {
-    return { schedules: [], message: "There is no available schedule" };
-  }
-  return {
-    schedules: availableSchedules,
-    message: "get the schedule successfully",
-  };
-};
-
-// calc the if there is confict when select new section
-function calcTimeConflictFlag(courses: Course[], section: Section): boolean {
-  for (const classObj of section.sectionSchedules) {
-    for (const course of courses) {
-      for (const selectedSection of course.courseSections) {
-        for (const selectedClassObj of selectedSection.sectionSchedules) {
-          if (
-            !(
-              classObj.day !== selectedClassObj.day ||
-              classObj.startTime >= selectedClassObj.endTime ||
-              classObj.endTime <= selectedClassObj.startTime
-            )
-          ) {
-            return true;
+        for (const classObj of section.sectionSchedules) {
+          if (classObj.lectureType === "Lecture") {
+            statistic.goToCampus.add(classObj.day);
+          }
+          if (classObj.startTime < 1000) {
+            statistic.attendMorningClass.add(classObj.day);
           }
         }
       }
     }
+    statistics.push([
+      index,
+      statistic.goToCampus.size,
+      statistic.attendMorningClass.size,
+    ]);
   }
-  return false;
-}
+  // sort
+  for (const sortOption of [...sortOptions].reverse()) {
+    if (sortOption === "dayGoToCampus") {
+      statistics.sort((a, b) => a[1] - b[1]);
+    } else if (sortOption === "dayAttendMorningClass") {
+      statistics.sort((a, b) => a[2] - b[2]);
+    }
+  }
+  // get the new schedules
+  const newSchedules: Course[][] = [];
+  for (const scheduleIndex of statistics) {
+    newSchedules.push(schedules[scheduleIndex[0]]);
+  }
+
+  return { schedules: newSchedules, message: "Sort schedules successfully" };
+};

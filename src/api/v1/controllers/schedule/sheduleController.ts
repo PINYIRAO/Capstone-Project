@@ -10,6 +10,7 @@ import { successResponse } from "../../models/responseModel";
 import { HTTP_STATUS } from "../../../../constants/httpConstants";
 import { getCoursesForSchedule } from "./getCoursesForSchedule";
 import { calcSchedules } from "./calcSchedules";
+import { sortSchedules } from "./sortSchedules";
 
 const userId: string = "admin";
 
@@ -38,12 +39,14 @@ export const getAllSchedules = async (
       return;
     }
 
-    //
+    // sort the schedulle
+    const { schedules: sortedSchedules, message: sortMsg } = sortSchedules(
+      schedules,
+      req.query
+    );
 
-    if (courses.length === 0) {
-      res.status(HTTP_STATUS.OK).json(successResponse([], message));
-      return;
-    }
+    res.status(HTTP_STATUS.OK).json(successResponse(sortedSchedules, sortMsg));
+    return;
   } catch (error) {
     next(error);
   }

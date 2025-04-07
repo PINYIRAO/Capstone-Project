@@ -19,7 +19,7 @@ type ElectiveSelection = string[]; // select which elective courses, including c
 
 // sort the schedule
 type SortOption = "dayGoToCampus" | "dayAttendMorningClass";
-type SortCondition = [] | [SortOption] | [SortOption, SortOption];
+type SortOptions = [] | [SortOption] | [SortOption, SortOption]; // sort will consider the sort field order, the front one has a higher priority
 
 export type SchedulePreferenceQuery = {
   notAvailableTimeSpots?: NotAvailableTimeSpots;
@@ -27,5 +27,5 @@ export type SchedulePreferenceQuery = {
   preferenceForLectureType?: PreferenceForLectureType;
   preferenceForSection?: PreferenceForSection;
   electiveSelection?: ElectiveSelection;
-  sortCondition?: SortCondition;
+  sortOptions?: SortOptions;
 };
