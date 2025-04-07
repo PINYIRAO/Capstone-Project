@@ -1,11 +1,6 @@
 /**
- * get all schedules for schdule Controller (scheduleController.ts)
+ * sort the schedules for schdule Controller (scheduleController.ts)
  *
- * get all shedulets regarding the time conflich of the diffrenct courses
- * filter with userid
- * filter with elective course preference if have
- * filter with other preference option
- * return the courses for schedule
  *
  */
 
@@ -16,7 +11,7 @@ import { Section } from "../../models/courseSectionModel";
  * @description Get all available schedules.
  */
 
-export const getAllSchedules = (
+export const calcSchedules = (
   courses: Course[]
 ): { schedules: Course[][]; message: string } => {
   const courseCount: number = courses.length;

@@ -6,36 +6,44 @@
  */
 
 import { Request, Response, NextFunction } from "express";
-import * as courseService from "../../services/courseService";
-import type { Course } from "../../models/courseModel";
 import { successResponse } from "../../models/responseModel";
 import { HTTP_STATUS } from "../../../../constants/httpConstants";
+import { getCoursesForSchedule } from "./getCoursesForSchedule";
+import { calcSchedules } from "./calcSchedules";
 
-type CourseQueryParams = {
-  courseCode?: string;
-  courseName?: string;
-};
+const userId: string = "admin";
 
 /**
- * @description Get all courses.
+ * @description Get all shedules.
  * @route GET /
  * @returns {Promise<void>}
  */
-export const getAllCourses = async (
+export const getAllSchedules = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { courseCode, courseName }: CourseQueryParams = req.query;
-    const courses: Course[] = await courseService.getAllCourses(
-      courseCode !== undefined ? courseCode : undefined,
-      courseName !== undefined ? courseName : undefined
-    );
+    // get the coures for schedule
+    const { courses, message } = await getCoursesForSchedule(userId, req.query);
+    if (courses.length === 0) {
+      res.status(HTTP_STATUS.OK).json(successResponse([], message));
+      return;
+    }
 
-    res
-      .status(HTTP_STATUS.OK)
-      .json(successResponse(courses, "Course Retrieved"));
+    // get the available scheduls
+    const { schedules, message: shceduleMsg } = calcSchedules(courses);
+    if (schedules.length === 0) {
+      res.status(HTTP_STATUS.OK).json(successResponse([], shceduleMsg));
+      return;
+    }
+
+    //
+
+    if (courses.length === 0) {
+      res.status(HTTP_STATUS.OK).json(successResponse([], message));
+      return;
+    }
   } catch (error) {
     next(error);
   }

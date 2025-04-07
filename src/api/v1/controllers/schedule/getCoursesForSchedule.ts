@@ -19,7 +19,7 @@ import { Section } from "../../models/courseSectionModel";
  * @route GET /
  */
 
-export const getAllCoursesForSchedule = async (
+export const getCoursesForSchedule = async (
   userId: string,
   schedulePreferenceQuery: SchedulePreferenceQuery
 ): Promise<{ courses: Course[]; message: string }> => {

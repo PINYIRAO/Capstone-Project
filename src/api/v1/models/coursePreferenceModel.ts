@@ -17,10 +17,15 @@ type PreferenceForSection = {
 
 type ElectiveSelection = string[]; // select which elective courses, including course codes
 
+// sort the schedule
+type SortOption = "dayGoToCampus" | "dayAttendMorningClass";
+type SortCondition = [] | [SortOption] | [SortOption, SortOption];
+
 export type SchedulePreferenceQuery = {
   notAvailableTimeSpots?: NotAvailableTimeSpots;
   preferenceForInstructor?: PreferenceForInstructor;
   preferenceForLectureType?: PreferenceForLectureType;
   preferenceForSection?: PreferenceForSection;
   electiveSelection?: ElectiveSelection;
+  sortCondition?: SortCondition;
 };
