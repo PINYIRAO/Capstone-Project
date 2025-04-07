@@ -6,3 +6,4 @@ dist/
 coverage/
 courseScreenshots*
 *.traineddata
+index.html

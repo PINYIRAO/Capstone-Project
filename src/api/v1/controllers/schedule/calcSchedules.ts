@@ -40,7 +40,9 @@ export const calcSchedules = (
     for (const section of course.courseSections) {
       // if the vailable schedules has the course, then ignore
       // if the vailable  schedules doesn't have the course and there is no conflict, then push the course
-      for (const availableSchedule of availableSchedules.slice()) {
+      for (const availableSchedule of JSON.parse(
+        JSON.stringify(availableSchedules)
+      )) {
         if (!calcTimeConflictFlag(availableSchedule, section)) {
           availableSchedule.push({ ...course, courseSections: [section] });
           availableSchedules.push(availableSchedule);
@@ -56,6 +58,7 @@ export const calcSchedules = (
 
   // return the schedule
   if (availableSchedules.length === 0) {
+    // console.log(JSON.stringify(courses, null, 2));
     return { schedules: [], message: "There is no available schedule" };
   }
   return {

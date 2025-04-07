@@ -17,7 +17,7 @@ import { updateCourseFromOCR } from "./updateCourseFromOCR";
 import { transSectionToCourse } from "./transSectionToCourse";
 
 // asssumed the overall const for course data, need to refactored in the following steps
-const userId: string = "admin";
+const userId: string = "uploadtest";
 
 /**
  * @description Get the course information and then create or update the course.
