@@ -28,7 +28,7 @@ export const sortSchedules = (
   const { sortOptions } = schedulePreferenceQuery;
   const statistics: [number, number, number][] = [];
 
-  let withBaseInfoSchedules: SortedSchedules = [];
+  const withBaseInfoSchedules: SortedSchedules = [];
   // calc the daysGoToCampus and day attend the class in the morning
   for (const [index, schedule] of schedules.entries()) {
     type Statistic = {
@@ -82,15 +82,17 @@ export const sortSchedules = (
     } else if (sortOption === "daysAttendMorningClass") {
       statistics.sort((a, b) => a[2] - b[2]);
     }
+    console.log(JSON.stringify(statistics, null, 2));
+    console.log(JSON.stringify(sortOptions, null, 2));
   }
   // get the new schedules
-  const sortedWithBaseInfoSchedules: Course[][] = [];
+  const sortedWithBaseInfoSchedules: SortedSchedules = [];
   for (const scheduleIndex of statistics) {
-    sortedSchedules.push(schedules[scheduleIndex[0]]);
+    sortedWithBaseInfoSchedules.push(withBaseInfoSchedules[scheduleIndex[0]]);
   }
 
   return {
-    schedules: sortedSchedules,
+    schedules: sortedWithBaseInfoSchedules,
     message: "Get sorted schedules successfully",
   };
 };
