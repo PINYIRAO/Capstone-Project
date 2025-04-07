@@ -1,7 +1,6 @@
 import { Router } from "express";
 import * as courseController from "../controllers/courseController";
 import * as uploadController from "../controllers/uploadController";
-import * as scheduleController from "../controllers/schedule/scheduleController";
 import uploadMidFunc from "../middleware/upload";
 
 // define a router for deal with
@@ -102,117 +101,6 @@ router.post("/", courseController.createCourse);
  *         description: Server error/file counts or size exceed the limits
  */
 router.post("/upload", uploadMidFunc, uploadController.uploadCourses);
-
-/**
- * @openapi
- * /courses/schedules:
- *   get:
- *     summary: Get course schedules based on user preferences and availability
- *     tags: [Schedule]
- *     description: |
- *       This endpoint allows users to retrieve course schedules based on their preferences for instructors, lecture types, section selections, and availability.
- *       The user can also specify sorting options and filter schedules based on unavailable time slots.
- *     parameters:
- *       - in: query
- *         name: notAvailableTimeSpots
- *         required: false
- *         schema:
- *           type: array
- *           items:
- *             type: array
- *             items:
- *               type: number
- *           description: |
- *             A list of unavailable time slots, each represented as a array of day,startTime, endTime. Format: number, number, number.
- *
- *       - in: query
- *         name: preferenceForInstructor
- *         required: false
- *         schema:
- *           type: object
- *           properties:
- *             goFor:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of instructor names the user prefers.
- *             notGoFor:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of instructor names the user does not prefer.
- *           description: Preferences for instructor selection.
- *
- *       - in: query
- *         name: preferenceForLectureType
- *         required: false
- *         schema:
- *           type: object
- *           properties:
- *             lecture:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of section codes for the "Lecture" type.
- *             online:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of section codes for the "Online" type.
- *             mixed:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of section codes for the "Mixed" type.
- *           description: Preferences for lecture type selection.
- *
- *       - in: query
- *         name: preferenceForSection
- *         required: false
- *         schema:
- *           type: object
- *           properties:
- *             goFor:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of section codes the user prefers.
- *             notGoFor:
- *               type: array
- *               items:
- *                 type: string
- *               description: A list of section codes the user does not prefer.
- *           description: Preferences for section selection.
- *
- *       - in: query
- *         name: electiveSelection
- *         required: false
- *         schema:
- *           type: array
- *           items:
- *             type: string
- *           description: A list of elective course codes that the user is interested in selecting.
- *
- *       - in: query
- *         name: sortOptions
- *         required: false
- *         schema:
- *           type: array
- *           items:
- *             type: string
- *             enum: [dayGoToCampus, dayAttendMorningClass]
- *           description: A list of sorting options to control the ordering of the returned schedules. The order of the fields determines priority.
- *           example: ["dayGoToCampus", "dayAttendMorningClass"]
- *
- *     responses:
- *       200:
- *         description: Successfully retrieved course schedules based on the provided preferences and availability
- *       400:
- *         description: Invalid query parameters provided
- *       500:
- *         description: Internal server error
- */
-router.get("/schedules", scheduleController.getAllSchedules);
 
 /**
  * @route GET /:id

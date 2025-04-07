@@ -15,6 +15,7 @@ import errorHandler from "./api/v1/middleware/errorHandler";
 // import routes
 import healthRoutes from "./api/v1/routes/healthRoutes";
 import courseRoutes from "./api/v1/routes/courseRoutes";
+import scheduleRotes from "./api/v1/routes/scheduleRoutes";
 
 import helmet from "helmet";
 import cors from "cors";
@@ -76,6 +77,7 @@ app.use(express.json());
 app.use(accessLogger);
 
 app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/schedules", scheduleRotes);
 app.use("/health", healthRoutes);
 
 // apply error handling middleware

@@ -17,7 +17,7 @@ const userId: string = "admin";
 
 /**
  * @description Get all shedules.
- * @route GET /
+ * @route POST /
  * @returns {Promise<void>}
  */
 export const getAllSchedules = async (
@@ -27,7 +27,7 @@ export const getAllSchedules = async (
 ): Promise<void> => {
   try {
     // get the coures for schedule
-    const { courses, message } = await getCoursesForSchedule(userId, req.query);
+    const { courses, message } = await getCoursesForSchedule(userId, req.body);
     if (courses.length === 0) {
       res.status(HTTP_STATUS.OK).json(successResponse([], message));
       return;
