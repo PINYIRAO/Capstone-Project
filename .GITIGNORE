@@ -6,4 +6,3 @@ dist/
 coverage/
 courseScreenshots*
 *.traineddata
-front_end_test/
