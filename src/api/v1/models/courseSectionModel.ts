@@ -21,7 +21,7 @@ export type DeliveryType = "Lecture" | "Online" | "Mixed";
  *       type: object
  *       required:
  *         - day
- *         - lectureType
+ *         - deliveryType
  *         - startTime
  *         - endTime
  *         - location
@@ -30,7 +30,7 @@ export type DeliveryType = "Lecture" | "Online" | "Mixed";
  *           type: integer
  *           description: Day of the week (0 = Sunday, 6 = Saturday)
  *           example: 1
- *         lectureType:
+ *         deliveryType:
  *           $ref: '#/components/schemas/DeliveryType'
  *         startTime:
  *           type: integer
@@ -47,7 +47,7 @@ export type DeliveryType = "Lecture" | "Online" | "Mixed";
  */
 export type Class = {
   day: number;
-  lectureType: DeliveryType;
+  deliveryType: DeliveryType;
   startTime: number;
   endTime: number;
   location: string;
@@ -63,7 +63,7 @@ export type Class = {
  *         - sectionCode
  *         - sectionName
  *         - sectionInstructor
- *         - sectionLectureType
+ *         - sectionDeliveryType
  *         - sectionStartDate
  *         - sectionEndDate
  *         - sectionSeats
@@ -81,7 +81,7 @@ export type Class = {
  *           type: string
  *           description: Name of the instructor for the section
  *           example: "Prof. Alice Johnson"
- *         sectionLectureType:
+ *         sectionDeliveryType:
  *           $ref: '#/components/schemas/DeliveryType'
  *         sectionStartDate:
  *           type: string
@@ -107,7 +107,7 @@ export type Section = {
   sectionCode: string;
   sectionName: string;
   sectionInstructor: string;
-  sectionLectureType: DeliveryType;
+  sectionDeliveryType: DeliveryType;
   sectionStartDate: Date;
   sectionEndDate: Date;
   sectionSeats: number;

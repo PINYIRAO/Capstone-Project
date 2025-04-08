@@ -28,14 +28,14 @@ describe("update course database from ocr", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -43,7 +43,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -75,14 +75,14 @@ describe("update course database from ocr", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -90,7 +90,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -122,14 +122,14 @@ describe("update course database from ocr", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -137,7 +137,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -159,14 +159,14 @@ describe("update course database from ocr", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -174,7 +174,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",

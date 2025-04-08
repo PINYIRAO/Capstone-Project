@@ -61,12 +61,12 @@ describe("upload Controller", () => {
         sectionCode: "COMP-3018-FTE01",
         sectionEndDate: new Date("2025-04-25"),
         sectionInstructor: "",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Mixed",
         sectionName: "Back-End Development",
         sectionSchedules: [
           {
             day: 1,
-            lectureType: "Lecture",
+            deliveryType: "Lecture",
             startTime: 0,
             endTime: 300,
             location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
@@ -89,14 +89,14 @@ describe("upload Controller", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -104,7 +104,7 @@ describe("upload Controller", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -115,14 +115,14 @@ describe("upload Controller", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -130,7 +130,7 @@ describe("upload Controller", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -151,14 +151,14 @@ describe("upload Controller", () => {
             sectionCode: "COMP-3099-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Mixed",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -166,7 +166,7 @@ describe("upload Controller", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",

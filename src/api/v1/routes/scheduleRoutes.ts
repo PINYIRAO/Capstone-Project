@@ -49,7 +49,7 @@ const router: Router = Router();
  *                     example: |
  *                       ["Smith, J"]
  *                 description: Preferences for instructor selection.
- *               preferenceForLectureType:
+ *               preferenceFordeliveryType:
  *                 type: object
  *                 properties:
  *                   lecture:

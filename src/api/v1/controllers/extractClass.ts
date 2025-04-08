@@ -30,9 +30,9 @@ export function extractClassData(classInfo: string | null): Class[] | null {
     const endDateStr: string | null = dateMatch ? dateMatch[2] : null;
 
     //  extract the delivery type :Lecture or Online
-    const lectureTypeRegex: RegExp = /(Lecture|Online)/;
-    const lectureMatch: string[] | null = classInfo.match(lectureTypeRegex);
-    const lectureType: DeliveryType =
+    const deliveryTypeRegex: RegExp = /(Lecture|Online)/;
+    const lectureMatch: string[] | null = classInfo.match(deliveryTypeRegex);
+    const deliveryType: DeliveryType =
       lectureMatch !== null && ["Online", "Lecture"].includes(lectureMatch[0])
         ? (lectureMatch[0] as "Online" | "Lecture")
         : "Mixed";
@@ -42,7 +42,7 @@ export function extractClassData(classInfo: string | null): Class[] | null {
       .replace(`${days.join("/")}`, "")
       .replace(`${startTimeStr} - ${endTimeStr}`, "")
       .replace(`${startDateStr} - ${endDateStr}`, "")
-      .replace(lectureType, "")
+      .replace(deliveryType, "")
       .trim();
 
     location = location.replace(/\\n/g, " ").trim(); // replace the \\n to a space to concatenate the string
@@ -62,7 +62,7 @@ export function extractClassData(classInfo: string | null): Class[] | null {
       classesInfo.push({
         // if the day couldn't get right, then set the default for 99
         day: day in dayMapping ? dayMapping[day] : 99,
-        lectureType,
+        deliveryType,
         startTime,
         endTime,
         location,

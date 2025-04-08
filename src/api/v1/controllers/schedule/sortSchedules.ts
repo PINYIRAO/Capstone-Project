@@ -42,7 +42,7 @@ export const sortSchedules = (
     for (const course of schedule) {
       for (const section of course.courseSections) {
         for (const classObj of section.sectionSchedules) {
-          if (classObj.lectureType === "Lecture") {
+          if (classObj.deliveryType === "Lecture") {
             statistic.goToCampus.add(classObj.day);
           }
           if (classObj.startTime < 1000) {
@@ -82,8 +82,6 @@ export const sortSchedules = (
     } else if (sortOption === "daysAttendMorningClass") {
       statistics.sort((a, b) => a[2] - b[2]);
     }
-    console.log(JSON.stringify(statistics, null, 2));
-    console.log(JSON.stringify(sortOptions, null, 2));
   }
   // get the new schedules
   const sortedWithBaseInfoSchedules: SortedSchedules = [];

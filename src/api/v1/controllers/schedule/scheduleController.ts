@@ -11,7 +11,6 @@ import { HTTP_STATUS } from "../../../../constants/httpConstants";
 import { getCoursesForSchedule } from "./getCoursesForSchedule";
 import { calcSchedules } from "./calcSchedules";
 import { sortSchedules } from "./sortSchedules";
-import { Course } from "../../models/courseModel";
 
 const userId: string = "admin";
 

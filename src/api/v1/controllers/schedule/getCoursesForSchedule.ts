@@ -43,7 +43,7 @@ export const getCoursesForSchedule = async (
   const {
     notAvailableTimeSpots,
     preferenceForInstructor,
-    preferenceForLectureType,
+    preferenceForDeliveryType,
     preferenceForSection,
     electiveSelection,
   } = schedulePreferenceQuery;
@@ -149,36 +149,36 @@ export const getCoursesForSchedule = async (
     });
   }
 
-  // filter with the preference for LectureType
-  // match the preference for LectureType
+  // filter with the preference for DeliveryType
+  // match the preference for DeliveryType
   if (
-    preferenceForLectureType &&
-    Object.keys(preferenceForLectureType).length > 0 &&
-    (preferenceForLectureType.lecture.length > 0 ||
-      preferenceForLectureType.online.length > 0 ||
-      preferenceForLectureType.mixed.length > 0)
+    preferenceForDeliveryType &&
+    Object.keys(preferenceForDeliveryType).length > 0 &&
+    (preferenceForDeliveryType.lecture.length > 0 ||
+      preferenceForDeliveryType.online.length > 0 ||
+      preferenceForDeliveryType.mixed.length > 0)
   ) {
     coursesResult = coursesResult.map((course) => {
-      let hasPreferenceLectureType: boolean = false;
+      let hasPreferenceDeliveryType: boolean = false;
       const matchSections: Section[] = [];
       const notMatchSections: Section[] = [];
       course.courseSections.forEach((section) => {
         if (
-          (section.sectionLectureType == "Lecture" &&
-            preferenceForLectureType.lecture.includes(section.sectionCode)) ||
-          (section.sectionLectureType == "Online" &&
-            preferenceForLectureType.online.includes(section.sectionCode)) ||
-          (section.sectionLectureType == "Mixed" &&
-            preferenceForLectureType.mixed.includes(section.sectionCode))
+          (section.sectionDeliveryType == "Lecture" &&
+            preferenceForDeliveryType.lecture.includes(section.sectionCode)) ||
+          (section.sectionDeliveryType == "Online" &&
+            preferenceForDeliveryType.online.includes(section.sectionCode)) ||
+          (section.sectionDeliveryType == "Mixed" &&
+            preferenceForDeliveryType.mixed.includes(section.sectionCode))
         ) {
-          hasPreferenceLectureType = true;
+          hasPreferenceDeliveryType = true;
           matchSections.push(section);
         } else {
           notMatchSections.push(section);
         }
       });
-      // If the section has the prefer lecturetype in query then select the section, otherwise, select all sections for the following filter
-      if (hasPreferenceLectureType) {
+      // If the section has the prefer deliverytype in query then select the section, otherwise, select all sections for the following filter
+      if (hasPreferenceDeliveryType) {
         return { ...course, ...{ courseSections: matchSections } };
       } else {
         return { ...course, ...{ courseSections: notMatchSections } };
