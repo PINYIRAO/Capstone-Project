@@ -3,7 +3,7 @@ import type { Section } from "../models/courseSectionModel";
 
 // asssumed the overall const for course data, need to refactored in the following steps
 const program: string = "Application Design and Delivery";
-const userId: string = "admin";
+const userId: string = "uploadtest";
 const term: number = 3;
 const courseType: CourseType = "Required";
 
