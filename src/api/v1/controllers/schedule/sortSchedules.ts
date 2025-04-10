@@ -6,20 +6,11 @@
 
 import type { Course } from "../../models/courseModel";
 import { SchedulePreferenceQuery } from "../../models/coursePreferenceModel";
-import { SortOptions } from "../../models/coursePreferenceModel";
+import { SortedSchedule } from "../../models/sortSchedule";
 /**
  * @description Get all available schedules.
  */
 
-type SortedSchedule = {
-  baseInfo: {
-    count: number;
-    sortOptions?: SortOptions;
-    daysGoToCampus?: number;
-    daysAttendMorningClass?: number;
-  };
-  schedule: Course[];
-};
 type SortedSchedules = SortedSchedule[];
 export const sortSchedules = (
   schedules: Course[][],

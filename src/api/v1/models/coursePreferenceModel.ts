@@ -5,8 +5,8 @@ type PreferenceForInstructor = {
   notGoFor: string[]; // the instructor's name
 };
 type PreferenceForDeliveryType = {
-  lecture: string[]; // the section code for lecture type
-  online: string[]; // the section code for online type
+  lecture: string[]; // the cousrse code for lecture type
+  online: string[]; // the cousrse code for online type
   mixed: string[]; // the course code for mixed type
 };
 

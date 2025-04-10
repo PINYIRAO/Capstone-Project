@@ -5,7 +5,7 @@ async function fetchData() {
   // set the preference for course
   const notAvailableTimeSpots = [
     [1, 8, 12],
-    [2, 19, 20],
+    [2, 8, 12],
   ];
   const preferenceForInstructor = { goFor: [], notGoFor: [] };
   const preferenceForLectureType = {

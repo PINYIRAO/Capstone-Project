@@ -31,6 +31,7 @@ export const getCoursesForSchedule = async (
   let coursesResult: Course[] = courses.filter(
     (course) => course.userId == userId
   );
+  // console.log(JSON.stringify(coursesResult, null, 2));
   if (coursesResult == undefined || coursesResult.length == 0) {
     return {
       courses: [],
@@ -53,25 +54,28 @@ export const getCoursesForSchedule = async (
   // if the use select the elective courses, application will set the choices for filter, otherwise consider all the electives
   if (electiveSelection && electiveSelection.length > 0) {
     // go for the specific section
+    let hasElectiveCourses: boolean = false;
     coursesResult = coursesResult.filter((course) => {
       if (
         course.courseType == "Elective" &&
         !electiveSelection.includes(course.courseCode)
       ) {
         return false;
+      } else if (
+        course.courseType == "Elective" &&
+        electiveSelection.includes(course.courseCode)
+      ) {
+        hasElectiveCourses = true;
       }
       return true;
     });
-  }
-
-  // count the course counts
-  const courseCount: number = coursesResult ? coursesResult.length : 0;
-  if (!courseCount) {
-    return {
-      courses: [],
-      message:
-        "There is no course for shcedule regarding the elective course choice",
-    };
+    if (!hasElectiveCourses) {
+      return {
+        courses: [],
+        message:
+          "There is no course for shcedule regarding the elective course choice",
+      };
+    }
   }
 
   // match the timeslot
@@ -114,39 +118,47 @@ export const getCoursesForSchedule = async (
     (preferenceForInstructor.goFor.length > 0 ||
       preferenceForInstructor.notGoFor.length > 0)
   ) {
-    // go for the specific instructor
-    coursesResult = coursesResult.map((course) => {
-      let hasPreferenceInstructor: boolean = false;
-      const matchSections: Section[] = [];
-      const notMatchSections: Section[] = [];
-      course.courseSections.forEach((section) => {
-        if (preferenceForInstructor.goFor.includes(section.sectionInstructor)) {
-          hasPreferenceInstructor = true;
-          matchSections.push(section);
+    if (preferenceForInstructor.goFor.length > 0) {
+      // go for the specific instructor
+      coursesResult = coursesResult.map((course) => {
+        let hasPreferenceInstructor: boolean = false;
+        const matchSections: Section[] = [];
+        const notMatchSections: Section[] = [];
+        course.courseSections.forEach((section) => {
+          if (
+            preferenceForInstructor.goFor.includes(section.sectionInstructor)
+          ) {
+            hasPreferenceInstructor = true;
+            matchSections.push(section);
+          } else {
+            notMatchSections.push(section);
+          }
+        });
+        // If the course has the prefer instructor then select the instructor, otherwise, select all sections for the following filter
+        if (hasPreferenceInstructor) {
+          return { ...course, ...{ courseSections: matchSections } };
         } else {
-          notMatchSections.push(section);
+          return { ...course, ...{ courseSections: notMatchSections } };
         }
       });
-      // If the course has the prefer instructor then select the instructor, otherwise, select all sections for the following filter
-      if (hasPreferenceInstructor) {
-        return { ...course, ...{ courseSections: matchSections } };
-      } else {
+    }
+    if (preferenceForInstructor.notGoFor.length > 0) {
+      // not go for the instructor instructor
+      coursesResult = coursesResult.map((course) => {
+        const notMatchSections: Section[] = [];
+        course.courseSections.forEach((section) => {
+          if (
+            !preferenceForInstructor.notGoFor.includes(
+              section.sectionInstructor
+            )
+          ) {
+            notMatchSections.push(section);
+          }
+        });
+        // drop the section with the not go for instructor
         return { ...course, ...{ courseSections: notMatchSections } };
-      }
-    });
-    // not go for the instructor instructor
-    coursesResult = coursesResult.map((course) => {
-      const notMatchSections: Section[] = [];
-      course.courseSections.forEach((section) => {
-        if (
-          !preferenceForInstructor.notGoFor.includes(section.sectionInstructor)
-        ) {
-          notMatchSections.push(section);
-        }
       });
-      // drop the section with the not go for instructor
-      return { ...course, ...{ courseSections: notMatchSections } };
-    });
+    }
   }
 
   // filter with the preference for DeliveryType
@@ -165,11 +177,11 @@ export const getCoursesForSchedule = async (
       course.courseSections.forEach((section) => {
         if (
           (section.sectionDeliveryType == "Lecture" &&
-            preferenceForDeliveryType.lecture.includes(section.sectionCode)) ||
+            preferenceForDeliveryType.lecture.includes(course.courseCode)) ||
           (section.sectionDeliveryType == "Online" &&
-            preferenceForDeliveryType.online.includes(section.sectionCode)) ||
+            preferenceForDeliveryType.online.includes(course.courseCode)) ||
           (section.sectionDeliveryType == "Mixed" &&
-            preferenceForDeliveryType.mixed.includes(section.sectionCode))
+            preferenceForDeliveryType.mixed.includes(course.courseCode))
         ) {
           hasPreferenceDeliveryType = true;
           matchSections.push(section);
@@ -193,37 +205,41 @@ export const getCoursesForSchedule = async (
     (preferenceForSection.goFor.length > 0 ||
       preferenceForSection.notGoFor.length > 0)
   ) {
-    // go for the specific section
-    coursesResult = coursesResult.map((course) => {
-      let hasPreferenceSection: boolean = false;
-      const matchSections: Section[] = [];
-      const notMatchSections: Section[] = [];
-      course.courseSections.forEach((section) => {
-        if (preferenceForSection.goFor.includes(section.sectionCode)) {
-          hasPreferenceSection = true;
-          matchSections.push(section);
+    if (preferenceForSection.goFor.length > 0) {
+      // go for the specific section
+      coursesResult = coursesResult.map((course) => {
+        let hasPreferenceSection: boolean = false;
+        const matchSections: Section[] = [];
+        const notMatchSections: Section[] = [];
+        course.courseSections.forEach((section) => {
+          if (preferenceForSection.goFor.includes(section.sectionCode)) {
+            hasPreferenceSection = true;
+            matchSections.push(section);
+          } else {
+            notMatchSections.push(section);
+          }
+        });
+        // If the course has the prefer section then select the instructor, otherwise, select all sections for the following filter
+        if (hasPreferenceSection) {
+          return { ...course, ...{ courseSections: matchSections } };
         } else {
-          notMatchSections.push(section);
+          return { ...course, ...{ courseSections: notMatchSections } };
         }
       });
-      // If the course has the prefer section then select the instructor, otherwise, select all sections for the following filter
-      if (hasPreferenceSection) {
-        return { ...course, ...{ courseSections: matchSections } };
-      } else {
+    }
+    if (preferenceForSection.notGoFor.length > 0) {
+      // not go for the specific section
+      coursesResult = coursesResult.map((course) => {
+        const notMatchSections: Section[] = [];
+        course.courseSections.forEach((section) => {
+          if (!preferenceForSection.notGoFor.includes(section.sectionCode)) {
+            notMatchSections.push(section);
+          }
+        });
+        // drop the section with the not go for instructor
         return { ...course, ...{ courseSections: notMatchSections } };
-      }
-    });
-    // not go for the specific section
-    coursesResult = coursesResult.map((course) => {
-      const notMatchSections: Section[] = [];
-      course.courseSections.forEach((section) => {
-        if (!preferenceForSection.notGoFor.includes(section.sectionCode)) {
-          notMatchSections.push(section);
-        }
       });
-      // drop the section with the not go for instructor
-      return { ...course, ...{ courseSections: notMatchSections } };
-    });
+    }
   }
 
   // drop the course with no sections after filter and check the course required count
