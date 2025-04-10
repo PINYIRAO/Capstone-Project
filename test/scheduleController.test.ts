@@ -40,4 +40,19 @@ describe("schedules Controller", () => {
 
     expect(mockRes.status).toHaveBeenCalledWith(200);
   });
+  it("show return 200 if has no courses", async () => {
+    (getCoursesForSchedule as jest.Mock).mockResolvedValue({
+      courses: [],
+    });
+
+    expect(mockRes.status).toHaveBeenCalledWith(200);
+  });
+  it("show return 200 if has no available schedules", async () => {
+    (getCoursesForSchedule as jest.Mock).mockResolvedValue({
+      courses: ["2"],
+    });
+    (calcSchedules as jest.Mock).mockReturnValue({ schedules: [] });
+
+    expect(mockRes.status).toHaveBeenCalledWith(200);
+  });
 });
