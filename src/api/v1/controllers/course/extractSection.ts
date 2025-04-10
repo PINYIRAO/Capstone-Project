@@ -1,6 +1,6 @@
-import type { Section } from "../models/courseSectionModel";
-import type { Class } from "../models/courseSectionModel";
-import type { DeliveryType } from "../models/courseSectionModel";
+import type { Section } from "../../models/courseSectionModel";
+import type { Class } from "../../models/courseSectionModel";
+import type { DeliveryType } from "../../models/courseSectionModel";
 import { extractClassData } from "./extractClass";
 
 // organize the ocr text to the structured course data

@@ -1,5 +1,5 @@
-import type { Class } from "../models/courseSectionModel";
-import type { DeliveryType } from "../models/courseSectionModel";
+import type { Class } from "../../models/courseSectionModel";
+import type { DeliveryType } from "../../models/courseSectionModel";
 
 export function extractClassData(classInfo: string | null): Class[] | null {
   const classesInfo: Class[] = [];

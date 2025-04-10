@@ -1,5 +1,5 @@
-import type { Course, CourseType } from "../models/courseModel";
-import type { Section } from "../models/courseSectionModel";
+import type { Course, CourseType } from "../../models/courseModel";
+import type { Section } from "../../models/courseSectionModel";
 
 // asssumed the overall const for course data, need to refactored in the following steps
 const program: string = "Application Design and Delivery";

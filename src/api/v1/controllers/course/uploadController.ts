@@ -7,10 +7,10 @@
  */
 
 import { Request, Response, NextFunction } from "express";
-import type { Course } from "../models/courseModel";
-import { errorResponse, successResponse } from "../models/responseModel";
-import { HTTP_STATUS } from "../../../constants/httpConstants";
-import type { Section } from "../models/courseSectionModel";
+import type { Course } from "../../models/courseModel";
+import { errorResponse, successResponse } from "../../models/responseModel";
+import { HTTP_STATUS } from "../../../../constants/httpConstants";
+import type { Section } from "../../models/courseSectionModel";
 import { ocrEachFile } from "./ocrEachFile";
 import { extractSectionData } from "./extractSection";
 import { updateCourseFromOCR } from "./updateCourseFromOCR";

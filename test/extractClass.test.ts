@@ -1,4 +1,4 @@
-import { extractClassData } from "../src/api/v1/controllers/extractClass";
+import { extractClassData } from "../src/api/v1/controllers/course/extractClass";
 import type { Class } from "../src/api/v1/models/courseSectionModel";
 describe("extract class", () => {
   it("should return the classes array", () => {

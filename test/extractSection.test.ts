@@ -1,9 +1,9 @@
-jest.mock("../src/api/v1/controllers/extractClass", () => ({
+jest.mock("../src/api/v1/controllers/course/extractClass", () => ({
   extractClassData: jest.fn(),
 }));
 import type { Section } from "../src/api/v1/models/courseSectionModel";
-import { extractSectionData } from "../src/api/v1/controllers/extractSection";
-import { extractClassData } from "../src/api/v1/controllers/extractClass";
+import { extractSectionData } from "../src/api/v1/controllers/course/extractSection";
+import { extractClassData } from "../src/api/v1/controllers/course/extractClass";
 
 describe("extract section data", () => {
   beforeEach(() => {

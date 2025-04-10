@@ -1,24 +1,24 @@
-jest.mock("../src/api/v1/controllers/ocrEachFile", () => ({
+jest.mock("../src/api/v1/controllers/course/ocrEachFile", () => ({
   ocrEachFile: jest.fn(),
 }));
-jest.mock("../src/api/v1/controllers/extractSection", () => ({
+jest.mock("../src/api/v1/controllers/course/extractSection", () => ({
   extractSectionData: jest.fn(),
 }));
-jest.mock("../src/api/v1/controllers/updateCourseFromOCR", () => ({
+jest.mock("../src/api/v1/controllers/course/updateCourseFromOCR", () => ({
   updateCourseFromOCR: jest.fn(),
 }));
-jest.mock("../src/api/v1/controllers/transSectionToCourse", () => ({
+jest.mock("../src/api/v1/controllers/course/transSectionToCourse", () => ({
   transSectionToCourse: jest.fn(),
 }));
 
-import { uploadCourses } from "../src/api/v1/controllers/uploadController";
+import { uploadCourses } from "../src/api/v1/controllers/course/uploadController";
 
 import { Request, Response, NextFunction } from "express";
 
-import { ocrEachFile } from "../src/api/v1/controllers/ocrEachFile";
-import { extractSectionData } from "../src/api/v1/controllers/extractSection";
-import { updateCourseFromOCR } from "../src/api/v1/controllers/updateCourseFromOCR";
-import { transSectionToCourse } from "../src/api/v1/controllers/transSectionToCourse";
+import { ocrEachFile } from "../src/api/v1/controllers/course/ocrEachFile";
+import { extractSectionData } from "../src/api/v1/controllers/course/extractSection";
+import { updateCourseFromOCR } from "../src/api/v1/controllers/course/updateCourseFromOCR";
+import { transSectionToCourse } from "../src/api/v1/controllers/course/transSectionToCourse";
 import { errorResponse } from "../src/api/v1/models/responseModel";
 
 describe("upload Controller", () => {

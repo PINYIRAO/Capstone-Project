@@ -1,14 +1,14 @@
-import type { Course } from "../models/courseModel";
+import type { Course } from "../../models/courseModel";
 
-import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { getErrorCode, getErrorMessage } from "../utils/errorUtils";
+import { HTTP_STATUS } from "../../../../constants/httpConstants";
+import { getErrorCode, getErrorMessage } from "../../utils/errorUtils";
 
 import {
   getAllCourses,
   createCourse,
   updateCourse,
-} from "../services/courseService";
-import { ServiceError } from "../errors/errors";
+} from "../../services/courseService";
+import { ServiceError } from "../../errors/errors";
 
 export async function updateCourseFromOCR(
   course: Partial<Course>,

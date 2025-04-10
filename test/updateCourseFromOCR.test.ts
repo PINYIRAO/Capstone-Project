@@ -10,7 +10,7 @@ import {
   updateCourse,
 } from "../src/api/v1/services/courseService";
 // import { getAllCourses } from "../src/api/v1/services/courseService";
-import { updateCourseFromOCR } from "../src/api/v1/controllers/updateCourseFromOCR";
+import { updateCourseFromOCR } from "../src/api/v1/controllers/course/updateCourseFromOCR";
 
 describe("update course database from ocr", () => {
   it("should update the cours if already exists in the database", async () => {

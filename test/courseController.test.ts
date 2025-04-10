@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import * as courseController from "../src/api/v1/controllers/courseController";
+import * as courseController from "../src/api/v1/controllers/course/courseController";
 import * as courseService from "../src/api/v1/services/courseService";
 import mockCourses from "./data/courseSample";
 

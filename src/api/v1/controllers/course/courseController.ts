@@ -7,10 +7,10 @@
  */
 
 import { Request, Response, NextFunction } from "express";
-import * as courseService from "../services/courseService";
-import type { Course } from "../models/courseModel";
-import { successResponse } from "../models/responseModel";
-import { HTTP_STATUS } from "../../../constants/httpConstants";
+import * as courseService from "../../services/courseService";
+import type { Course } from "../../models/courseModel";
+import { successResponse } from "../../models/responseModel";
+import { HTTP_STATUS } from "../../../../constants/httpConstants";
 
 type CourseQueryParams = {
   courseCode?: string;

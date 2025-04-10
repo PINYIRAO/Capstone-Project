@@ -4,7 +4,7 @@ jest.mock("tesseract.js", () => ({
 }));
 
 import tesseract from "tesseract.js";
-import { ocrEachFile } from "../src/api/v1/controllers/ocrEachFile";
+import { ocrEachFile } from "../src/api/v1/controllers/course/ocrEachFile";
 
 describe("ocr for each file", () => {
   it("should updated the mocked text from image", async () => {
