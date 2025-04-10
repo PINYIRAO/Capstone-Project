@@ -12,7 +12,7 @@ export default [
         sectionCode: "COMP-3018-FTE01",
         sectionName: "Back-End Development",
         sectionInstructor: "Christine Stone",
-        sectionDeliveryType: "Mixed", // Lecture, Online
+        sectionDeliveryType: "Hybrid", // Lecture, Online
         sectionStartDate: "2025-01-06T00:00:00.000",
         sectionEndDate: "2025-04-25T00:00:00.000",
         sectionSeats: 30,
@@ -37,7 +37,7 @@ export default [
         sectionCode: "COMP-3018-FTE02",
         sectionName: "Back-End Development",
         sectionInstructor: "Elizabeth Lee",
-        sectionDeliveryType: "Mixed", // Lecture, Online
+        sectionDeliveryType: "Hybrid", // Lecture, Online
         sectionStartDate: "2025-01-06T00:00:00.000",
         sectionEndDate: "2025-04-25T00:00:00.000",
         sectionSeats: 30,
@@ -62,7 +62,7 @@ export default [
         sectionCode: "COMP-3018-FTE03",
         sectionName: "Back-End Development",
         sectionInstructor: "Marissa Shepherd",
-        sectionDeliveryType: "Mixed", // Lecture, Online
+        sectionDeliveryType: "Hybrid", // Lecture, Online
         sectionStartDate: "2025-01-06T00:00:00.000",
         sectionEndDate: "2025-04-25T00:00:00.000",
         sectionSeats: 30,
@@ -125,7 +125,7 @@ const courseObj: object = {
       sectionCode: "COMP-3018-FTE01",
       sectionName: "Back-End Development",
       sectionInstructor: "Christine Stone",
-      sectionDeliveryType: "Mixed", // Lecture, Online
+      sectionDeliveryType: "Hybrid", // Lecture, Online
       sectionStartDate: "2025-01-06T00:00:00.000",
       sectionEndDate: "2025-04-25T00:00:00.000",
       sectionSeats: 30,
@@ -150,7 +150,7 @@ const courseObj: object = {
       sectionCode: "COMP-3018-FTE02",
       sectionName: "Back-End Development",
       sectionInstructor: "Elizabeth Lee",
-      sectionDeliveryType: "Mixed", // Lecture, Online
+      sectionDeliveryType: "Hybrid", // Lecture, Online
       sectionStartDate: "2025-01-06T00:00:00.000",
       sectionEndDate: "2025-04-25T00:00:00.000",
       sectionSeats: 30,
@@ -175,7 +175,7 @@ const courseObj: object = {
       sectionCode: "COMP-3018-FTE03",
       sectionName: "Back-End Development",
       sectionInstructor: "Marissa Shepherd",
-      sectionDeliveryType: "Mixed", // Lecture, Online
+      sectionDeliveryType: "Hybrid", // Lecture, Online
       sectionStartDate: "2025-01-06T00:00:00.000",
       sectionEndDate: "2025-04-25T00:00:00.000",
       sectionSeats: 30,

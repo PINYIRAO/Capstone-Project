@@ -104,7 +104,7 @@ export const testSchedulesForSort: Course[][] = [
       courseSections: [
         {
           sectionCode: "COMP-3018-FTE02",
-          sectionDeliveryType: "Mixed",
+          sectionDeliveryType: "Hybrid",
           sectionEndDate: new Date("2025-04-25T00:00:00.000"),
           sectionInstructor: "Christine Stone",
           sectionName: "Back-End Development",

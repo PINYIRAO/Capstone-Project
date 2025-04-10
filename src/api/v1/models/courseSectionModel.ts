@@ -8,10 +8,10 @@
  *       enum:
  *         - Lecture
  *         - Online
- *         - Mixed
+ *         - Hybrid
  *       example: "Lecture"
  */
-export type DeliveryType = "Lecture" | "Online" | "Mixed";
+export type DeliveryType = "Lecture" | "Online" | "Hybrid";
 
 /**
  * @openapi

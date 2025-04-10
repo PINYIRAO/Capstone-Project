@@ -68,7 +68,7 @@ export const testCourses: Course[] = [
         sectionCode: "COMP-3018-FTE02",
         sectionName: "Back-End Development",
         sectionInstructor: "Elizabeth Lee",
-        sectionDeliveryType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionStartDate: new Date("2025-01-06T00:00:00.000"),
         sectionEndDate: new Date("2025-04-25T00:00:00.000"),
         sectionSeats: 30,

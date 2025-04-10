@@ -97,7 +97,7 @@ describe("get courses for schedule", () => {
       preferenceForDeliveryType: {
         lecture: ["COMP-3021"], // the section code for lecture type
         online: ["COMM-2176"], // the section code for online type
-        mixed: ["COMP-3018"], // the course code for mixed type
+        hybrid: ["COMP-3018"], // the course code for hybrid type
       },
     };
 
@@ -106,19 +106,19 @@ describe("get courses for schedule", () => {
 
     let lectureSections: Section[] = [];
     let onlineSections: Section[] = [];
-    let mixedSections: Section[] = [];
+    let hybridSections: Section[] = [];
     for (const course of actualCourses.courses) {
       if (course.courseCode == "COMP-3021") {
         lectureSections = course.courseSections;
       } else if (course.courseCode == "COMM-2176") {
         onlineSections = course.courseSections;
       } else if (course.courseCode == "COMP-3018") {
-        mixedSections = course.courseSections;
+        hybridSections = course.courseSections;
       }
     }
     expect(lectureSections.length).toBe(1);
     expect(onlineSections.length).toBe(1);
-    expect(mixedSections.length).toBe(1);
+    expect(hybridSections.length).toBe(1);
   });
   it("should return filter the section if there is preference for specific section", async () => {
     const schedulePreferenceQuery: SchedulePreferenceQuery = {

@@ -35,7 +35,7 @@ export function extractClassData(classInfo: string | null): Class[] | null {
     const deliveryType: DeliveryType =
       lectureMatch !== null && ["Online", "Lecture"].includes(lectureMatch[0])
         ? (lectureMatch[0] as "Online" | "Lecture")
-        : "Mixed";
+        : "Hybrid";
 
     // the reamining informationis the class location
     let location: string = classInfo

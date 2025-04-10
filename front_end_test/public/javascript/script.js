@@ -11,7 +11,7 @@ async function fetchData() {
   const preferenceForLectureType = {
     lecture: [], // the section code for lecture type
     online: [], // the section code for online type
-    mixed: [], // the course code for mixed type
+    hybrid: [], // the course code for hybrid type
   };
   const preferenceForSection = { goFor: [], notGoFor: [] };
   const electiveSelection = [];

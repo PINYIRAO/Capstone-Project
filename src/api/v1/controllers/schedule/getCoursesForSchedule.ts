@@ -168,7 +168,7 @@ export const getCoursesForSchedule = async (
     Object.keys(preferenceForDeliveryType).length > 0 &&
     (preferenceForDeliveryType.lecture.length > 0 ||
       preferenceForDeliveryType.online.length > 0 ||
-      preferenceForDeliveryType.mixed.length > 0)
+      preferenceForDeliveryType.hybrid.length > 0)
   ) {
     coursesResult = coursesResult.map((course) => {
       let hasPreferenceDeliveryType: boolean = false;
@@ -180,8 +180,8 @@ export const getCoursesForSchedule = async (
             preferenceForDeliveryType.lecture.includes(course.courseCode)) ||
           (section.sectionDeliveryType == "Online" &&
             preferenceForDeliveryType.online.includes(course.courseCode)) ||
-          (section.sectionDeliveryType == "Mixed" &&
-            preferenceForDeliveryType.mixed.includes(course.courseCode))
+          (section.sectionDeliveryType == "Hybrid" &&
+            preferenceForDeliveryType.hybrid.includes(course.courseCode))
         ) {
           hasPreferenceDeliveryType = true;
           matchSections.push(section);

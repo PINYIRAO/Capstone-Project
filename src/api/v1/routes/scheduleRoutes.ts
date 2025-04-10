@@ -64,11 +64,11 @@ const router: Router = Router();
  *                       type: string
  *                     description: A list of section codes for the "Online" type.
  *                     example: ["O01"]
- *                   mixed:
+ *                   hybrid:
  *                     type: array
  *                     items:
  *                       type: string
- *                     description: A list of section codes for the "Mixed" type.
+ *                     description: A list of section codes for the "Hybrid" type.
  *                     example: ["M01"]
  *                 description: Preferences for lecture type selection.
  *               preferenceForSection:

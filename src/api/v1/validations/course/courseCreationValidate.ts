@@ -16,10 +16,19 @@ export const courseCreationSchema = (): ObjectSchema => {
     courseName: Joi.string().required().min(5).messages({
       "any.required": "courseName is required",
     }),
-    courseType: Joi.string().required().min(5).messages({
-      "any.required": "courseType is required",
-    }),
-    courseType: "core",
+    courseType: Joi.string().optional(), // calculated by system according the updated section delivery type
+    courseSections: Joi.array()
+      .required()
+      .items(
+        Joi.object({
+          sectionCode: Joi.string().required().min(5),
+          sectionName: Joi.string().required().min(5),
+          sectionInstructor: Joi.string().required().min(5),
+          sectionDeliveryType: Joi.string()
+            .required()
+            .validate(["Online", "Lecture", "Hybrid"]),
+        })
+      ),
   });
 
   return schema;

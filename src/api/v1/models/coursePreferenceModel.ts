@@ -74,20 +74,20 @@ type PreferenceForInstructor = {
  *             type: string  # Each item is a string (course code for online type)
  *           description: |
  *             A list of course codes for online courses.
- *         mixed:
+ *         hybrid:
  *           type: array  # Array type
  *           items:
- *             type: string  # Each item is a string (course code for mixed type)
+ *             type: string  # Each item is a string (course code for hybrid type)
  *           description: |
- *             A list of course codes for mixed type courses.
+ *             A list of course codes for hybrid type courses.
  *       description: |
  *         Represents the user's preferences for different course delivery types.
- *         It includes preferences for lecture-based courses, online courses, and mixed delivery courses.
+ *         It includes preferences for lecture-based courses, online courses, and hybrid delivery courses.
  */
 type PreferenceForDeliveryType = {
   lecture: string[]; // the cousrse code for lecture type
   online: string[]; // the cousrse code for online type
-  mixed: string[]; // the course code for mixed type
+  hybrid: string[]; // the course code for hybrid type
 };
 /**
  * @openapi
@@ -187,7 +187,7 @@ export type SortOptions = [] | [SortOption] | [SortOption, SortOption]; // sort 
  *           description: |
  *             User's preference for the course delivery type.
  *             Includes course codes for lecture-based courses (lecture),
- *             online courses (online), and mixed delivery courses (mixed).
+ *             online courses (online), and hybrid delivery courses (hybrid).
  *
  *         preferenceForSection:
  *           $ref: '#/components/schemas/PreferenceForSection'  # User's preference for course sections
