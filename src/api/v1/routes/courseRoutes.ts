@@ -4,6 +4,7 @@ import * as uploadController from "../controllers/course/uploadController";
 import uploadMidFunc from "../middleware/upload";
 import { validateRequest } from "../middleware/validate";
 import { courseCreationSchema } from "../validations/course/courseCreationValidate";
+import { courseUpdateSchema } from "../validations/course/courseUpdateValidate";
 
 // define a router for deal with
 const router: Router = Router();
@@ -171,7 +172,11 @@ router.get("/:id", courseController.getCourseById);
  *       500:
  *         description: Server error
  */
-router.put("/:id", courseController.updateCourse);
+router.put(
+  "/:id",
+  validateRequest(courseUpdateSchema),
+  courseController.updateCourse
+);
 
 /**
  * @route DELETE /:id

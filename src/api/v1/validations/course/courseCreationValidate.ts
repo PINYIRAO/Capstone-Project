@@ -23,7 +23,7 @@ export const courseCreationSchema: ObjectSchema = Joi.object({
       "array.min":
         "Course '{{courseCode}} - {{courseName}}' must have at least a section",
       "any.required":
-        "Course '{{courseCode}} - {{courseName}}' must courseSections:Value pair",
+        "Course '{{courseCode}} - {{courseName}}' must have courseSections:Value pair",
     })
     .required()
     .items(
@@ -44,7 +44,7 @@ export const courseCreationSchema: ObjectSchema = Joi.object({
             "array.min":
               "Section '{{sectionCode}} - {{sectionName}}' must have at least a class schedule",
             "any.required":
-              "Section '{{sectionCode}} - {{sectionName}}' must sectionSchedules:Value pair",
+              "Section '{{sectionCode}} - {{sectionName}}' must have sectionSchedules:Value pair",
           })
           .items(
             Joi.object({

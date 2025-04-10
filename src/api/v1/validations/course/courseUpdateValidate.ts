@@ -1,7 +1,7 @@
 import Joi, { ObjectSchema } from "joi";
 
 // for validating the course data for creation
-export const courseCreationSchema: ObjectSchema = Joi.object({
+export const courseUpdateSchema: ObjectSchema = Joi.object({
   id: Joi.string().optional().messages({
     "string.empty": "Id is optional, but can not be the empty string", // optional, if pass ,there is no effect on functionality
   }),
@@ -19,7 +19,7 @@ export const courseCreationSchema: ObjectSchema = Joi.object({
       "array.min":
         "Course '{{courseCode}} - {{courseName}}' must have at least a section",
       "any.required":
-        "Course '{{courseCode}} - {{courseName}}' must courseSections:Value pair",
+        "Course '{{courseCode}} - {{courseName}}' must have courseSections:Value pair",
     })
     .optional()
     .items(
@@ -40,7 +40,7 @@ export const courseCreationSchema: ObjectSchema = Joi.object({
             "array.min":
               "Section '{{sectionCode}} - {{sectionName}}' must have at least a class schedule",
             "any.required":
-              "Section '{{sectionCode}} - {{sectionName}}' must sectionSchedules:Value pair",
+              "Section '{{sectionCode}} - {{sectionName}}' must have sectionSchedules:Value pair",
           })
           .items(
             Joi.object({
