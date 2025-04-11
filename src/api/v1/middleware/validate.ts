@@ -13,7 +13,7 @@ import { getErrorCode } from "../utils/errorUtils";
  * @param {T} data - The data to be validated.
  * @throws {Error} - Throws an error if validation fails.
  */
-const validate = <T>(schema: ObjectSchema<T>, data: T): void => {
+export const validate = <T>(schema: ObjectSchema<T>, data: T): void => {
   const { error } = schema.validate(data, { abortEarly: false });
   if (error) {
     throw new ValidationError(
