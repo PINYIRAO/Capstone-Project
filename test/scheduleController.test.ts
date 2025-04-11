@@ -1,10 +1,13 @@
-jest.mock("../src/api/v1/controllers/schedule/getCoursesForSchedule", () => ({
-  getCoursesForSchedule: jest.fn(),
-}));
-jest.mock("../src/api/v1/controllers/schedule/calcSchedules", () => ({
+jest.mock(
+  "../src/api/v1/services/scheduleCourse/getCoursesForSchedule",
+  () => ({
+    getCoursesForSchedule: jest.fn(),
+  })
+);
+jest.mock("../src/api/v1/services/scheduleCourse/calcSchedules", () => ({
   calcSchedules: jest.fn(),
 }));
-jest.mock("../src/api/v1/controllers/schedule/sortSchedules", () => ({
+jest.mock("../src/api/v1/services/scheduleCourse/sortSchedules", () => ({
   sortSchedules: jest.fn(),
 }));
 jest.mock("../src/api/v1/models/responseModel", () => ({
@@ -12,10 +15,10 @@ jest.mock("../src/api/v1/models/responseModel", () => ({
 }));
 
 import { Request, Response, NextFunction } from "express";
-import { getCoursesForSchedule } from "../src/api/v1/controllers/schedule/getCoursesForSchedule";
-import { calcSchedules } from "../src/api/v1/controllers/schedule/calcSchedules";
-import { sortSchedules } from "../src/api/v1/controllers/schedule/sortSchedules";
-import { getAllSchedules } from "../src/api/v1/controllers/schedule/scheduleController";
+import { getCoursesForSchedule } from "../src/api/v1/services/scheduleCourse/getCoursesForSchedule";
+import { calcSchedules } from "../src/api/v1/services/scheduleCourse/calcSchedules";
+import { sortSchedules } from "../src/api/v1/services/scheduleCourse/sortSchedules";
+import { getAllSchedules } from "../src/api/v1/controllers/scheduleController";
 import { successResponse } from "../src/api/v1/models/responseModel";
 
 describe("schedules Controller", () => {

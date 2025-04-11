@@ -1,6 +1,6 @@
 import { testCourses } from "./data/testForSchedule";
 import { testCoursesNoAvailable } from "./data/testForScheduleNotAvailable";
-import { calcSchedules } from "../src/api/v1/controllers/schedule/calcSchedules";
+import { calcSchedules } from "../src/api/v1/services/scheduleCourse/calcSchedules";
 import { testCoursesHasDuplicated } from "./data/testForScheduleHasDuplicatedCourse";
 import { Course } from "src/api/v1/models/courseModel";
 

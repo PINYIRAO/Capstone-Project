@@ -1,5 +1,5 @@
 import { testSchedulesForSort } from "./data/testSchedulesForSort";
-import { sortSchedules } from "../src/api/v1/controllers/schedule/sortSchedules";
+import { sortSchedules } from "../src/api/v1/services/scheduleCourse/sortSchedules";
 import { SortedSchedule } from "src/api/v1/models/sortSchedule";
 
 describe("get courses for schedule", () => {

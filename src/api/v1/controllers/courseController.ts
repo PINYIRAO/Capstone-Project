@@ -2,15 +2,15 @@
  * Course Controller (courseController.ts)
  *
  * This file defines functions (controllers) for handling incoming requests related to courses.
- * These functions interact with the course service (courseService.ts) to perform the actual
+ * These functions interact with the course service (courseDataService.ts) to perform the actual
  * logic for CRUD operations on courses.
  */
 
 import { Request, Response, NextFunction } from "express";
-import * as courseService from "../../services/courseService";
-import type { Course } from "../../models/courseModel";
-import { successResponse } from "../../models/responseModel";
-import { HTTP_STATUS } from "../../../../constants/httpConstants";
+import * as courseDataService from "../services/courseDataService";
+import type { Course } from "../models/courseModel";
+import { successResponse } from "../models/responseModel";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 type CourseQueryParams = {
   courseCode?: string;
@@ -29,7 +29,7 @@ export const getAllCourses = async (
 ): Promise<void> => {
   try {
     const { courseCode, courseName }: CourseQueryParams = req.query;
-    const courses: Course[] = await courseService.getAllCourses(
+    const courses: Course[] = await courseDataService.getAllCourses(
       courseCode !== undefined ? courseCode : undefined,
       courseName !== undefined ? courseName : undefined
     );
@@ -53,8 +53,8 @@ export const getCourseById = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // call the courseService by passing the id from thge url path and the body of the request
-    const course: Course = await courseService.getCourseById(req.params.id);
+    // call the courseDataService by passing the id from thge url path and the body of the request
+    const course: Course = await courseDataService.getCourseById(req.params.id);
 
     res.status(HTTP_STATUS.OK).json(successResponse(course, "Course Found"));
   } catch (error) {
@@ -73,8 +73,8 @@ export const createCourse = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // call the courseService by passing the body of the request
-    const newCourse: Course = await courseService.createCourse(req.body);
+    // call the courseDataService by passing the body of the request
+    const newCourse: Course = await courseDataService.createCourse(req.body);
 
     res
       .status(HTTP_STATUS.CREATED)
@@ -95,8 +95,8 @@ export const updateCourse = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // call the courseService by passing the id from thge url path and the body of the request
-    const updatedCourse: Course = await courseService.updateCourse(
+    // call the courseDataService by passing the id from thge url path and the body of the request
+    const updatedCourse: Course = await courseDataService.updateCourse(
       req.params.id,
       req.body
     );
@@ -120,7 +120,7 @@ export const deleteCourse = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await courseService.deleteCourse(req.params.id);
+    await courseDataService.deleteCourse(req.params.id);
 
     res.status(HTTP_STATUS.OK).json(successResponse(null, "Course Deleted"));
   } catch (error) {

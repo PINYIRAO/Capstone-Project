@@ -4,7 +4,7 @@ import {
   createCourse,
   updateCourse,
   deleteCourse,
-} from "../src/api/v1/services/courseService";
+} from "../src/api/v1/services/courseDataService";
 import {
   getDocuments,
   getDocumentById,

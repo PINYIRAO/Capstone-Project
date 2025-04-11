@@ -2,19 +2,19 @@
  * Upload Controller (uploadController.ts)
  *
  * This file defines functions (controllers) for handling the upload course screenshots.
- * These functions interact with the course service (courseService.ts) to perform the actual
+ * These functions interact with the course service (courseDataService.ts) to perform the actual
  * logic for creating and updating operations on courses.
  */
 
 import { Request, Response, NextFunction } from "express";
-import type { Course } from "../../models/courseModel";
-import { errorResponse, successResponse } from "../../models/responseModel";
-import { HTTP_STATUS } from "../../../../constants/httpConstants";
-import type { Section } from "../../models/courseSectionModel";
-import { ocrEachFile } from "./ocrEachFile";
-import { extractSectionData } from "./extractSection";
-import { updateCourseFromOCR } from "./updateCourseFromOCR";
-import { transSectionToCourse } from "./transSectionToCourse";
+import type { Course } from "../models/courseModel";
+import { errorResponse, successResponse } from "../models/responseModel";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
+import type { Section } from "../models/courseSectionModel";
+import { ocrEachFile } from "../services/uploadCourseImage/ocrEachFile";
+import { extractSectionData } from "../services/uploadCourseImage/extractSection";
+import { updateCourseFromOCR } from "../services/uploadCourseImage/updateCourseFromOCR";
+import { transSectionToCourse } from "../services/uploadCourseImage/transSectionToCourse";
 
 // asssumed the overall const for course data, need to refactored in the following steps
 const userId: string = "uploadtest";

@@ -7,7 +7,7 @@ import {
   getAllCourses,
   createCourse,
   updateCourse,
-} from "../../services/courseService";
+} from "../courseDataService";
 import { ServiceError } from "../../errors/errors";
 
 export async function updateCourseFromOCR(

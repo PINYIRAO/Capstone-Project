@@ -9,7 +9,7 @@
  *
  */
 
-import * as courseService from "../../services/courseService";
+import * as courseDataService from "../courseDataService";
 import type { Course } from "../../models/courseModel";
 import type { SchedulePreferenceQuery } from "../../models/coursePreferenceModel";
 import { Section } from "../../models/courseSectionModel";
@@ -24,7 +24,7 @@ export const getCoursesForSchedule = async (
   schedulePreferenceQuery: SchedulePreferenceQuery
 ): Promise<{ courses: Course[]; message: string }> => {
   // get the user's courses
-  const courses: Course[] = await courseService.getAllCourses(
+  const courses: Course[] = await courseDataService.getAllCourses(
     undefined,
     undefined
   );

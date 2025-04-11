@@ -2,15 +2,15 @@
  * schedule Controller (scheduleController.ts)
  *
  * This file defines functions (controllers) for handling incoming requests related to schedules.
- * These functions interact with the course service (courseService.ts) to perform schedule generate.
+ * These functions interact with the course service (courseDataService.ts) to perform schedule generate.
  */
 
 import { Request, Response, NextFunction } from "express";
-import { successResponse } from "../../models/responseModel";
-import { HTTP_STATUS } from "../../../../constants/httpConstants";
-import { getCoursesForSchedule } from "./getCoursesForSchedule";
-import { calcSchedules } from "./calcSchedules";
-import { sortSchedules } from "./sortSchedules";
+import { successResponse } from "../models/responseModel";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
+import { getCoursesForSchedule } from "../services/scheduleCourse/getCoursesForSchedule";
+import { calcSchedules } from "../services/scheduleCourse/calcSchedules";
+import { sortSchedules } from "../services/scheduleCourse/sortSchedules";
 
 const userId: string = "admin";
 

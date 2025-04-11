@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as scheduleController from "../controllers/schedule/scheduleController";
+import * as scheduleController from "../controllers/scheduleController";
 
 // define a router for deal with
 const router: Router = Router();

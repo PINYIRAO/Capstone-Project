@@ -1,4 +1,4 @@
-import { transSectionToCourse } from "../src/api/v1/controllers/course/transSectionToCourse";
+import { transSectionToCourse } from "../src/api/v1/services/uploadCourseImage/transSectionToCourse";
 import type { Course } from "../src/api/v1/models/courseModel";
 import type { Section } from "../src/api/v1/models/courseSectionModel";
 

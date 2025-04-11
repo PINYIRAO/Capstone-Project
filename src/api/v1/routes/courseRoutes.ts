@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as courseController from "../controllers/course/courseController";
-import * as uploadController from "../controllers/course/uploadController";
+import * as courseController from "../controllers/courseController";
+import * as uploadController from "../controllers/uploadController";
 import uploadMidFunc from "../middleware/upload";
 import { validateRequest } from "../middleware/validate";
 import { courseCreationSchema } from "../validations/course/courseCreationValidate";
