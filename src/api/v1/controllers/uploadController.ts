@@ -12,9 +12,6 @@ import { errorResponse, successResponse } from "../models/responseModel";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { uploadService } from "../services/uploadCourseImage/uploadService";
 
-// asssumed the overall const for course data, need to refactored in the following steps
-const userId: string = "uploadtest";
-
 /**
  * @description Get the course information and then create or update the course.
  * @route GET /
