@@ -15,9 +15,9 @@ jest.mock("../src/api/v1/models/responseModel", () => ({
 }));
 
 import { Request, Response, NextFunction } from "express";
-import { getCoursesForSchedule } from "../src/api/v1/services/scheduleCourse/getCoursesForSchedule";
-import { calcSchedules } from "../src/api/v1/services/scheduleCourse/calcSchedules";
-import { sortSchedules } from "../src/api/v1/services/scheduleCourse/sortSchedules";
+import { getCoursesForSchedule } from "../src/api/v1/services/scheduleCourse/getCoursesForScheduleService";
+import { calcSchedules } from "../src/api/v1/services/scheduleCourse/calcSchedulesService";
+import { sortSchedules } from "../src/api/v1/services/scheduleCourse/sortSchedulesService";
 import { getAllSchedules } from "../src/api/v1/controllers/scheduleController";
 import { successResponse } from "../src/api/v1/models/responseModel";
 

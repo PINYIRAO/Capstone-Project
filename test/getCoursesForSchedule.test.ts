@@ -6,7 +6,7 @@ import { Course } from "src/api/v1/models/courseModel";
 import { SchedulePreferenceQuery } from "../src/api/v1/models/coursePreferenceModel";
 import { getAllCourses } from "../src/api/v1/services/courseDataService";
 import { testCourses } from "./data/testCoursesforSchedule";
-import { getCoursesForSchedule } from "../src/api/v1/services/scheduleCourse/getCoursesForSchedule";
+import { getCoursesForSchedule } from "../src/api/v1/services/scheduleCourse/getCoursesForScheduleService";
 import { Section } from "src/api/v1/models/courseSectionModel";
 
 describe("get courses for schedule", () => {

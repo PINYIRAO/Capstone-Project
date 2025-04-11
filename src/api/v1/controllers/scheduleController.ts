@@ -8,9 +8,9 @@
 import { Request, Response, NextFunction } from "express";
 import { successResponse } from "../models/responseModel";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { getCoursesForSchedule } from "../services/scheduleCourse/getCoursesForSchedule";
-import { calcSchedules } from "../services/scheduleCourse/calcSchedules";
-import { sortSchedules } from "../services/scheduleCourse/sortSchedules";
+import { getCoursesForSchedule } from "../services/scheduleCourse/getCoursesForScheduleService";
+import { calcSchedules } from "../services/scheduleCourse/calcSchedulesService";
+import { sortSchedules } from "../services/scheduleCourse/sortSchedulesService";
 
 const userId: string = "admin";
 
