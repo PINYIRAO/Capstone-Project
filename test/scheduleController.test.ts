@@ -1,13 +1,13 @@
 jest.mock(
-  "../src/api/v1/services/scheduleCourse/getCoursesForSchedule",
+  "../src/api/v1/services/scheduleCourse/getCoursesForScheduleService",
   () => ({
     getCoursesForSchedule: jest.fn(),
   })
 );
-jest.mock("../src/api/v1/services/scheduleCourse/calcSchedules", () => ({
+jest.mock("../src/api/v1/services/scheduleCourse/calcSchedulesService", () => ({
   calcSchedules: jest.fn(),
 }));
-jest.mock("../src/api/v1/services/scheduleCourse/sortSchedules", () => ({
+jest.mock("../src/api/v1/services/scheduleCourse/sortSchedulesService", () => ({
   sortSchedules: jest.fn(),
 }));
 jest.mock("../src/api/v1/models/responseModel", () => ({
