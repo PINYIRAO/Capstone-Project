@@ -10,11 +10,7 @@ import { Request, Response, NextFunction } from "express";
 import type { Course } from "../models/courseModel";
 import { errorResponse, successResponse } from "../models/responseModel";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import type { Section } from "../models/courseSectionModel";
-import { ocrEachFile } from "../services/uploadCourseImage/ocrEachFile";
-import { extractSectionData } from "../services/uploadCourseImage/extractSection";
-import { updateCourseFromOCR } from "../services/uploadCourseImage/updateCourseFromOCR";
-import { transSectionToCourse } from "../services/uploadCourseImage/transSectionToCourse";
+import { uploadService } from "../services/uploadCourseImage/uploadService";
 
 // asssumed the overall const for course data, need to refactored in the following steps
 const userId: string = "uploadtest";
@@ -37,33 +33,9 @@ export const uploadCourses = async (
     return;
   } else {
     try {
-      // get the course from the images
-      let sectionsObj: Section[] = [];
+      // get the courses inforatmion and update
       let courses: Partial<Course>[] = [];
-      if (Array.isArray(req.files)) {
-        for (const file of req.files) {
-          // get section data from each image file
-          const sectionsObjTemp: Section[] | null = extractSectionData(
-            // oce each file, get the text
-            await ocrEachFile(file)
-          );
-          // concatenate the sections information all together
-          if (sectionsObjTemp !== null) {
-            sectionsObj = sectionsObj.concat(sectionsObjTemp);
-          }
-        }
-      }
-      // change the sections info to course structure
-      if (sectionsObj.length !== 0) {
-        // trans the section information to course structure
-        courses = transSectionToCourse(sectionsObj);
-        // console.log(JSON.stringify(courses, null, 2));
-        // update the course
-        for (const courseObj of courses) {
-          // update the firestore course information using the course info from OCR
-          await updateCourseFromOCR(courseObj, userId);
-        }
-      }
+      courses = await uploadService(req.files);
 
       if (courses.length == 0) {
         res
