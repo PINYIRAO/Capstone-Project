@@ -1,4 +1,4 @@
-import db from "../../../../config/firebaseConfig";
+import { db } from "../../../../config/firebaseConfig";
 import { FirestoreDataTypes } from "../types/firestore";
 import { RepositoryError } from "../errors/errors";
 import { HTTP_STATUS } from "../../../constants/httpConstants";

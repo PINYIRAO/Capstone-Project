@@ -7,6 +7,7 @@ import {
   ServiceAccount,
 } from "firebase-admin/app";
 import { getFirestore, Firestore } from "firebase-admin/firestore";
+import { getAuth, Auth } from "firebase-admin/auth";
 
 function getFirebaseConfig(): AppOptions {
   const { FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY } =
@@ -35,9 +36,10 @@ function initializeFirebaseAdmin(): App {
 }
 
 const app: App = initializeFirebaseAdmin();
+const auth: Auth = getAuth();
 
 // Get a reference to the Firestore service
 // This creates a Firestore instance that you can use to interact with your database
 const db: Firestore = getFirestore(app);
 
-export default db;
+export { auth, db };

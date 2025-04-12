@@ -5,6 +5,7 @@ import uploadMidFunc from "../middleware/upload";
 import { validateRequest } from "../middleware/validate";
 import { courseCreationSchema } from "../validations/course/courseCreationValidate";
 import { courseUpdateSchema } from "../validations/course/courseUpdateValidate";
+import authenticate from "../middleware/authenticate";
 
 // define a router for deal with
 const router: Router = Router();
@@ -46,7 +47,7 @@ const router: Router = Router();
  *         500:
  *           description: Server error
  */
-router.get("/", courseController.getAllCourses);
+router.get("/", authenticate, courseController.getAllCourses);
 
 /**
  * @route POST /
@@ -72,6 +73,7 @@ router.get("/", courseController.getAllCourses);
  */
 router.post(
   "/",
+  authenticate,
   validateRequest(courseCreationSchema),
   courseController.createCourse
 );
@@ -107,7 +109,12 @@ router.post(
  *       500:
  *         description: Server error/file counts or size exceed the limits
  */
-router.post("/upload", uploadMidFunc, uploadController.uploadCourses);
+router.post(
+  "/upload",
+  authenticate,
+  uploadMidFunc,
+  uploadController.uploadCourses
+);
 
 /**
  * @route GET /:id
@@ -140,7 +147,7 @@ router.post("/upload", uploadMidFunc, uploadController.uploadCourses);
  *       500:
  *         description: Server error
  */
-router.get("/:id", courseController.getCourseById);
+router.get("/:id", authenticate, courseController.getCourseById);
 
 /**
  * @route PUT /:id
@@ -174,6 +181,7 @@ router.get("/:id", courseController.getCourseById);
  */
 router.put(
   "/:id",
+  authenticate,
   validateRequest(courseUpdateSchema),
   courseController.updateCourse
 );
@@ -203,6 +211,6 @@ router.put(
  *       500:
  *         description: Server error
  */
-router.delete("/:id", courseController.deleteCourse);
+router.delete("/:id", authenticate, courseController.deleteCourse);
 
 export default router;

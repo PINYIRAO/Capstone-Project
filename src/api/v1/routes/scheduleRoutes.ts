@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as scheduleController from "../controllers/scheduleController";
+import authenticate from "../middleware/authenticate";
 
 // define a router for deal with
 const router: Router = Router();
@@ -108,6 +109,6 @@ const router: Router = Router();
  *       '500':
  *         description: Internal server error
  */
-router.post("/", scheduleController.getAllSchedules);
+router.post("/", authenticate, scheduleController.getAllSchedules);
 
 export default router;

@@ -41,3 +41,23 @@ export class ValidationError extends ExtendedError {
     super(message, code, statusCode);
   }
 }
+
+export class AuthenticationError extends ExtendedError {
+  constructor(
+    message: string,
+    code: string = "AUTHENTICATION_ERROR",
+    statusCode: number = HTTP_STATUS.UNAUTHORIZED
+  ) {
+    super(message, code, statusCode);
+  }
+}
+
+export class AuthorizationError extends ExtendedError {
+  constructor(
+    message: string,
+    code: string = "AUTHORIZATION_ERROR",
+    statusCode: number = HTTP_STATUS.FORBIDDEN
+  ) {
+    super(message, code, statusCode);
+  }
+}
