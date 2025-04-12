@@ -6,6 +6,7 @@ import { validateRequest } from "../middleware/validate";
 import { courseCreationSchema } from "../validations/course/courseCreationValidate";
 import { courseUpdateSchema } from "../validations/course/courseUpdateValidate";
 import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 // define a router for deal with
 const router: Router = Router();
@@ -47,7 +48,12 @@ const router: Router = Router();
  *         500:
  *           description: Server error
  */
-router.get("/", authenticate, courseController.getAllCourses);
+router.get(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  courseController.getAllCourses
+);
 
 /**
  * @route POST /
@@ -74,6 +80,7 @@ router.get("/", authenticate, courseController.getAllCourses);
 router.post(
   "/",
   authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
   validateRequest(courseCreationSchema),
   courseController.createCourse
 );
@@ -112,6 +119,7 @@ router.post(
 router.post(
   "/upload",
   authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
   uploadMidFunc,
   uploadController.uploadCourses
 );
@@ -147,7 +155,12 @@ router.post(
  *       500:
  *         description: Server error
  */
-router.get("/:id", authenticate, courseController.getCourseById);
+router.get(
+  "/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  courseController.getCourseById
+);
 
 /**
  * @route PUT /:id
@@ -182,6 +195,7 @@ router.get("/:id", authenticate, courseController.getCourseById);
 router.put(
   "/:id",
   authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
   validateRequest(courseUpdateSchema),
   courseController.updateCourse
 );
@@ -211,6 +225,11 @@ router.put(
  *       500:
  *         description: Server error
  */
-router.delete("/:id", authenticate, courseController.deleteCourse);
+router.delete(
+  "/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  courseController.deleteCourse
+);
 
 export default router;

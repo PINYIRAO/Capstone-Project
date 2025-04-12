@@ -29,7 +29,11 @@ describe("schedules Controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockReq = { query: {}, params: {}, body: {} };
-    mockRes = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+      locals: { uid: "testUid" },
+    };
     mockNext = jest.fn();
   });
 

@@ -4,17 +4,21 @@ import {
   getTokenAndRoleBatch,
 } from "../controllers/adminController";
 import authenticate from "../middleware/authenticate";
-// import isAuthorized from "../middleware/authorize";
+import isAuthorized from "../middleware/authorize";
 
 const router: Router = express.Router();
 
 router.post(
   "/setCustomClaims",
   authenticate,
-  // isAuthorized({ hasRole: ["admin"] }),
+  isAuthorized({ hasRole: ["admin"] }),
   setCustomClaims
 );
 
-router.get("/getTokenAndRoleBatch", getTokenAndRoleBatch);
+router.get(
+  "/getTokenAndRoleBatch",
+  isAuthorized({ hasRole: ["admin"] }),
+  getTokenAndRoleBatch
+);
 
 export default router;

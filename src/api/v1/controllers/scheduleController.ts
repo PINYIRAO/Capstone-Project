@@ -12,8 +12,6 @@ import { getCoursesForSchedule } from "../services/scheduleCourse/getCoursesForS
 import { calcSchedules } from "../services/scheduleCourse/calcSchedulesService";
 import { sortSchedules } from "../services/scheduleCourse/sortSchedulesService";
 
-const userId: string = "admin";
-
 /**
  * @description Get all shedules.
  * @route POST /
@@ -25,6 +23,8 @@ export const getAllSchedules = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    // get the user uid
+    const userId: string = res.locals.uid;
     // get the coures for schedule
     const { courses, message } = await getCoursesForSchedule(userId, req.body);
     if (courses.length === 0) {

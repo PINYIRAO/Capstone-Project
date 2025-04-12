@@ -52,20 +52,24 @@ export const getTokenAndRoleBatch = async (
   next: NextFunction
 ): Promise<void> => {
   let users: User[] = req.body;
-  // get the user password from env variables
-  users = users.map((user) => {
-    return { ...user, password: process.env.USER_PASSWORD };
-  });
 
-  if (!users) {
+  if (
+    !users ||
+    (Array.isArray(users) && users.length === 0) ||
+    Object.keys(users).length === 0
+  ) {
     return next(
       new ExtendedError(
-        "Should contain the users information in body",
-        "NO USER PROVIDED",
+        "Should contain the users information",
+        "NO_USER_PROVIDED",
         HTTP_STATUS.BAD_REQUEST
       )
     );
   }
+  // get the user password from env variables
+  users = users.map((user) => {
+    return { ...user, password: process.env.USER_PASSWORD || "noPassword" };
+  });
   // if has users info, then get role and idtoken for them
   const tokenObjects: TokenObject[] = await getRoleAndToken(users);
   res

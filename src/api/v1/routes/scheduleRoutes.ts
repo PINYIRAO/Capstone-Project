@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as scheduleController from "../controllers/scheduleController";
 import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 // define a router for deal with
 const router: Router = Router();
@@ -109,6 +110,11 @@ const router: Router = Router();
  *       '500':
  *         description: Internal server error
  */
-router.post("/", authenticate, scheduleController.getAllSchedules);
+router.post(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  scheduleController.getAllSchedules
+);
 
 export default router;
