@@ -33,8 +33,8 @@ type TokenResponse = {
 export const getRoleAndToken = async (
   users: User[]
 ): Promise<TokenObject[]> => {
-  const url: string =
-    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBTTcse8AzPVPgHrv1vJsjKMVgUjOG4qgw";
+  const { WEBKEY } = process.env;
+  const url: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${WEBKEY}`;
   const tokenObjects: TokenObject[] = [];
   try {
     for (const value of users) {
