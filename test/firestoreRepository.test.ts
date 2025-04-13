@@ -15,7 +15,7 @@ import {
 
 jest.mock("../config/firebaseConfig", () => ({
   __esModule: true,
-  default: {
+  db: {
     collection: jest.fn(),
     runTransaction: jest.fn(),
     batch: jest.fn(),
