@@ -57,6 +57,7 @@ describe("course Service", () => {
       (getDocuments as jest.Mock).mockResolvedValue(mockSnapshot);
 
       const result: Course[] = await getAllCourses(
+        "admin",
         "COMP-3018",
         "Back-End Development"
       );
@@ -78,7 +79,7 @@ describe("course Service", () => {
 
       // Assertions
       await expect(
-        getAllCourses("COMP-3018", "Back-End Development")
+        getAllCourses("admin", "COMP-3018", "Back-End Development")
       ).rejects.toThrow(err);
     });
     it("should throw an service error when occurs an error but not repository Error type", async () => {
@@ -89,7 +90,7 @@ describe("course Service", () => {
 
       // Assertions
       await expect(
-        getAllCourses("COMP-3018", "Back-End Development")
+        getAllCourses("admin", "COMP-3018", "Back-End Development")
       ).rejects.toThrow(ServiceError);
     });
   });
@@ -115,7 +116,7 @@ describe("course Service", () => {
 
       (getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
 
-      const result: Course = await getCourseById("1234");
+      const result: Course = await getCourseById("admin", "1234");
 
       // Assertions
       expect(getDocumentById).toHaveBeenCalledWith("courses", "1234");
@@ -140,7 +141,9 @@ describe("course Service", () => {
       (getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
 
       // Assertions
-      await expect(getCourseById("1234")).rejects.toThrow(ServiceError);
+      await expect(getCourseById("admin", "1234")).rejects.toThrow(
+        ServiceError
+      );
     });
 
     it("should throw an error when occurs the repository Error", async () => {
@@ -150,7 +153,7 @@ describe("course Service", () => {
       (getDocumentById as jest.Mock).mockRejectedValue(err);
 
       // Assertions
-      await expect(getCourseById("1234")).rejects.toThrow(err);
+      await expect(getCourseById("admin", "1234")).rejects.toThrow(err);
     });
     it("should throw an service error when occurs an error but not repository Error type", async () => {
       // Mock data
@@ -159,7 +162,9 @@ describe("course Service", () => {
       (getDocumentById as jest.Mock).mockRejectedValue(err);
 
       // Assertions
-      await expect(getCourseById("1234")).rejects.toThrow(ServiceError);
+      await expect(getCourseById("admin", "1234")).rejects.toThrow(
+        ServiceError
+      );
     });
   });
 
@@ -183,7 +188,7 @@ describe("course Service", () => {
       } as FirebaseFirestore.DocumentSnapshot;
       (createDocument as jest.Mock).mockResolvedValue(mockDoc);
 
-      const result: Course = await createCourse(courseObj);
+      const result: Course = await createCourse("admin", courseObj);
 
       // Assertions
       expect(createDocument).toHaveBeenCalledTimes(1);
@@ -199,7 +204,7 @@ describe("course Service", () => {
       (createDocument as jest.Mock).mockRejectedValue(err);
 
       // Assertions
-      await expect(createCourse(courseObj)).rejects.toThrow(err);
+      await expect(createCourse("admin", courseObj)).rejects.toThrow(err);
     });
     it("should throw an service error when occurs an error but not repository Error type", async () => {
       // Mock data
@@ -208,7 +213,9 @@ describe("course Service", () => {
       (createDocument as jest.Mock).mockRejectedValue(err);
 
       // Assertions
-      await expect(createCourse(courseObj)).rejects.toThrow(ServiceError);
+      await expect(createCourse("admin", courseObj)).rejects.toThrow(
+        ServiceError
+      );
     });
   });
 });
@@ -235,7 +242,7 @@ describe("updateCourse", () => {
     (updateDocument as jest.Mock).mockResolvedValue(mockDoc);
     (getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
 
-    const result: Course = await updateCourse("1234", courseObj);
+    const result: Course = await updateCourse("admin", "1234", courseObj);
 
     // Assertions
     expect(updateDocument).toHaveBeenCalledTimes(1);
@@ -251,7 +258,7 @@ describe("updateCourse", () => {
     (updateDocument as jest.Mock).mockRejectedValue(err);
 
     // Assertions
-    await expect(updateCourse("1234", courseObj)).rejects.toThrow(err);
+    await expect(updateCourse("admin", "1234", courseObj)).rejects.toThrow(err);
   });
   it("should throw an service error when occurs an error but not repository Error type", async () => {
     // Mock data
@@ -260,7 +267,9 @@ describe("updateCourse", () => {
     (updateDocument as jest.Mock).mockRejectedValue(err);
 
     // Assertions
-    await expect(updateCourse("1234", courseObj)).rejects.toThrow(ServiceError);
+    await expect(updateCourse("admin", "1234", courseObj)).rejects.toThrow(
+      ServiceError
+    );
   });
 });
 
@@ -270,7 +279,7 @@ describe("deleteCourse", () => {
   });
 
   it("should return the course with updated information", async () => {
-    await deleteCourse("1234");
+    await deleteCourse("admin", "1234");
 
     // Assertions
     expect(deleteDocument).toHaveBeenCalledTimes(1);
@@ -283,7 +292,7 @@ describe("deleteCourse", () => {
     (deleteDocument as jest.Mock).mockRejectedValue(err);
 
     // Assertions
-    await expect(deleteCourse("1234")).rejects.toThrow(err);
+    await expect(deleteCourse("admin", "1234")).rejects.toThrow(err);
   });
   it("should throw an service error when occurs an error but not repository Error type", async () => {
     // Mock data
@@ -292,6 +301,6 @@ describe("deleteCourse", () => {
     (deleteDocument as jest.Mock).mockRejectedValue(err);
 
     // Assertions
-    await expect(deleteCourse("1234")).rejects.toThrow(ServiceError);
+    await expect(deleteCourse("admin", "1234")).rejects.toThrow(ServiceError);
   });
 });

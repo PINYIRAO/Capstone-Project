@@ -182,8 +182,10 @@ describe("extract section data", () => {
       },
     ];
 
-    const actualCourses: Partial<Course>[] | null =
-      transSectionToCourse(sectionsObj);
+    const actualCourses: Partial<Course>[] | null = transSectionToCourse(
+      "uploadtest",
+      sectionsObj
+    );
 
     expect(actualCourses).toEqual(expectedCourses);
   });

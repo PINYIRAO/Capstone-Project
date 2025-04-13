@@ -35,7 +35,11 @@ describe("upload Controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockReq = { query: {}, params: {}, body: {}, files: {} };
-    mockRes = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+      locals: { uid: "admin" },
+    };
     mockNext = jest.fn();
   });
 

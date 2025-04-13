@@ -55,7 +55,7 @@ describe("update course database from ocr", () => {
     ];
     (getAllCourses as jest.Mock).mockResolvedValue(mockedCourse);
 
-    await updateCourseFromOCR(mockedCourse[0], "admin");
+    await updateCourseFromOCR("admin", mockedCourse[0]);
 
     expect(updateCourse).toHaveBeenCalledTimes(1);
   });
@@ -102,7 +102,7 @@ describe("update course database from ocr", () => {
     ];
     (getAllCourses as jest.Mock).mockResolvedValue([]);
 
-    await updateCourseFromOCR(mockedCourse[0], "admin");
+    await updateCourseFromOCR("admin", mockedCourse[0]);
 
     expect(createCourse).toHaveBeenCalledTimes(1);
   });
@@ -186,7 +186,7 @@ describe("update course database from ocr", () => {
     ];
     (getAllCourses as jest.Mock).mockResolvedValue(mockedCourse);
 
-    await expect(updateCourseFromOCR(mockedCourse[0], "admin")).rejects.toThrow(
+    await expect(updateCourseFromOCR("admin", mockedCourse[0])).rejects.toThrow(
       /The system has more than one records for this course/
     );
   });

@@ -35,7 +35,7 @@ export const uploadService = async (
     // change the sections info to course structure
     if (sectionsObj.length !== 0) {
       // trans the section information to course structure
-      courses = transSectionToCourse(sectionsObj);
+      courses = transSectionToCourse(uid, sectionsObj);
       // console.log(JSON.stringify(courses, null, 2));
       // update the course
       for (const courseObj of courses) {

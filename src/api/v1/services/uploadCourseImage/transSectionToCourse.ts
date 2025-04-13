@@ -3,11 +3,16 @@ import type { Section } from "../../models/courseSectionModel";
 
 // asssumed the overall const for course data, need to refactored in the following steps
 const program: string = "Application Design and Delivery";
-const userId: string = "uploadtest";
-const term: number = 3;
+const /* The `userId` variable in the provided TypeScript code is being used to store the user ID of
+the user who is uploading the course data. It is passed as a parameter to the
+`transSectionToCourse` function and then assigned to the `userId` property of each new course
+object that is created within the function. This allows for tracking and associating the user
+who uploaded the course data with the courses that are being processed. */
+  term: number = 3;
 const courseType: CourseType = "Required";
 
 export function transSectionToCourse(
+  uid: string,
   sectionsObj: Section[]
 ): Partial<Course>[] {
   // console.log(JSON.stringify(sectionsObj, null, 2));
@@ -25,7 +30,7 @@ export function transSectionToCourse(
         courseCode,
         courseName,
         courseType,
-        userId,
+        userId: uid,
         courseSections: [section],
       };
       if (courses.length == 0) {

@@ -19,7 +19,11 @@ describe("course Controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockReq = { query: {}, params: {}, body: {} };
-    mockRes = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+      locals: { uid: "admin" },
+    };
     mockNext = jest.fn();
   });
 
@@ -40,6 +44,7 @@ describe("course Controller", () => {
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(courseDataService.getAllCourses).toHaveBeenCalledWith(
+        "admin",
         "COMP-3018",
         "Back-End Development"
       );
@@ -65,6 +70,7 @@ describe("course Controller", () => {
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(courseDataService.getAllCourses).toHaveBeenCalledWith(
+        "admin",
         undefined,
         undefined
       );
