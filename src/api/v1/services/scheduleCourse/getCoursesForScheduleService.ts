@@ -20,17 +20,16 @@ import { Section } from "../../models/courseSectionModel";
  */
 
 export const getCoursesForSchedule = async (
-  userId: string,
+  uid: string,
   schedulePreferenceQuery: SchedulePreferenceQuery
 ): Promise<{ courses: Course[]; message: string }> => {
   // get the user's courses
-  const courses: Course[] = await courseDataService.getAllCourses(
+  let coursesResult: Course[] = await courseDataService.getAllCourses(
+    uid,
     undefined,
     undefined
   );
-  let coursesResult: Course[] = courses.filter(
-    (course) => course.userId == userId
-  );
+
   // console.log(JSON.stringify(coursesResult, null, 2));
   if (coursesResult == undefined || coursesResult.length == 0) {
     return {

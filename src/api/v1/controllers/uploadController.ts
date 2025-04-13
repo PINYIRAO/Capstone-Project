@@ -32,7 +32,7 @@ export const uploadCourses = async (
     try {
       // get the courses inforatmion and update
       let courses: Partial<Course>[] = [];
-      courses = await uploadService(req.files);
+      courses = await uploadService(res.locals.uid, req.files);
 
       if (courses.length == 0) {
         res

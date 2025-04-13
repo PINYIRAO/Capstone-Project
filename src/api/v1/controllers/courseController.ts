@@ -30,10 +30,10 @@ export const getAllCourses = async (
   try {
     const { courseCode, courseName }: CourseQueryParams = req.query;
     const courses: Course[] = await courseDataService.getAllCourses(
+      res.locals.uid,
       courseCode !== undefined ? courseCode : undefined,
       courseName !== undefined ? courseName : undefined
     );
-
     res
       .status(HTTP_STATUS.OK)
       .json(successResponse(courses, "Course Retrieved"));
@@ -54,7 +54,10 @@ export const getCourseById = async (
 ): Promise<void> => {
   try {
     // call the courseDataService by passing the id from thge url path and the body of the request
-    const course: Course = await courseDataService.getCourseById(req.params.id);
+    const course: Course = await courseDataService.getCourseById(
+      res.locals.uid,
+      req.params.id
+    );
 
     res.status(HTTP_STATUS.OK).json(successResponse(course, "Course Found"));
   } catch (error) {
@@ -74,7 +77,11 @@ export const createCourse = async (
 ): Promise<void> => {
   try {
     // call the courseDataService by passing the body of the request
-    const newCourse: Course = await courseDataService.createCourse(req.body);
+    // set the uid for course
+    const newCourse: Course = await courseDataService.createCourse(
+      res.locals.uid,
+      req.body
+    );
 
     res
       .status(HTTP_STATUS.CREATED)
@@ -96,7 +103,9 @@ export const updateCourse = async (
 ): Promise<void> => {
   try {
     // call the courseDataService by passing the id from thge url path and the body of the request
+    // set the uid for course
     const updatedCourse: Course = await courseDataService.updateCourse(
+      res.locals.uid,
       req.params.id,
       req.body
     );
@@ -120,7 +129,7 @@ export const deleteCourse = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await courseDataService.deleteCourse(req.params.id);
+    await courseDataService.deleteCourse(res.locals.uid, req.params.id);
 
     res.status(HTTP_STATUS.OK).json(successResponse(null, "Course Deleted"));
   } catch (error) {

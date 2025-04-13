@@ -11,10 +11,8 @@ import { updateCourseFromOCR } from "../../services/uploadCourseImage/updateCour
 import { transSectionToCourse } from "../../services/uploadCourseImage/transSectionToCourse";
 import { getErrorMessage } from "../../utils/errorUtils";
 
-// asssumed the overall const for course data, need to refactored in the following steps
-const userId: string = "uploadtest";
-
 export const uploadService = async (
+  uid: string,
   files: { [fieldname: string]: Express.Multer.File[] } | Express.Multer.File[]
 ): Promise<Partial<Course>[]> => {
   try {
@@ -42,7 +40,7 @@ export const uploadService = async (
       // update the course
       for (const courseObj of courses) {
         // update the firestore course information using the course info from OCR
-        await updateCourseFromOCR(courseObj, userId);
+        await updateCourseFromOCR(uid, courseObj);
       }
     }
     return courses;

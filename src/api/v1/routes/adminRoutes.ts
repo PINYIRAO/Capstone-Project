@@ -17,6 +17,7 @@ router.post(
 
 router.get(
   "/getTokenAndRoleBatch",
+  authenticate,
   isAuthorized({ hasRole: ["admin"] }),
   getTokenAndRoleBatch
 );
