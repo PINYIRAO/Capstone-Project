@@ -10,6 +10,7 @@ const COLLECTION: string = "courses";
  * @returns a Promise that resolves to an array of `Course` objects.
  */
 export const getAllCourses = async (
+  uid: string,
   courseCode: string | undefined,
   courseName: string | undefined
 ): Promise<Course[]> => {
@@ -35,6 +36,9 @@ export const getAllCourses = async (
         course.courseName.toUpperCase().includes(courseName.toUpperCase())
       );
     }
+    if (uid) {
+      resultCourses = resultCourses.filter((course) => course.uid === uid);
+    }
     return resultCourses;
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
@@ -54,16 +58,20 @@ export const getAllCourses = async (
  * @returns {Promise<Course|null>}
  * @throws {Error} If the Course with the given ID is not found.
  */
-export const getCourseById = async (id: string): Promise<Course> => {
+export const getCourseById = async (
+  uid: string,
+  id: string
+): Promise<Course> => {
   try {
     const snapshot: FirebaseFirestore.DocumentSnapshot | null =
       await firestoreRepository.getDocumentById(COLLECTION, id);
     if (snapshot && snapshot.exists) {
       const data: FirebaseFirestore.DocumentData = snapshot.data() || {};
-      return { id: snapshot.id, ...data } as Course;
-    } else {
-      throw new Error(`Id: ${id} couldnot be found`);
+      if (data.uid === uid) {
+        return { id: snapshot.id, ...data } as Course;
+      }
     }
+    throw new Error(`Id: ${id} couldnot be found`);
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
       throw error;
@@ -85,14 +93,16 @@ export const getCourseById = async (id: string): Promise<Course> => {
  * @returns {Promise<Course>} A promise that resolves to the created Course
  */
 export const createCourse = async (
+  uid: string,
   course: Partial<Course>
 ): Promise<Course> => {
   try {
+    const newCourse: Partial<Course> = { ...course, uid: uid };
     const id: string = await firestoreRepository.createDocument(
       COLLECTION,
-      course
+      newCourse
     );
-    return { id, ...course } as Course;
+    return { id, ...newCourse } as Course;
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
       throw error;
@@ -116,12 +126,14 @@ export const createCourse = async (
  * @throws {Error} If the course with the given ID is not found.
  */
 export const updateCourse = async (
+  uid: string,
   targetId: string,
   course: Partial<Course>
 ): Promise<Course> => {
   try {
     let data: FirebaseFirestore.DocumentData | null;
-    await firestoreRepository.updateDocument(COLLECTION, targetId, course);
+    const newCourse: Partial<Course> = { ...course, uid: uid };
+    await firestoreRepository.updateDocument(COLLECTION, targetId, newCourse);
     const snapshot: FirebaseFirestore.DocumentSnapshot | null =
       await firestoreRepository.getDocumentById(COLLECTION, targetId);
     if (snapshot && snapshot.exists) {
@@ -150,9 +162,12 @@ export const updateCourse = async (
  * @returns {Promise<void>}
  * @throws {Error} If the course with the given ID is not found.
  */
-export const deleteCourse = async (id: string): Promise<void> => {
+export const deleteCourse = async (uid: string, id: string): Promise<void> => {
   try {
-    await firestoreRepository.deleteDocument(COLLECTION, id);
+    const course: Course = await getCourseById(uid, id);
+    if (course && Object.keys(course).length !== 0) {
+      await firestoreRepository.deleteDocument(COLLECTION, id);
+    }
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
       throw error;

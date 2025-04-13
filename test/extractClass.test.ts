@@ -1,4 +1,4 @@
-import { extractClassData } from "../src/api/v1/controllers/extractClass";
+import { extractClassData } from "../src/api/v1/services/uploadCourseImage/extractClass";
 import type { Class } from "../src/api/v1/models/courseSectionModel";
 describe("extract class", () => {
   it("should return the classes array", () => {
@@ -7,7 +7,7 @@ describe("extract class", () => {
     const expectedClasses: Class[] = [
       {
         day: 2,
-        lectureType: "Lecture",
+        deliveryType: "Lecture",
         startTime: 1200,
         endTime: 1500,
         location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
@@ -22,7 +22,7 @@ describe("extract class", () => {
     const expectedClasses: Class[] = [
       {
         day: 2,
-        lectureType: "Lecture",
+        deliveryType: "Lecture",
         startTime: 0,
         endTime: 300,
         location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
@@ -37,7 +37,7 @@ describe("extract class", () => {
     const expectedClasses: Class[] = [
       {
         day: 99,
-        lectureType: "Lecture",
+        deliveryType: "Lecture",
         startTime: 0,
         endTime: 300,
         location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
@@ -52,7 +52,7 @@ describe("extract class", () => {
     const expectedClasses: Class[] = [
       {
         day: 99,
-        lectureType: "Lecture",
+        deliveryType: "Lecture",
         startTime: 0,
         endTime: 0,
         location:

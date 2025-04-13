@@ -15,14 +15,14 @@ import {
 
 jest.mock("../config/firebaseConfig", () => ({
   __esModule: true,
-  default: {
+  db: {
     collection: jest.fn(),
     runTransaction: jest.fn(),
     batch: jest.fn(),
   },
 }));
 
-import db from "../config/firebaseConfig";
+import { db } from "../config/firebaseConfig";
 
 describe("Firestore Repository", () => {
   const mockCollectionName: string = "testCollection";

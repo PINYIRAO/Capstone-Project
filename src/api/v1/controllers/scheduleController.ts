@@ -1,0 +1,61 @@
+/**
+ * schedule Controller (scheduleController.ts)
+ *
+ * This file defines functions (controllers) for handling incoming requests related to schedules.
+ * These functions interact with the course service (courseDataService.ts) to perform schedule generate.
+ */
+
+import { Request, Response, NextFunction } from "express";
+import { successResponse } from "../models/responseModel";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
+import { getCoursesForSchedule } from "../services/scheduleCourse/getCoursesForScheduleService";
+import { calcSchedules } from "../services/scheduleCourse/calcSchedulesService";
+import { sortSchedules } from "../services/scheduleCourse/sortSchedulesService";
+
+/**
+ * @description Get all shedules.
+ * @route POST /
+ * @returns {Promise<void>}
+ */
+export const getAllSchedules = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    // get the user uid
+    const uid: string = res.locals.uid;
+    // get the coures for schedule
+    const { courses, message } = await getCoursesForSchedule(uid, req.body);
+    if (courses.length === 0) {
+      res.status(HTTP_STATUS.OK).json(successResponse([], message));
+      return;
+    }
+
+    // get the available scheduls
+    const { schedules, message: shceduleMsg } = calcSchedules(courses);
+    if (schedules.length === 0) {
+      res.status(HTTP_STATUS.OK).json(successResponse([], shceduleMsg));
+      return;
+    }
+
+    // sort the schedulle
+    const { schedules: sortedSchedules, message: sortMsg } = sortSchedules(
+      schedules,
+      req.body
+    );
+
+    // add the restrict temporarily
+    // let newSortedSchedules: Course[][];
+    // if (sortedSchedules.length > 50) {
+    //   newSortedSchedules = sortedSchedules.slice(0, 50);
+    // } else {
+    //   newSortedSchedules = sortedSchedules;
+    // }
+
+    res.status(HTTP_STATUS.OK).json(successResponse(sortedSchedules, sortMsg));
+    return;
+  } catch (error) {
+    next(error);
+  }
+};

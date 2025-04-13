@@ -1,24 +1,30 @@
-jest.mock("../src/api/v1/controllers/ocrEachFile", () => ({
+jest.mock("../src/api/v1/services/uploadCourseImage/ocrEachFile", () => ({
   ocrEachFile: jest.fn(),
 }));
-jest.mock("../src/api/v1/controllers/extractSection", () => ({
+jest.mock("../src/api/v1/services/uploadCourseImage/extractSection", () => ({
   extractSectionData: jest.fn(),
 }));
-jest.mock("../src/api/v1/controllers/updateCourseFromOCR", () => ({
-  updateCourseFromOCR: jest.fn(),
-}));
-jest.mock("../src/api/v1/controllers/transSectionToCourse", () => ({
-  transSectionToCourse: jest.fn(),
-}));
+jest.mock(
+  "../src/api/v1/services/uploadCourseImage/updateCourseFromOCR",
+  () => ({
+    updateCourseFromOCR: jest.fn(),
+  })
+);
+jest.mock(
+  "../src/api/v1/services/uploadCourseImage/transSectionToCourse",
+  () => ({
+    transSectionToCourse: jest.fn(),
+  })
+);
 
 import { uploadCourses } from "../src/api/v1/controllers/uploadController";
 
 import { Request, Response, NextFunction } from "express";
 
-import { ocrEachFile } from "../src/api/v1/controllers/ocrEachFile";
-import { extractSectionData } from "../src/api/v1/controllers/extractSection";
-import { updateCourseFromOCR } from "../src/api/v1/controllers/updateCourseFromOCR";
-import { transSectionToCourse } from "../src/api/v1/controllers/transSectionToCourse";
+import { ocrEachFile } from "../src/api/v1/services/uploadCourseImage/ocrEachFile";
+import { extractSectionData } from "../src/api/v1/services/uploadCourseImage/extractSection";
+import { updateCourseFromOCR } from "../src/api/v1/services/uploadCourseImage/updateCourseFromOCR";
+import { transSectionToCourse } from "../src/api/v1/services/uploadCourseImage/transSectionToCourse";
 import { errorResponse } from "../src/api/v1/models/responseModel";
 
 describe("upload Controller", () => {
@@ -29,7 +35,11 @@ describe("upload Controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockReq = { query: {}, params: {}, body: {}, files: {} };
-    mockRes = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+      locals: { uid: "admin" },
+    };
     mockNext = jest.fn();
   });
 
@@ -61,12 +71,12 @@ describe("upload Controller", () => {
         sectionCode: "COMP-3018-FTE01",
         sectionEndDate: new Date("2025-04-25"),
         sectionInstructor: "",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionName: "Back-End Development",
         sectionSchedules: [
           {
             day: 1,
-            lectureType: "Lecture",
+            deliveryType: "Lecture",
             startTime: 0,
             endTime: 300,
             location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
@@ -83,20 +93,20 @@ describe("upload Controller", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -104,7 +114,7 @@ describe("upload Controller", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -115,14 +125,14 @@ describe("upload Controller", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -130,7 +140,7 @@ describe("upload Controller", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -145,20 +155,20 @@ describe("upload Controller", () => {
         courseCode: "COMP-3099",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3099-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -166,7 +176,7 @@ describe("upload Controller", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",

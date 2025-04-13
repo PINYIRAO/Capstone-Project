@@ -1,5 +1,5 @@
 import tesseract from "tesseract.js";
-import { getErrorMessage } from "../utils/errorUtils";
+import { getErrorMessage } from "../../utils/errorUtils";
 // do OCR for each file
 export async function ocrEachFile(
   file: Express.Multer.File

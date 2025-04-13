@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
+    <script type="importmap">
+      {
+        "imports": {
+          "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.15",
+          "@fullcalendar/daygrid": "https://cdn.skypack.dev/@fullcalendar/daygrid@6.1.15",
+          "@fullcalendar/timegrid": "https://cdn.skypack.dev/@fullcalendar/timegrid@6.1.15"
+        }
+      }
+    </script>
+    <!-- Load jQuery first -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Then load Select2 -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- for dispay order drag -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <!-- Include SweetAlert2 from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <link rel="stylesheet" href="public/CSS/styles.css" />
+    
+    <title>Assist to Plan Your Course</title>
+  </head>
+  <body>
+    <div id="functionbar">
+      <h1>Assist to Plan Your Course (For Students In AD&D Term3)</h1>
+      <div id = "process">
+          <span class="hidden"> Process:  </span>
+          <label id = "select_term_label" for="select_term" class="hidden">1. Select Term</label>
+          <!-- <select name="select_term" id="select_term" class="hidden">
+              <option value="Term 1" class="hidden">Term 1</option>
+              <option value="Term 2" class="hidden">Term 2</option>
+              <option value="Term 3" class="hidden">Term 3</option>
+              <option value="Term 4" class="hidden">Term 4</option>
+              <option value="Term 5" class="hidden">Term 5</option>
+            </select> -->
+          <button id="bt_get_course_info" class="hidden">2. Get Course Info</button>
+          
+      </div>
+  
+      <div id="filter_area">
+        <button id ="collapseexpand" class="filter_area_button  hidden" >Collapse Filter Area</button>
+        <button id ="resetfilter" class="filter_area_button hidden" >Clear Filters</button>
+        <button id="bt_get_schedule">Get Course Planning</button>
+      </div>
+    </div>
+    
+  
+  <form id="filter_form">
+    <fieldset id="ts_filter">
+      <legend>
+        Time Slot Not Available
+      </legend>
+      <div id="add_button">
+        <button type="button" id="add_ts_not_avilable" class ="filter_area_button">Add</button>
+      </div>
+      <div id = "time_slot_filter_container">
+        <div class="filter timeslotfilter" id="ts_filter_1" >  
+          <label for="weekday_1">Weekday</label>
+          <select name="weekday_1" id="weekday_1" multiple>
+            <option value="M">Monday</option>
+            <option value="T">Tuesday</option>
+            <option value="W">Wednesday</option>
+            <option value="Th">Thursday</option>
+            <option value="F">Friday</option>
+          </select>
+          <label for="start_time_1">From</label>
+          <select name="start_time_1" id="start_time_1" class ="start_time">
+            <option value="8">8:00 AM</option>
+            <option value="9">9:00 AM</option>
+            <option value="10">10:00 AM</option>
+            <option value="11">11:00 AM</option>
+            <option value="12">12:00 PM</option>
+            <option value="13">1:00 PM</option>
+            <option value="14">2:00 PM</option>
+            <option value="15">3:00 PM</option>
+            <option value="16">4:00 PM</option>
+            <option value="17">5:00 PM</option>
+            <option value="18">6:00 PM</option>
+            <option value="19">7:00 PM</option>
+            <option value="20">8:00 PM</option>
+            <option value="21">9:00 PM</option>
+            <option value="22">10:00 PM</option>
+          </select>
+          <label for="end_time_1">To</label>
+          <select name="end_time_1" id="end_time_1">
+            <option value="8">8:00 AM</option>
+            <option value="9">9:00 AM</option>
+            <option value="10">10:00 AM</option>
+            <option value="11">11:00 AM</option>
+            <option value="12">12:00 PM</option>
+            <option value="13">1:00 PM</option>
+            <option value="14">2:00 PM</option>
+            <option value="15">3:00 PM</option>
+            <option value="16">4:00 PM</option>
+            <option value="17">5:00 PM</option>
+            <option value="18">6:00 PM</option>
+            <option value="19">7:00 PM</option>
+            <option value="20">8:00 PM</option>
+            <option value="21">9:00 PM</option>
+            <option value="22">10:00 PM</option>
+          </select>
+          <button id="del_button_1" class="delete_botton">-</button>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset id="instructor_filter">
+      <legend>Preference in Choosing Instructor</legend>
+      <div id="instructor_select">
+        <div class="filter">
+          <label for="pre_instructor">Go For</label>
+          <select name="pre_instructor" id="pre_instructor" class = "preinstructor" multiple size="1">
+            <option value="Agdeppa, J">Agdeppa, J</option>
+            <option value="Abbas, A">Abbas, A</option>
+            <option value="Benoit, C">Benoit, C</option>
+            <option value="Olson, J">Olson, J</option>
+          </select>
+        </div>
+        <div class="filter">
+          <label for="not_go_for_instructor">Not Go For</label>
+          <select
+            name="not_go_for_instructor"
+            id="not_go_for_instructor"
+            class = "preinstructor"
+            multiple
+            size="1"
+          >
+            <option value="Agdeppa, J">Agdeppa, J</option>
+            <option value="Abbas, A">Abbas, A</option>
+            <option value="Benoit, C">Benoit, C</option>
+            <option value="Olson, J">Olson, J</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset id="lecture_type_filter">
+      <legend>Preference in Lecture Type</legend>
+      <div id="lecture_type_select">
+        <div class="filter">
+          <label for="lecture">Lecture</label>
+          <select name="lecture" id="lecture" class="lecture_type" multiple size="1">
+            <option value="COMM-2176">Comm Systems Innov Thinking</option>
+            <option value="COMP-3018">Back-End Development</option>
+            <option value="COMP-3021">Secure Coding and Testing</option>
+          </select>
+        </div>
+        <div class="filter">
+          <label for="online">Online</label>
+          <select name="online" id="online"  class="lecture_type" multiple size="1">
+            <option value="COMM-2176">Comm Systems Innov Thinking</option>
+            <option value="COMP-3018">Back-End Development</option>
+            <option value="COMP-3021">Secure Coding and Testing</option>
+          </select>
+        </div>
+        <div class="filter">
+          <label for="hybrid">Hybrid</label>
+          <select name="hybrid" id="hybrid"  class="lecture_type" multiple size="1">
+            <option value="COMM-2176">Comm Systems Innov Thinking</option>
+            <option value="COMP-3018">Back-End Development</option>
+            <option value="COMP-3021">Secure Coding and Testing</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset id="display_order_filter" class = "hidden">
+      <legend>Preference in Schedule Display Order &#8597</legend>
+      <ul id="display_order_list">
+        <li id="order_1">The days count need to go to shcool each week</li>
+        <li id="order_2">The days count need to attend class before 10:00 AM</li>
+      </ul>
+    </fieldset>
+  </form>
+
+    <div id="schedules">
+      <div id="schedule_1" class="schedule">
+
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("select").select2(); //activate Select2 plugin
+      });
+    </script>
+    <script type="module" src="./public/javascript/script.js"></script>
+  </body>
+</html>

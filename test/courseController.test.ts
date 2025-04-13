@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import * as courseController from "../src/api/v1/controllers/courseController";
-import * as courseService from "../src/api/v1/services/courseService";
+import * as courseDataService from "../src/api/v1/services/courseDataService";
 import mockCourses from "./data/courseSample";
 
-jest.mock("../src/api/v1/services/courseService", () => ({
+jest.mock("../src/api/v1/services/courseDataService", () => ({
   getAllCourses: jest.fn(),
   getCourseById: jest.fn(),
   createCourse: jest.fn(),
@@ -19,7 +19,11 @@ describe("course Controller", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockReq = { query: {}, params: {}, body: {} };
-    mockRes = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+      locals: { uid: "admin" },
+    };
     mockNext = jest.fn();
   });
 
@@ -29,7 +33,9 @@ describe("course Controller", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
       };
-      (courseService.getAllCourses as jest.Mock).mockResolvedValue(mockCourses);
+      (courseDataService.getAllCourses as jest.Mock).mockResolvedValue(
+        mockCourses
+      );
       await courseController.getAllCourses(
         mockReq as Request,
         mockRes as Response,
@@ -37,7 +43,8 @@ describe("course Controller", () => {
       );
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(courseService.getAllCourses).toHaveBeenCalledWith(
+      expect(courseDataService.getAllCourses).toHaveBeenCalledWith(
+        "admin",
         "COMP-3018",
         "Back-End Development"
       );
@@ -52,7 +59,9 @@ describe("course Controller", () => {
         courseCode: undefined,
         courseName: undefined,
       };
-      (courseService.getAllCourses as jest.Mock).mockResolvedValue(mockCourses);
+      (courseDataService.getAllCourses as jest.Mock).mockResolvedValue(
+        mockCourses
+      );
       await courseController.getAllCourses(
         mockReq as Request,
         mockRes as Response,
@@ -60,7 +69,8 @@ describe("course Controller", () => {
       );
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
-      expect(courseService.getAllCourses).toHaveBeenCalledWith(
+      expect(courseDataService.getAllCourses).toHaveBeenCalledWith(
+        "admin",
         undefined,
         undefined
       );
@@ -72,7 +82,9 @@ describe("course Controller", () => {
     });
 
     it("should call the next funtion for handle error when error occurs while get all courses", async () => {
-      (courseService.getAllCourses as jest.Mock).mockRejectedValue("failed");
+      (courseDataService.getAllCourses as jest.Mock).mockRejectedValue(
+        "failed"
+      );
 
       mockReq.query = { courseCode: "COMP-3018" };
 
@@ -86,7 +98,9 @@ describe("course Controller", () => {
   });
   describe("getCourseById", () => {
     it("should return the course with the specific id", async () => {
-      (courseService.getCourseById as jest.Mock).mockResolvedValue(mockCourses);
+      (courseDataService.getCourseById as jest.Mock).mockResolvedValue(
+        mockCourses
+      );
 
       mockReq.params = { id: "1234" };
 
@@ -104,7 +118,9 @@ describe("course Controller", () => {
       });
     });
     it("should call the next funtion for handle error when error occurs while get specific course", async () => {
-      (courseService.getCourseById as jest.Mock).mockRejectedValue("failed");
+      (courseDataService.getCourseById as jest.Mock).mockRejectedValue(
+        "failed"
+      );
       mockReq.params = { id: "1234" };
       await courseController.getCourseById(
         mockReq as Request,
@@ -117,7 +133,9 @@ describe("course Controller", () => {
   describe("createCourse", () => {
     it("should create the course successfully", async () => {
       mockReq.body = mockCourses;
-      (courseService.createCourse as jest.Mock).mockResolvedValue(mockCourses);
+      (courseDataService.createCourse as jest.Mock).mockResolvedValue(
+        mockCourses
+      );
 
       mockReq.params = { id: "1234" };
 
@@ -135,7 +153,7 @@ describe("course Controller", () => {
       });
     });
     it("should call the next funtion for handle error when error occurs while create specific course", async () => {
-      (courseService.createCourse as jest.Mock).mockRejectedValue("failed");
+      (courseDataService.createCourse as jest.Mock).mockRejectedValue("failed");
       await courseController.createCourse(
         mockReq as Request,
         mockRes as Response,
@@ -147,7 +165,9 @@ describe("course Controller", () => {
   describe("updateCourse", () => {
     it("should update the course successfully", async () => {
       mockReq.body = mockCourses;
-      (courseService.updateCourse as jest.Mock).mockResolvedValue(mockCourses);
+      (courseDataService.updateCourse as jest.Mock).mockResolvedValue(
+        mockCourses
+      );
 
       mockReq.params = { id: "1234" };
 
@@ -165,7 +185,7 @@ describe("course Controller", () => {
       });
     });
     it("should call the next funtion for handle error when error occurs while update specific course", async () => {
-      (courseService.updateCourse as jest.Mock).mockRejectedValue("failed");
+      (courseDataService.updateCourse as jest.Mock).mockRejectedValue("failed");
       mockReq.params = { id: "1234" };
       await courseController.updateCourse(
         mockReq as Request,
@@ -177,7 +197,9 @@ describe("course Controller", () => {
   });
   describe("deleteCourse", () => {
     it("should delete the course successfully", async () => {
-      (courseService.deleteCourse as jest.Mock).mockResolvedValue(mockCourses);
+      (courseDataService.deleteCourse as jest.Mock).mockResolvedValue(
+        mockCourses
+      );
 
       mockReq.params = { id: "1234" };
 
@@ -196,7 +218,7 @@ describe("course Controller", () => {
     });
   });
   it("should call the next funtion for handle error when error occurs while delete specific course", async () => {
-    (courseService.deleteCourse as jest.Mock).mockRejectedValue("failed");
+    (courseDataService.deleteCourse as jest.Mock).mockRejectedValue("failed");
     mockReq.params = { id: "1234" };
     await courseController.deleteCourse(
       mockReq as Request,

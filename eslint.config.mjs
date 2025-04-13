@@ -11,6 +11,7 @@ export default tseslint.config(
       "eslint.config.mjs",
       "jest.config.ts",
       "jest.config.js",
+      "**front_end_test/*",
     ],
   },
   eslint.configs.recommended,

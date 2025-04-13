@@ -1,6 +1,6 @@
-import type { Section } from "../models/courseSectionModel";
-import type { Class } from "../models/courseSectionModel";
-import type { DeliveryType } from "../models/courseSectionModel";
+import type { Section } from "../../models/courseSectionModel";
+import type { Class } from "../../models/courseSectionModel";
+import type { DeliveryType } from "../../models/courseSectionModel";
 import { extractClassData } from "./extractClass";
 
 // organize the ocr text to the structured course data
@@ -29,7 +29,7 @@ export function extractSectionData(inputText: string | null): Section[] | null {
       let sectionSeats: number = -1;
       let sectionInstructor: string = "";
       // set a default value, it should be determined by the classes type
-      const sectionLectureType: DeliveryType = "Mixed";
+      const sectionDeliveryType: DeliveryType = "Hybrid";
       let sectionCode: string = "NONE";
       let sectionName: string = "NONE";
       let sectionStartDate: Date = new Date("1900-01-01");
@@ -131,7 +131,7 @@ export function extractSectionData(inputText: string | null): Section[] | null {
         sectionCode,
         sectionName,
         sectionInstructor,
-        sectionLectureType,
+        sectionDeliveryType,
         sectionStartDate,
         sectionEndDate,
         sectionSeats,

@@ -15,6 +15,9 @@ import errorHandler from "./api/v1/middleware/errorHandler";
 // import routes
 import healthRoutes from "./api/v1/routes/healthRoutes";
 import courseRoutes from "./api/v1/routes/courseRoutes";
+import scheduleRotes from "./api/v1/routes/scheduleRoutes";
+import adminRotes from "./api/v1/routes/adminRoutes";
+import userRoutes from "./api/v1/routes/userRoutes";
 
 import helmet from "helmet";
 import cors from "cors";
@@ -42,7 +45,12 @@ app.use(
     origin: (origin, callback) => {
       if (
         !origin ||
-        ["http://localhost:3000", "http://localhost:3002"].includes(origin)
+        [
+          "http://localhost:3000",
+          "http://localhost:3002",
+          "http://127.0.0.1:5501",
+          // "http://localhost:5501",
+        ].includes(origin)
       ) {
         callback(null, true); // allow request
       } else {
@@ -71,6 +79,9 @@ app.use(express.json());
 app.use(accessLogger);
 
 app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/schedules", scheduleRotes);
+app.use("/api/v1/admin", adminRotes);
+app.use("/api/v1/users", userRoutes);
 app.use("/health", healthRoutes);
 
 // apply error handling middleware

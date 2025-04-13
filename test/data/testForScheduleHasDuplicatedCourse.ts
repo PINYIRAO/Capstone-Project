@@ -1,0 +1,123 @@
+import { Course } from "../../src/api/v1/models/courseModel";
+
+export const testCoursesHasDuplicated: Course[] = [
+  {
+    id: "38g4UePkWkuQujelJa3u",
+    program: "Application Design and Delivery",
+    term: 3,
+    courseCode: "COMP-3021",
+    courseName: "Secure Coding and Testing",
+    courseType: "Required",
+    uid: "admin",
+    courseSections: [
+      {
+        sectionCode: "COMP-3021-FTE01",
+        sectionName: "Secure Coding and Testing",
+        sectionInstructor: "Christine Stone",
+        sectionDeliveryType: "Lecture",
+        sectionStartDate: new Date("2025-01-06T00:00:00.000"),
+        sectionEndDate: new Date("2025-04-25T00:00:00.000"),
+        sectionSeats: 30,
+        sectionSchedules: [
+          {
+            day: 1,
+            deliveryType: "Lecture",
+            startTime: 8,
+            endTime: 11,
+            location: "409 Ward Stream\nKeithchester, WI 48718",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "38g4UePkWkuQujelJa3u",
+    program: "Application Design and Delivery",
+    term: 3,
+    courseCode: "COMP-3021",
+    courseName: "Secure Coding and Testing",
+    courseType: "Required",
+    uid: "admin",
+    courseSections: [
+      {
+        sectionCode: "COMP-3021-FTE01",
+        sectionName: "Secure Coding and Testing",
+        sectionInstructor: "Christine Stone",
+        sectionDeliveryType: "Lecture",
+        sectionStartDate: new Date("2025-01-06T00:00:00.000"),
+        sectionEndDate: new Date("2025-04-25T00:00:00.000"),
+        sectionSeats: 30,
+        sectionSchedules: [
+          {
+            day: 5,
+            deliveryType: "Lecture",
+            startTime: 8,
+            endTime: 11,
+            location: "409 Ward Stream\nKeithchester, WI 48718",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "9nqka7DdnVcnRO1Hbp7Q",
+    program: "Application Design and Delivery",
+    term: 3,
+    courseCode: "COMP-3018",
+    courseName: "Back-End Development",
+    courseType: "Required",
+    uid: "admin",
+    courseSections: [
+      {
+        sectionCode: "COMP-3018-FTE01",
+        sectionName: "Back-End Development",
+        sectionInstructor: "Christine Stone",
+        sectionDeliveryType: "Lecture",
+        sectionStartDate: new Date("2025-01-06T00:00:00.000"),
+        sectionEndDate: new Date("2025-04-25T00:00:00.000"),
+        sectionSeats: 30,
+        sectionSchedules: [
+          {
+            day: 2,
+            deliveryType: "Lecture",
+            startTime: 8,
+            endTime: 11,
+            location: "72640 Timothy Hills Suite 726\nMooreshire, MN 86382",
+          },
+          {
+            day: 3,
+            deliveryType: "Lecture",
+            startTime: 13,
+            endTime: 16,
+            location: "116 Brandon Heights Apt. 381\nKevinmouth, CA 77175",
+          },
+        ],
+      },
+      {
+        sectionCode: "COMP-3018-FTE02",
+        sectionName: "Back-End Development",
+        sectionInstructor: "Elizabeth Lee",
+        sectionDeliveryType: "Hybrid",
+        sectionStartDate: new Date("2025-01-06T00:00:00.000"),
+        sectionEndDate: new Date("2025-04-25T00:00:00.000"),
+        sectionSeats: 30,
+        sectionSchedules: [
+          {
+            day: 1,
+            deliveryType: "Lecture",
+            startTime: 8,
+            endTime: 11,
+            location: "7129 Baird Terrace\nKennethshire, MA 74275",
+          },
+          {
+            day: 4,
+            deliveryType: "Online",
+            startTime: 14,
+            endTime: 17,
+            location: "116 Brandon Heights Apt. 381\nKevinmouth, CA 77175",
+          },
+        ],
+      },
+    ],
+  },
+];

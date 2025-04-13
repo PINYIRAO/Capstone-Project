@@ -1,4 +1,4 @@
-import { transSectionToCourse } from "../src/api/v1/controllers/transSectionToCourse";
+import { transSectionToCourse } from "../src/api/v1/services/uploadCourseImage/transSectionToCourse";
 import type { Course } from "../src/api/v1/models/courseModel";
 import type { Section } from "../src/api/v1/models/courseSectionModel";
 
@@ -9,21 +9,21 @@ describe("extract section data", () => {
         sectionCode: "COMP-3018-FTE01",
         sectionName: "Back-End Development",
         sectionInstructor: "Shabaga, D",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionStartDate: new Date("2025-01-06"),
         sectionEndDate: new Date("2025-04-25"),
         sectionSeats: 35,
         sectionSchedules: [
           {
             day: 2,
-            lectureType: "Lecture",
+            deliveryType: "Lecture",
             startTime: 1200,
             endTime: 1500,
             location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
           },
           {
             day: 3,
-            lectureType: "Online",
+            deliveryType: "Online",
             startTime: 1300,
             endTime: 1600,
             location: "Roblin Centre (Prev. PSC)",
@@ -34,21 +34,21 @@ describe("extract section data", () => {
         sectionCode: "COMP-3099-FTE01",
         sectionName: "Back-End Development",
         sectionInstructor: "Shabaga, D",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionStartDate: new Date("2025-01-06"),
         sectionEndDate: new Date("2025-04-25"),
         sectionSeats: 35,
         sectionSchedules: [
           {
             day: 2,
-            lectureType: "Lecture",
+            deliveryType: "Lecture",
             startTime: 1200,
             endTime: 1500,
             location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
           },
           {
             day: 3,
-            lectureType: "Online",
+            deliveryType: "Online",
             startTime: 1300,
             endTime: 1600,
             location: "Roblin Centre (Prev. PSC)",
@@ -59,21 +59,21 @@ describe("extract section data", () => {
         sectionCode: "COMP-3018-FTE01",
         sectionName: "Back-End Development",
         sectionInstructor: "Shabaga, D",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionStartDate: new Date("2025-01-06"),
         sectionEndDate: new Date("2025-04-25"),
         sectionSeats: 35,
         sectionSchedules: [
           {
             day: 2,
-            lectureType: "Lecture",
+            deliveryType: "Lecture",
             startTime: 1200,
             endTime: 1500,
             location: "Roblin Centre (Prev. PSC), Princess Building PSCP312",
           },
           {
             day: 3,
-            lectureType: "Online",
+            deliveryType: "Online",
             startTime: 1300,
             endTime: 1600,
             location: "Roblin Centre (Prev. PSC)",
@@ -88,20 +88,20 @@ describe("extract section data", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "uploadtest",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -109,7 +109,7 @@ describe("extract section data", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -120,14 +120,14 @@ describe("extract section data", () => {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -135,7 +135,7 @@ describe("extract section data", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -150,20 +150,20 @@ describe("extract section data", () => {
         courseCode: "COMP-3099",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "uploadtest",
         courseSections: [
           {
             sectionCode: "COMP-3099-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -171,7 +171,7 @@ describe("extract section data", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -182,8 +182,10 @@ describe("extract section data", () => {
       },
     ];
 
-    const actualCourses: Partial<Course>[] | null =
-      transSectionToCourse(sectionsObj);
+    const actualCourses: Partial<Course>[] | null = transSectionToCourse(
+      "uploadtest",
+      sectionsObj
+    );
 
     expect(actualCourses).toEqual(expectedCourses);
   });

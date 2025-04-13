@@ -2,6 +2,11 @@ import { Router } from "express";
 import * as courseController from "../controllers/courseController";
 import * as uploadController from "../controllers/uploadController";
 import uploadMidFunc from "../middleware/upload";
+import { validateRequest } from "../middleware/validate";
+import { courseCreationSchema } from "../validations/course/courseCreationValidate";
+import { courseUpdateSchema } from "../validations/course/courseUpdateValidate";
+import authenticate from "../middleware/authenticate";
+import isAuthorized from "../middleware/authorize";
 
 // define a router for deal with
 const router: Router = Router();
@@ -43,40 +48,12 @@ const router: Router = Router();
  *         500:
  *           description: Server error
  */
-router.get("/", courseController.getAllCourses);
-
-/**
- * @route GET /:id
- * @description Get an existing course.
- */
-/**
- * @openapi
- * /courses/{id}:
- *   get:
- *     summary: Get an existing course
- *     tags: [Course]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the course to be found
- *     responses:
- *       200:
- *         description: The wanted course
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               courses:
- *                 $ref: '#/components/schemas/Course'
- *       404:
- *         description: No branch found with the specified id
- *       500:
- *         description: Server error
- */
-router.get("/:id", courseController.getCourseById);
+router.get(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  courseController.getAllCourses
+);
 
 /**
  * @route POST /
@@ -100,66 +77,13 @@ router.get("/:id", courseController.getCourseById);
  *    500:
  *     description: Server error
  */
-router.post("/", courseController.createCourse);
-
-/**
- * @route PUT /:id
- * @description Update an existing course.
- *
- * @openapi
- * /courses/{id}:
- *   put:
- *     summary: Update an existing course
- *     tags: [Course]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the course to update
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Course'
- *     responses:
- *       200:
- *         description: The updated course
- *       404:
- *         description: No course found with the specified id
- *       500:
- *         description: Server error
- */
-router.put("/:id", courseController.updateCourse);
-
-/**
- * @route DELETE /:id
- * @description Delete an course profile.
- */
-/**
- * @openapi
- * /courses/{id}:
- *   delete:
- *     summary: Delete an existing course
- *     tags: [Course]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the course to be deleted
- *     responses:
- *       200:
- *         description: Delete successfully
- *       404:
- *         description: No course found with the specified id
- *       500:
- *         description: Server error
- */
-router.delete("/:id", courseController.deleteCourse);
+router.post(
+  "/",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  validateRequest(courseCreationSchema),
+  courseController.createCourse
+);
 
 /**
  * @openapi
@@ -192,6 +116,120 @@ router.delete("/:id", courseController.deleteCourse);
  *       500:
  *         description: Server error/file counts or size exceed the limits
  */
-router.post("/upload", uploadMidFunc, uploadController.uploadCourses);
+router.post(
+  "/upload",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  uploadMidFunc,
+  uploadController.uploadCourses
+);
+
+/**
+ * @route GET /:id
+ * @description Get an existing course.
+ */
+/**
+ * @openapi
+ * /courses/{id}:
+ *   get:
+ *     summary: Get an existing course
+ *     tags: [Course]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the course to be found
+ *     responses:
+ *       200:
+ *         description: The wanted course
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               courses:
+ *                 $ref: '#/components/schemas/Course'
+ *       404:
+ *         description: No branch found with the specified id
+ *       500:
+ *         description: Server error
+ */
+router.get(
+  "/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  courseController.getCourseById
+);
+
+/**
+ * @route PUT /:id
+ * @description Update an existing course.
+ *
+ * @openapi
+ * /courses/{id}:
+ *   put:
+ *     summary: Update an existing course
+ *     tags: [Course]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the course to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Course'
+ *     responses:
+ *       200:
+ *         description: The updated course
+ *       404:
+ *         description: No course found with the specified id
+ *       500:
+ *         description: Server error
+ */
+router.put(
+  "/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  validateRequest(courseUpdateSchema),
+  courseController.updateCourse
+);
+
+/**
+ * @route DELETE /:id
+ * @description Delete an course profile.
+ */
+/**
+ * @openapi
+ * /courses/{id}:
+ *   delete:
+ *     summary: Delete an existing course
+ *     tags: [Course]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the course to be deleted
+ *     responses:
+ *       200:
+ *         description: Delete successfully
+ *       404:
+ *         description: No course found with the specified id
+ *       500:
+ *         description: Server error
+ */
+router.delete(
+  "/:id",
+  authenticate,
+  isAuthorized({ hasRole: ["admin", "manager", "user"] }),
+  courseController.deleteCourse
+);
 
 export default router;

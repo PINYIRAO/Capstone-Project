@@ -15,7 +15,7 @@ export type CourseType = "Required" | "Elective";
  *         - courseCode
  *         - courseName
  *         - courseType
- *         - userId
+ *         - uid
  *         - courseSections
  *       properties:
  *         id:
@@ -43,7 +43,7 @@ export type CourseType = "Required" | "Elective";
  *           description: Type of the course (e.g. core, elective)
  *           enum: [core, elective]
  *           example: "core"
- *         userId:
+ *         uid:
  *           type: string
  *           description: ID of the user (student or admin) who uploaded this course
  *           example: "user_456"
@@ -61,6 +61,6 @@ export type Course = {
   courseCode: string;
   courseName: string;
   courseType: CourseType;
-  userId: string; // indicate the course information is uploaded by specific student or the overall information set by admin
+  uid: string; // indicate the course information is uploaded by specific student or the overall information set by admin
   courseSections: Section[];
 };

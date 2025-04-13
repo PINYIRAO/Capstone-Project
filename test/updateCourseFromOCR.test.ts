@@ -1,4 +1,4 @@
-jest.mock("../src/api/v1//services/courseService", () => ({
+jest.mock("../src/api/v1//services/courseDataService", () => ({
   getAllCourses: jest.fn(),
   createCourse: jest.fn(),
   updateCourse: jest.fn(),
@@ -8,9 +8,9 @@ import {
   getAllCourses,
   createCourse,
   updateCourse,
-} from "../src/api/v1/services/courseService";
-// import { getAllCourses } from "../src/api/v1/services/courseService";
-import { updateCourseFromOCR } from "../src/api/v1/controllers/updateCourseFromOCR";
+} from "../src/api/v1/services/courseDataService";
+// import { getAllCourses } from "../src/api/v1/services/courseDataService";
+import { updateCourseFromOCR } from "../src/api/v1/services/uploadCourseImage/updateCourseFromOCR";
 
 describe("update course database from ocr", () => {
   it("should update the cours if already exists in the database", async () => {
@@ -22,20 +22,20 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -43,7 +43,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -55,7 +55,7 @@ describe("update course database from ocr", () => {
     ];
     (getAllCourses as jest.Mock).mockResolvedValue(mockedCourse);
 
-    await updateCourseFromOCR(mockedCourse[0], "admin");
+    await updateCourseFromOCR("admin", mockedCourse[0]);
 
     expect(updateCourse).toHaveBeenCalledTimes(1);
   });
@@ -69,20 +69,20 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -90,7 +90,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -102,7 +102,7 @@ describe("update course database from ocr", () => {
     ];
     (getAllCourses as jest.Mock).mockResolvedValue([]);
 
-    await updateCourseFromOCR(mockedCourse[0], "admin");
+    await updateCourseFromOCR("admin", mockedCourse[0]);
 
     expect(createCourse).toHaveBeenCalledTimes(1);
   });
@@ -116,20 +116,20 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -137,7 +137,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -153,20 +153,20 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
             sectionName: "Back-End Development",
             sectionInstructor: "Shabaga, D",
-            sectionLectureType: "Mixed",
+            sectionDeliveryType: "Hybrid",
             sectionStartDate: new Date("2025-01-06"),
             sectionEndDate: new Date("2025-04-25"),
             sectionSeats: 35,
             sectionSchedules: [
               {
                 day: 2,
-                lectureType: "Lecture",
+                deliveryType: "Lecture",
                 startTime: 1200,
                 endTime: 1500,
                 location:
@@ -174,7 +174,7 @@ describe("update course database from ocr", () => {
               },
               {
                 day: 3,
-                lectureType: "Online",
+                deliveryType: "Online",
                 startTime: 1300,
                 endTime: 1600,
                 location: "Roblin Centre (Prev. PSC)",
@@ -186,7 +186,7 @@ describe("update course database from ocr", () => {
     ];
     (getAllCourses as jest.Mock).mockResolvedValue(mockedCourse);
 
-    await expect(updateCourseFromOCR(mockedCourse[0], "admin")).rejects.toThrow(
+    await expect(updateCourseFromOCR("admin", mockedCourse[0])).rejects.toThrow(
       /The system has more than one records for this course/
     );
   });

@@ -1,9 +1,9 @@
-jest.mock("../src/api/v1/controllers/extractClass", () => ({
+jest.mock("../src/api/v1/services/uploadCourseImage/extractClass", () => ({
   extractClassData: jest.fn(),
 }));
 import type { Section } from "../src/api/v1/models/courseSectionModel";
-import { extractSectionData } from "../src/api/v1/controllers/extractSection";
-import { extractClassData } from "../src/api/v1/controllers/extractClass";
+import { extractSectionData } from "../src/api/v1/services/uploadCourseImage/extractSection";
+import { extractClassData } from "../src/api/v1/services/uploadCourseImage/extractClass";
 
 describe("extract section data", () => {
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe("extract section data", () => {
         sectionCode: "COMP-3018-FTE01",
         sectionEndDate: new Date("2025-04-25T00:00:00.000Z"),
         sectionInstructor: "",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionName: "Back-End Development",
         sectionSchedules: [],
         sectionSeats: 35,
@@ -57,7 +57,7 @@ describe("extract section data", () => {
         sectionCode: "COMP-3018-FTE01",
         sectionName: "Back-End Development",
         sectionInstructor: "Shabaga, D",
-        sectionLectureType: "Mixed",
+        sectionDeliveryType: "Hybrid",
         sectionStartDate: new Date("2025-01-06"),
         sectionEndDate: new Date("2025-04-25"),
         sectionSeats: 35,
