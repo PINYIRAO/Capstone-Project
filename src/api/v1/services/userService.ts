@@ -81,10 +81,13 @@ export const createUser = async (user: UserSignUp): Promise<User> => {
       email: user.email,
       password: user.password,
     });
+
+    // when user finish the sign up, give the user role as default
+    await auth.setCustomUserClaims(userRecord.uid, { role: "user" });
+
     const newUserRecord: Partial<User> = {
-      ...user,
+      email: user.email,
       uid: userRecord.uid,
-      password: userRecord.passwordHash,
       role: "user", // all created users have user role as default
       status: "Active",
       createdAt: new Date(),
@@ -115,21 +118,25 @@ export const updateUser = async (
   user: UserUpdate
 ): Promise<Partial<User>> => {
   try {
-    const userRecord: UserRecord = await auth.updateUser(uid, user);
+    // upate the password if need
+    await auth.updateUser(uid, user);
 
     const newUserRecord: Partial<User> = {
       ...user,
-      password: userRecord.passwordHash,
       updatedAt: new Date(),
     };
     // store the user info into firestore
     await db.collection(COLLECTION).doc(uid).update(newUserRecord);
-    const userWithUpdatedInfo: Partial<User> = await db
-      .collection(COLLECTION)
-      .doc(uid)
-      .get();
 
-    return { id: uid, ...userWithUpdatedInfo } as User;
+    const snapshot: FirebaseFirestore.DocumentSnapshot | null =
+      await firestoreRepository.getDocumentById(COLLECTION, uid);
+    if (snapshot && snapshot.exists) {
+      const data: FirebaseFirestore.DocumentData = snapshot.data() || {};
+      if (data.uid === uid) {
+        return { id: snapshot.id, ...data } as Partial<User>;
+      }
+    }
+    return {};
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
       throw error;
@@ -149,6 +156,7 @@ export const updateUser = async (
  */
 export const deactivateUser = async (uid: string): Promise<Partial<User>> => {
   try {
+    // delete the user from auth
     await auth.deleteUser(uid);
 
     const newUserRecord: Partial<User> = {
@@ -157,12 +165,15 @@ export const deactivateUser = async (uid: string): Promise<Partial<User>> => {
     };
     // store the user info into firestore
     await db.collection(COLLECTION).doc(uid).update(newUserRecord);
-    const userDeleted: Partial<User> = await db
-      .collection(COLLECTION)
-      .doc(uid)
-      .get();
-
-    return { id: uid, ...userDeleted } as User;
+    const snapshot: FirebaseFirestore.DocumentSnapshot | null =
+      await firestoreRepository.getDocumentById(COLLECTION, uid);
+    if (snapshot && snapshot.exists) {
+      const data: FirebaseFirestore.DocumentData = snapshot.data() || {};
+      if (data.uid === uid) {
+        return { id: snapshot.id, ...data } as Partial<User>;
+      }
+    }
+    return {};
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
       throw error;

@@ -21,7 +21,7 @@ router.get(
 router.get("/profile", authenticate, getUserByUID);
 
 router.post("/", createUser);
-router.put("/updateprofile", updateUser);
-router.delete("/:id", deactivateUser);
+router.put("/updateprofile", authenticate, updateUser);
+router.delete("/", authenticate, deactivateUser);
 
 export default router;
