@@ -13,36 +13,33 @@ import { AuthorizationError } from "../errors/errors";
  * @returns Middleware function that performs the authorization check
  */
 const isAuthorized = (opts: AuthorizationOptions): MiddlewareFunction => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        const { role, uid } = res.locals;
-        const userId: string = req.params.uid;
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { role, uid } = res.locals;
+    const userId: string = req.params.uid;
 
-        // Allow access if the user is accessing their own resource
-        if (opts.allowSameUser && userId && uid === userId) {
-            return next();
-        }
+    // Allow access if the user is accessing their own resource
+    if (opts.allowSameUser && userId && uid === userId) {
+      return next();
+    }
 
-        if (!role) {
-            return next(
-                new AuthorizationError(
-                    "Forbidden: No role found",
-                    "ROLE_NOT_FOUND"
-                )
-            );
-        }
+    if (!role) {
+      return next(
+        new AuthorizationError("Forbidden: No role found", "ROLE_NOT_FOUND")
+      );
+    }
 
-        // Allow access if the user's role is in the permitted roles list
-        if (opts.hasRole.includes(role)) {
-            return next();
-        }
+    // Allow access if the user's role is in the permitted roles list
+    if (opts.hasRole.includes(role)) {
+      return next();
+    }
 
-        return next(
-            new AuthorizationError(
-                "Forbidden: Insufficient role",
-                "INSUFFICIENT_ROLE"
-            )
-        );
-    };
+    return next(
+      new AuthorizationError(
+        "Forbidden: Insufficient role",
+        "INSUFFICIENT_ROLE"
+      )
+    );
+  };
 };
 
 export default isAuthorized;

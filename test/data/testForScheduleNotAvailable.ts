@@ -8,7 +8,7 @@ export const testCoursesNoAvailable: Course[] = [
     courseCode: "COMP-3021",
     courseName: "Secure Coding and Testing",
     courseType: "Required",
-    userId: "admin",
+    uid: "admin",
     courseSections: [
       {
         sectionCode: "COMP-3021-FTE01",
@@ -37,7 +37,7 @@ export const testCoursesNoAvailable: Course[] = [
     courseCode: "COMP-3018",
     courseName: "Back-End Development",
     courseType: "Required",
-    userId: "admin",
+    uid: "admin",
     courseSections: [
       {
         sectionCode: "COMP-3018-FTE01",

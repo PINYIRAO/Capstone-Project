@@ -37,7 +37,7 @@ export const getAllCourses = async (
       );
     }
     if (uid) {
-      resultCourses = resultCourses.filter((course) => course.userId === uid);
+      resultCourses = resultCourses.filter((course) => course.uid === uid);
     }
     return resultCourses;
   } catch (error: unknown) {
@@ -67,7 +67,7 @@ export const getCourseById = async (
       await firestoreRepository.getDocumentById(COLLECTION, id);
     if (snapshot && snapshot.exists) {
       const data: FirebaseFirestore.DocumentData = snapshot.data() || {};
-      if (data.userId === uid) {
+      if (data.uid === uid) {
         return { id: snapshot.id, ...data } as Course;
       }
     }
@@ -97,7 +97,7 @@ export const createCourse = async (
   course: Partial<Course>
 ): Promise<Course> => {
   try {
-    const newCourse: Partial<Course> = { ...course, userId: uid };
+    const newCourse: Partial<Course> = { ...course, uid: uid };
     const id: string = await firestoreRepository.createDocument(
       COLLECTION,
       newCourse
@@ -132,7 +132,7 @@ export const updateCourse = async (
 ): Promise<Course> => {
   try {
     let data: FirebaseFirestore.DocumentData | null;
-    const newCourse: Partial<Course> = { ...course, userId: uid };
+    const newCourse: Partial<Course> = { ...course, uid: uid };
     await firestoreRepository.updateDocument(COLLECTION, targetId, newCourse);
     const snapshot: FirebaseFirestore.DocumentSnapshot | null =
       await firestoreRepository.getDocumentById(COLLECTION, targetId);

@@ -119,6 +119,68 @@ export const getDocumentById = async (
 };
 
 /**
+ * Retrieves all documents that match a specific field-value pair from a collection.
+ *
+ * @param collectionName - The name of the collection to search in
+ * @param fieldName - The name of the field to filter by
+ * @param fieldValue - The value to match against the field
+ * @param limit - Optional maximum number of documents to return
+ * @returns Promise resolving to a QuerySnapshot containing all matching documents
+ * @throws Error if the query fails
+ *
+ * @example
+ * const snapshot = await getDocumentsByFieldValue('users', 'status', 'active');
+ * if (!snapshot.empty) {
+ *   snapshot.forEach(doc => {
+ *     const userData = doc.data();
+ *     console.log(`User ${doc.id}: ${userData.name}`);
+ *   });
+ * }
+ */
+export const getDocumentsByFieldValue = async (
+  collectionName: string,
+  fieldName: string,
+  fieldValue: FirestoreDataTypes,
+  limit?: number
+): Promise<FirebaseFirestore.QuerySnapshot> => {
+  try {
+    let query: FirebaseFirestore.Query = db
+      .collection(collectionName)
+      .where(fieldName, "==", fieldValue);
+
+    // Apply limit if specified
+    if (limit && limit > 0) {
+      query = query.limit(limit);
+    }
+
+    const snapshot: FirebaseFirestore.QuerySnapshot = await query.get();
+
+    if (snapshot.empty) {
+      throw new RepositoryError(
+        `No documents found in collection ${collectionName} where ${fieldName} == ${String(
+          fieldValue
+        )}`,
+        "DOCUMENTS_NOT_FOUND",
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+
+    return snapshot;
+  } catch (error: unknown) {
+    if (error instanceof RepositoryError) {
+      throw error;
+    }
+
+    throw new RepositoryError(
+      `Failed to fetch documents from ${collectionName} where ${fieldName} == ${String(
+        fieldValue
+      )}: ${getErrorMessage(error)}`,
+      getErrorCode(error),
+      getFirebaseErrorStatusCode(error)
+    );
+  }
+};
+/**
  * Updates an existing document in a specified Firestore collection.
  * @param {string} collectionName - The name of the collection.
  * @param {string} id - The ID of the document to update.

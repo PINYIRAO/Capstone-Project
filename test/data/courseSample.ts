@@ -6,7 +6,7 @@ export default [
     courseCode: "COMP-3018",
     courseName: "Back-End Development",
     courseType: "Required",
-    userId: "admin",
+    uid: "admin",
     courseSections: [
       {
         sectionCode: "COMP-3018-FTE01",
@@ -119,7 +119,7 @@ const courseObj: object = {
   courseCode: "COMP-3018",
   courseName: "Back-End Development",
   courseType: "Required",
-  userId: "admin",
+  uid: "admin",
   courseSections: [
     {
       sectionCode: "COMP-3018-FTE01",

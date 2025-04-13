@@ -88,7 +88,7 @@ describe("extract section data", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "uploadtest",
+        uid: "uploadtest",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
@@ -150,7 +150,7 @@ describe("extract section data", () => {
         courseCode: "COMP-3099",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "uploadtest",
+        uid: "uploadtest",
         courseSections: [
           {
             sectionCode: "COMP-3099-FTE01",

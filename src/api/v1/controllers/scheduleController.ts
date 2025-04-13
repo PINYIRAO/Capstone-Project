@@ -24,9 +24,9 @@ export const getAllSchedules = async (
 ): Promise<void> => {
   try {
     // get the user uid
-    const userId: string = res.locals.uid;
+    const uid: string = res.locals.uid;
     // get the coures for schedule
-    const { courses, message } = await getCoursesForSchedule(userId, req.body);
+    const { courses, message } = await getCoursesForSchedule(uid, req.body);
     if (courses.length === 0) {
       res.status(HTTP_STATUS.OK).json(successResponse([], message));
       return;

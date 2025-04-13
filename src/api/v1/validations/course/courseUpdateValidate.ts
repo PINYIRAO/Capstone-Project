@@ -12,7 +12,7 @@ export const courseUpdateSchema: ObjectSchema = Joi.object({
     "any.required": "courseName is required",
   }),
   courseType: Joi.string().optional(), // calculated by system according the updated section delivery type
-  userId: Joi.string(), // will be overwritten by user from idtoken
+  uid: Joi.string(), // will be overwritten by user from idtoken
   courseSections: Joi.array()
     .min(1)
     .messages({

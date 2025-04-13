@@ -10,7 +10,7 @@ import { getCoursesForSchedule } from "../src/api/v1/services/scheduleCourse/get
 import { Section } from "src/api/v1/models/courseSectionModel";
 
 describe("get courses for schedule", () => {
-  const userId: string = "admin";
+  const uid: string = "admin";
   beforeEach(() => {
     jest.clearAllMocks();
     (getAllCourses as jest.Mock).mockResolvedValue(testCourses);
@@ -20,7 +20,7 @@ describe("get courses for schedule", () => {
     const schedulePreferenceQuery: SchedulePreferenceQuery = {};
     (getAllCourses as jest.Mock).mockResolvedValue([]);
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
     expect(actualCourses.message).toMatch(/no course/);
   });
 
@@ -28,7 +28,7 @@ describe("get courses for schedule", () => {
     const schedulePreferenceQuery: SchedulePreferenceQuery = {};
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
     expect(actualCourses.courses.length).toBe(3);
   });
 
@@ -38,7 +38,7 @@ describe("get courses for schedule", () => {
     };
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
     expect(actualCourses.courses.length).toBe(0);
     expect(actualCourses.message).toMatch(
       /no course for shcedule regarding the elective course choice/
@@ -50,7 +50,7 @@ describe("get courses for schedule", () => {
     };
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
     expect(actualCourses.courses.length).toBe(3);
   });
 
@@ -60,7 +60,7 @@ describe("get courses for schedule", () => {
     };
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
 
     let actualSections: Section[] = [];
     for (const course of actualCourses.courses) {
@@ -79,7 +79,7 @@ describe("get courses for schedule", () => {
     };
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
 
     let goForSections: Section[] = [];
     let noeGoForSections: Section[] = [];
@@ -102,7 +102,7 @@ describe("get courses for schedule", () => {
     };
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
 
     let lectureSections: Section[] = [];
     let onlineSections: Section[] = [];
@@ -129,7 +129,7 @@ describe("get courses for schedule", () => {
     };
 
     const actualCourses: { courses: Course[]; message: string } =
-      await getCoursesForSchedule(userId, schedulePreferenceQuery);
+      await getCoursesForSchedule(uid, schedulePreferenceQuery);
 
     let goForSections: Section[] = [];
     let noeGoForSections: Section[] = [];

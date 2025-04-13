@@ -12,7 +12,7 @@ describe("validate function for courses", () => {
       courseCode: "COMP-3020",
       courseName: "Cloud Infra and Development",
       courseType: "Required",
-      userId: "admin",
+      uid: "admin",
       courseSections: [
         {
           sectionCode: "COMP-3020-FTO01",
@@ -53,7 +53,7 @@ describe("validate function for courses", () => {
       courseCode: "COMP-3020",
       courseName: "Cloud Infra and Development",
       courseType: "Required",
-      userId: "admin",
+      uid: "admin",
       courseSections: [],
     };
 
@@ -85,7 +85,7 @@ describe("validateRequest middleware for courses", () => {
       courseCode: "COMP-3020",
       courseName: "Cloud Infra and Development",
       courseType: "Required",
-      userId: "admin",
+      uid: "admin",
       courseSections: [
         {
           sectionCode: "COMP-3020-FTO01",
@@ -134,7 +134,7 @@ describe("validateRequest middleware for courses", () => {
       courseCode: "COMP-3020",
       courseName: "Cloud Infra and Development",
       courseType: "Required",
-      userId: "admin",
+      uid: "admin",
       courseSections: [],
     };
 

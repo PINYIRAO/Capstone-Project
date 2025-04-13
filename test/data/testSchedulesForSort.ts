@@ -29,7 +29,7 @@ export const testSchedulesForSort: Course[][] = [
       id: "38g4UePkWkuQujelJa3u",
       program: "Application Design and Delivery",
       term: 3,
-      userId: "admin",
+      uid: "admin",
     },
     {
       courseCode: "COMP-3018",
@@ -65,7 +65,7 @@ export const testSchedulesForSort: Course[][] = [
       id: "9nqka7DdnVcnRO1Hbp7Q",
       program: "Application Design and Delivery",
       term: 3,
-      userId: "admin",
+      uid: "admin",
     },
   ],
   [
@@ -96,7 +96,7 @@ export const testSchedulesForSort: Course[][] = [
       id: "38g4UePkWkuQujelJa3u",
       program: "Application Design and Delivery",
       term: 3,
-      userId: "admin",
+      uid: "admin",
     },
     {
       courseCode: "COMP-3018",
@@ -132,7 +132,7 @@ export const testSchedulesForSort: Course[][] = [
       id: "9nqka7DdnVcnRO1Hbp7Q",
       program: "Application Design and Delivery",
       term: 3,
-      userId: "admin",
+      uid: "admin",
     },
   ],
 ];

@@ -22,7 +22,7 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
@@ -69,7 +69,7 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
@@ -116,7 +116,7 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
@@ -153,7 +153,7 @@ describe("update course database from ocr", () => {
         courseCode: "COMP-3018",
         courseName: "Back-End Development",
         courseType: "Required",
-        userId: "admin",
+        uid: "admin",
         courseSections: [
           {
             sectionCode: "COMP-3018-FTE01",
