@@ -1,14 +1,14 @@
 export type UserSignUp = {
   email: string;
   password: string;
-  displayName: string;
-  photoURL: string;
+  displayName?: string;
+  photoURL?: string;
 };
 
 export type UserUpdate = {
-  password: string;
-  userName: string;
-  photoURL: string;
+  password?: string;
+  displayName?: string;
+  photoURL?: string;
 };
 
 export type User = {

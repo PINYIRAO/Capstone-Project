@@ -4,6 +4,7 @@ import {
   getDocumentById,
   updateDocument,
   deleteDocument,
+  getDocumentsByFieldValue,
   deleteDocumentsByFieldValues,
 } from "../src/api/v1/repositories/firestoreRepository";
 import {
@@ -12,6 +13,8 @@ import {
   MockFirestoreCollection,
   MockFirestoreQuery,
 } from "./utils/mockFirebaseHelper";
+
+import { RepositoryError } from "../src/api/v1/errors/errors";
 
 jest.mock("../config/firebaseConfig", () => ({
   __esModule: true,
@@ -146,6 +149,148 @@ describe("Firestore Repository", () => {
       await expect(
         getDocumentById(mockCollectionName, mockDocId)
       ).rejects.toThrow(Error);
+    });
+  });
+
+  describe("getDocumentsByFieldValue", () => {
+    const mockCollectionName: string = "testCollection";
+    const mockFieldName: string = "status";
+    const mockFieldValue: string = "active";
+    const mockLimit: number = 5;
+
+    it("should return documents matching the field value", async () => {
+      const mockDocs: { id: string; status: string; name: string }[] = [
+        { id: "doc1", status: "active", name: "Active User 1" },
+        { id: "doc2", status: "active", name: "Active User 2" },
+      ];
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery(mockDocs);
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      const result: FirebaseFirestore.QuerySnapshot =
+        await getDocumentsByFieldValue(
+          mockCollectionName,
+          mockFieldName,
+          mockFieldValue
+        );
+
+      expect(queryRef.where).toHaveBeenCalledWith(
+        mockFieldName,
+        "==",
+        mockFieldValue
+      );
+      expect(result.docs).toHaveLength(mockDocs.length);
+      expect(result.docs[0].data()).toEqual(mockDocs[0]);
+      expect(result.docs[1].data()).toEqual(mockDocs[1]);
+    });
+
+    it("should apply limit when specified", async () => {
+      const mockDocs: { id: string; status: string; name: string }[] = [
+        { id: "doc1", status: "active", name: "Active User 1" },
+      ];
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery(mockDocs);
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      await getDocumentsByFieldValue(
+        mockCollectionName,
+        mockFieldName,
+        mockFieldValue,
+        mockLimit
+      );
+
+      expect(queryRef.where).toHaveBeenCalledWith(
+        mockFieldName,
+        "==",
+        mockFieldValue
+      );
+      expect(queryRef.limit).toHaveBeenCalledWith(mockLimit);
+    });
+
+    it("should throw a RepositoryError if no documents are found", async () => {
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery([]);
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      await expect(
+        getDocumentsByFieldValue(
+          mockCollectionName,
+          mockFieldName,
+          mockFieldValue
+        )
+      ).rejects.toThrow(
+        `No documents found in collection ${mockCollectionName} where ${mockFieldName} == ${mockFieldValue}`
+      );
+      expect(queryRef.where).toHaveBeenCalledWith(
+        mockFieldName,
+        "==",
+        mockFieldValue
+      );
+    });
+
+    it("should not apply limit when it's not specified", async () => {
+      const mockDocs: { id: string; status: string; name: string }[] = [
+        { id: "doc1", status: "active", name: "Active User 1" },
+      ];
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery(mockDocs);
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      await getDocumentsByFieldValue(
+        mockCollectionName,
+        mockFieldName,
+        mockFieldValue
+      );
+
+      expect(queryRef.limit).not.toHaveBeenCalled();
+    });
+
+    it("should not apply limit when it's less than or equal to 0", async () => {
+      const mockDocs: { id: string; status: string; name: string }[] = [
+        { id: "doc1", status: "active", name: "Active User 1" },
+      ];
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery(mockDocs);
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      await getDocumentsByFieldValue(
+        mockCollectionName,
+        mockFieldName,
+        mockFieldValue,
+        0
+      );
+
+      expect(queryRef.limit).not.toHaveBeenCalled();
+    });
+
+    it("should throw a RepositoryError if query fails", async () => {
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery([]);
+      queryRef.get.mockRejectedValue(new Error("Query failed"));
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      await expect(
+        getDocumentsByFieldValue(
+          mockCollectionName,
+          mockFieldName,
+          mockFieldValue
+        )
+      ).rejects.toThrow(
+        `Failed to fetch documents from ${mockCollectionName} where ${mockFieldName} == ${mockFieldValue}`
+      );
+    });
+
+    it("should pass through RepositoryError if thrown from within", async () => {
+      const customError: RepositoryError = new RepositoryError(
+        "Custom error message",
+        "CUSTOM_ERROR",
+        400
+      );
+      const queryRef: MockFirestoreQuery = mockFirestoreQuery([]);
+      queryRef.get.mockRejectedValue(customError);
+      (db.collection as jest.Mock).mockReturnValue(queryRef);
+
+      await expect(
+        getDocumentsByFieldValue(
+          mockCollectionName,
+          mockFieldName,
+          mockFieldValue
+        )
+      ).rejects.toThrow(customError);
     });
   });
 

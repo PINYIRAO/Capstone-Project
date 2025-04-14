@@ -46,15 +46,17 @@ export const getUserByUID = async (uid: string): Promise<User> => {
         "uid",
         uid
       );
+    if (snapshot.docs.length > 1) {
+      throw new Error(`User: ${uid} has more than one records!`);
+    } else if (snapshot.docs.length === 0) {
+      throw new Error(`User: ${uid} couldnot be found`);
+    }
     const resultUsers: User[] = snapshot.docs.map((doc) => {
       const data: FirebaseFirestore.DocumentData = doc.data();
       return { id: doc.id, ...data } as User;
     });
-    if (resultUsers.length > 1) {
-      throw new Error(`User: ${uid} has more than one records!`);
-    }
+
     return resultUsers[0];
-    throw new Error(`User: ${uid} couldnot be found`);
   } catch (error: unknown) {
     if (error instanceof RepositoryError) {
       throw error;
@@ -75,7 +77,9 @@ export const getUserByUID = async (uid: string): Promise<User> => {
  * user - the User data
  * @returns {Promise<User>} A promise that resolves to the created User
  */
-export const createUser = async (user: UserSignUp): Promise<User> => {
+export const createUser = async (
+  user: Partial<UserSignUp>
+): Promise<Partial<User>> => {
   try {
     const userRecord: UserRecord = await auth.createUser({
       email: user.email,

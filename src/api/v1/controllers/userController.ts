@@ -63,7 +63,7 @@ export const createUser = async (
   try {
     // call the userService by passing the body of the request
     // set the uid for user
-    const newUser: User = await userService.createUser(req.body);
+    const newUser: Partial<User> = await userService.createUser(req.body);
 
     res
       .status(HTTP_STATUS.CREATED)
