@@ -53,31 +53,44 @@ export const getTokenAndRoleBatch = async (
 ): Promise<void> => {
   let users: User[] = req.body;
 
-  if (
-    !users ||
-    (Array.isArray(users) && users.length === 0) ||
-    Object.keys(users).length === 0
-  ) {
-    return next(
-      new ExtendedError(
-        "Should contain the users information",
-        "NO_USER_PROVIDED",
-        HTTP_STATUS.BAD_REQUEST
-      )
-    );
+  try {
+    if (
+      !users ||
+      (Array.isArray(users) && users.length === 0) ||
+      Object.keys(users).length === 0
+    ) {
+      return next(
+        new ExtendedError(
+          "Should contain the users information",
+          "NO_USER_PROVIDED",
+          HTTP_STATUS.BAD_REQUEST
+        )
+      );
+    }
+    // get the user password from env variables
+    users = users.map((user) => {
+      return { ...user, password: process.env.USER_PASSWORD || "noPassword" };
+    });
+    // if has users info, then get role and idtoken for them
+    const tokenObjects: TokenObject[] = await getRoleAndToken(users);
+    res
+      .status(HTTP_STATUS.OK)
+      .send(
+        successResponse(
+          tokenObjects,
+          `Tokens and Roles for users are fetched successfully.`
+        )
+      );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return next(
+        new AuthenticationError(
+          `SetCustomClaims Unseccessfully: ${getErrorMessage(error)}`,
+          getErrorCode(error)
+        )
+      );
+    } else {
+      next(error);
+    }
   }
-  // get the user password from env variables
-  users = users.map((user) => {
-    return { ...user, password: process.env.USER_PASSWORD || "noPassword" };
-  });
-  // if has users info, then get role and idtoken for them
-  const tokenObjects: TokenObject[] = await getRoleAndToken(users);
-  res
-    .status(HTTP_STATUS.OK)
-    .send(
-      successResponse(
-        tokenObjects,
-        `Tokens and Roles for users are fetched successfully.`
-      )
-    );
 };
