@@ -12,6 +12,7 @@ module.exports = {
     "responseModel.ts",
     "logger.ts",
     "getRoleAndToken.ts",
+    "adminController.ts",
   ],
 
   collectCoverageFrom: ["src/api/v1/**/*.{ts,tsx}"],

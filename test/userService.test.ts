@@ -37,7 +37,6 @@ import {
 import {
   getDocuments,
   getDocumentById,
-  deleteDocument,
   getDocumentsByFieldValue,
 } from "../src/api/v1/repositories/firestoreRepository";
 import { UserSignUp, UserUpdate, User } from "../src/api/v1/models/userModel";
