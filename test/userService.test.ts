@@ -6,22 +6,22 @@ jest.mock("../src/api/v1/repositories/firestoreRepository", () => ({
   deleteDocument: jest.fn(),
   getDocumentsByFieldValue: jest.fn(),
 }));
-const updateMock: jest.Mock = jest.fn();
+const updateMock: jest.Mock = jest.fn().mockResolvedValue(undefined);
+const setMock: jest.Mock = jest.fn().mockResolvedValue(undefined);
 jest.mock("../config/firebaseConfig", () => ({
   auth: {
     createUser: jest.fn(),
     updateUser: jest.fn(),
-    deleteUser: jest.fn(),
+    deleteUser: jest.fn().mockResolvedValue(undefined),
     setCustomUserClaims: jest.fn(),
   },
   db: {
-    collection: jest.fn(() => {
-      // eslint-disable-next-line no-unused-labels
-      doc: jest.fn(() => {
-        // eslint-disable-next-line no-unused-labels, @typescript-eslint/no-unused-expressions
-        update: updateMock;
-      });
-    }),
+    collection: jest.fn(() => ({
+      doc: jest.fn(() => ({
+        update: updateMock,
+        set: setMock,
+      })),
+    })),
   },
 }));
 import dotenv from "dotenv";
@@ -56,7 +56,7 @@ describe("user Service", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     userObj = {
-      uid: "123456",
+      uid: "1234",
       email: "abc@rrc.ca",
       displayName: "abc",
       photoURL: "testurl.com",
@@ -253,7 +253,7 @@ describe("user Service", () => {
         exists: true,
         data: () =>
           ({
-            ...userUpdateObj,
+            ...userObj,
             createdAt: mockDate,
             updatedAt: mockDate,
           } as DocumentData),
@@ -265,7 +265,7 @@ describe("user Service", () => {
 
       // Assertions
       expect(result).toHaveProperty("id", "1234");
-      expect(result).toHaveProperty("displayName", "abcabc");
+      expect(result).toHaveProperty("displayName", "abc");
     });
 
     it("should throw an error when occurs the repository Error", async () => {
@@ -296,6 +296,20 @@ describe("user Service", () => {
     });
 
     it("should return the user with updated information", async () => {
+      // Mock data
+      const mockDate: Date = new Date();
+      const mockDoc: FirebaseFirestore.DocumentSnapshot = {
+        id: "1234",
+        exists: true,
+        data: () =>
+          ({
+            ...userObj,
+            createdAt: mockDate,
+            updatedAt: mockDate,
+          } as DocumentData),
+      } as FirebaseFirestore.DocumentSnapshot;
+
+      (getDocumentById as jest.Mock).mockResolvedValue(mockDoc);
       await deactivateUser("1234");
 
       // Assertions
@@ -306,7 +320,7 @@ describe("user Service", () => {
       // Mock data
 
       const err: RepositoryError = new RepositoryError("test", "testCode", 500);
-      (deleteDocument as jest.Mock).mockRejectedValue(err);
+      (getDocumentById as jest.Mock).mockRejectedValue(err);
 
       // Assertions
       await expect(deactivateUser("1234")).rejects.toThrow(err);
@@ -315,7 +329,7 @@ describe("user Service", () => {
       // Mock data
 
       const err: Error = new Error("service error");
-      (deleteDocument as jest.Mock).mockRejectedValue(err);
+      (getDocumentById as jest.Mock).mockRejectedValue(err);
 
       // Assertions
       await expect(deactivateUser("1234")).rejects.toThrow(ServiceError);

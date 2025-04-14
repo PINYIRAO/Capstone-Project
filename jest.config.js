@@ -11,6 +11,7 @@ module.exports = {
     "/utils/",
     "responseModel.ts",
     "logger.ts",
+    "getRoleAndToken.ts",
   ],
 
   collectCoverageFrom: ["src/api/v1/**/*.{ts,tsx}"],
